@@ -17,6 +17,7 @@ export default function PageTransitionLoader() {
     // Kick off loading animation on route change
     setLoading(true);
     setProgress(20);
+    document.body.style.cursor = "wait";
 
     const t1 = setTimeout(() => setProgress(60), 100);
     const t2 = setTimeout(() => setProgress(85), 300);
@@ -26,6 +27,7 @@ export default function PageTransitionLoader() {
     const t4 = setTimeout(() => {
       setLoading(false);
       setProgress(0);
+      document.body.style.cursor = "";
     }, 900);
 
     return () => {
@@ -33,6 +35,7 @@ export default function PageTransitionLoader() {
       clearTimeout(t2);
       clearTimeout(t3);
       clearTimeout(t4);
+      document.body.style.cursor = "";
     };
   }, [pathname]);
 
