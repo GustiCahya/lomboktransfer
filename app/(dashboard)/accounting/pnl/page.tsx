@@ -5,13 +5,19 @@ import React, { useState } from "react";
 import { useRevenue } from "@/hooks/useRevenue";
 import { useExpenses } from "@/hooks/useExpenses";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
-  PieChart, Pie, Cell, ResponsiveContainer,
-} from "recharts";
-import { TrendingUp, TrendingDown, DollarSign, Percent } from "lucide-react";
+import dynamic from "next/dynamic";
+import { Loader2 } from "lucide-react";
 
-const COLORS = ["hsl(var(--primary))", "hsl(var(--warning))", "hsl(var(--info))", "hsl(var(--success))", "hsl(var(--destructive))"];
+const DynamicPnLBarChart = dynamic(
+  () => import("@/components/accounting/PnLCharts").then((mod) => mod.PnLBarChart),
+  { ssr: false, loading: () => <div className="h-64 flex items-center justify-center bg-muted/20 rounded-xl"><Loader2 className="w-6 h-6 animate-spin text-muted-foreground" /></div> }
+);
+
+const DynamicPnLPieCharts = dynamic(
+  () => import("@/components/accounting/PnLCharts").then((mod) => mod.PnLPieCharts),
+  { ssr: false, loading: () => <div className="h-64 flex items-center justify-center bg-muted/20 rounded-xl"><Loader2 className="w-6 h-6 animate-spin text-muted-foreground" /></div> }
+);
+import { TrendingUp, TrendingDown, DollarSign, Percent } from "lucide-react";
 
 const MONTHS_SHORT = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"];
 
@@ -146,63 +152,10 @@ export default function PnLPage() {
       </div>
 
       {/* Bar Chart: Monthly Revenue vs Expenses */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Pendapatan vs Pengeluaran (Bulanan {year})</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <ResponsiveContainer width="100%" height={280}>
-            <BarChart data={monthlyData}>
-              <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
-              <XAxis dataKey="name" className="text-xs" />
-              <YAxis tickFormatter={(v) => `${(v / 1000000).toFixed(0)}jt`} className="text-xs" />
-              <Tooltip formatter={(v: any) => `Rp ${Number(v).toLocaleString("id-ID")}`} />
-              <Legend />
-              <Bar dataKey="Pendapatan" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />
-              <Bar dataKey="Pengeluaran" fill="hsl(var(--destructive))" radius={[4, 4, 0, 0]} />
-            </BarChart>
-          </ResponsiveContainer>
-        </CardContent>
-      </Card>
+      <DynamicPnLBarChart data={monthlyData} year={year} />
 
       {/* Pie Charts */}
-      <div className="grid gap-4 md:grid-cols-2">
-        <Card>
-          <CardHeader>
-            <CardTitle>Breakdown Pendapatan per Sumber</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ResponsiveContainer width="100%" height={220}>
-              <PieChart>
-                <Pie data={sourcePieData} cx="50%" cy="50%" innerRadius={60} outerRadius={90} dataKey="value" label={({ name, percent }) => `${name} ${((percent || 0) * 100).toFixed(0)}%`} labelLine={false}>
-                  {sourcePieData.map((_, i) => (
-                    <Cell key={i} fill={COLORS[i % COLORS.length]} />
-                  ))}
-                </Pie>
-                <Tooltip formatter={(v: any) => `Rp ${Number(v).toLocaleString("id-ID")}`} />
-              </PieChart>
-            </ResponsiveContainer>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Breakdown Pengeluaran per Kategori</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ResponsiveContainer width="100%" height={220}>
-              <PieChart>
-                <Pie data={expensePieData} cx="50%" cy="50%" innerRadius={60} outerRadius={90} dataKey="value" label={({ name, percent }) => `${name} ${((percent || 0) * 100).toFixed(0)}%`} labelLine={false}>
-                  {expensePieData.map((_, i) => (
-                    <Cell key={i} fill={COLORS[i % COLORS.length]} />
-                  ))}
-                </Pie>
-                <Tooltip formatter={(v: any) => `Rp ${Number(v).toLocaleString("id-ID")}`} />
-              </PieChart>
-            </ResponsiveContainer>
-          </CardContent>
-        </Card>
-      </div>
+      <DynamicPnLPieCharts sourcePieData={sourcePieData} expensePieData={expensePieData} />
     </div>
   );
 }
