@@ -9,6 +9,7 @@ const items = [
   { name: "Database Tamu", href: "/crm" },
   { name: "Review Tracker", href: "/crm/reviews" },
   { name: "Re-engagement", href: "/crm/re-engagement" },
+  { name: "💬 Live Chat AI", href: "/crm/live-chat" },
 ];
 
 export default function CRMNav() {
@@ -20,7 +21,7 @@ export default function CRMNav() {
         // Special match for exactly /crm
         let isActive = false;
         if (item.href === "/crm") {
-          isActive = pathname === "/crm" || (pathname.startsWith("/crm/") && !pathname.includes("/reviews") && !pathname.includes("/re-engagement"));
+          isActive = pathname === "/crm" || (pathname.startsWith("/crm/") && !pathname.includes("/reviews") && !pathname.includes("/re-engagement") && !pathname.includes("/live-chat"));
         } else {
           isActive = pathname === item.href || pathname.startsWith(item.href + "/");
         }

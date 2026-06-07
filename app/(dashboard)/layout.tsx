@@ -1,6 +1,7 @@
 import React from "react";
 import Sidebar from "@/components/shared/Sidebar";
 import Header from "@/components/shared/Header";
+import { PageTransitionLoaderWrapper } from "@/components/shared/PageTransitionLoader";
 
 export default function DashboardLayout({
   children,
@@ -9,6 +10,9 @@ export default function DashboardLayout({
 }) {
   return (
     <div className="flex h-screen overflow-hidden bg-background">
+      {/* Global page-transition loading bar */}
+      <PageTransitionLoaderWrapper />
+
       {/* Sidebar Navigation */}
       <Sidebar />
 

@@ -3,15 +3,18 @@
 import React from "react";
 import Link from "next/link";
 import { useDashboardStats } from "@/hooks/useDashboard";
+import { useKeyMetrics } from "@/hooks/useAnalytics";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { CalendarCheck, Car, Users, TrendingUp, AlertTriangle, Play, MapPin, CheckCircle } from "lucide-react";
+import { CalendarCheck, Car, Users, TrendingUp, AlertTriangle, Play, MapPin, CheckCircle, BarChart2 } from "lucide-react";
 import TodayBookings from "@/components/dashboard/TodayBookings";
 import AlertList from "@/components/dashboard/AlertList";
 import { formatRupiah } from "@/lib/utils/format";
+import { formatCurrency } from "@/lib/utils";
 
 export default function DashboardPage() {
   const { stats, isLoading } = useDashboardStats();
+  const { metrics, isLoading: loadingMetrics } = useKeyMetrics();
 
   return (
     <div className="space-y-6">
@@ -113,19 +116,40 @@ export default function DashboardPage() {
           </Card>
 
           <Card className="flex flex-col">
-            <CardHeader className="pt-6 px-6 pb-4 border-b">
-              <CardTitle className="text-lg">Keuangan Bulan Ini (Placeholder)</CardTitle>
-              <p className="text-sm text-muted-foreground mt-1">Akan diintegrasikan penuh pada Modul 4 (Accounting)</p>
+            <CardHeader className="pt-6 px-6 pb-4 border-b flex flex-row items-center justify-between">
+              <div>
+                <CardTitle className="text-lg flex items-center gap-2">
+                  <BarChart2 className="h-5 w-5 text-muted-foreground" />
+                  Keuangan Keseluruhan
+                </CardTitle>
+                <p className="text-sm text-muted-foreground mt-1">Berdasarkan data booking selesai &amp; pengeluaran</p>
+              </div>
+              <Link href="/reports">
+                <Button variant="outline" size="sm">Laporan Lengkap</Button>
+              </Link>
             </CardHeader>
             <CardContent className="p-6">
               <div className="grid grid-cols-2 gap-4">
-                <div className="p-4 rounded-md bg-muted/30 border border-dashed text-center">
-                  <p className="text-sm text-muted-foreground mb-1">Gross Revenue</p>
-                  <p className="text-xl font-bold text-green-600">{formatRupiah(145000000)}</p>
+                <div className="p-4 rounded-xl bg-emerald-500/5 border border-emerald-500/20 text-center">
+                  <p className="text-xs font-medium text-muted-foreground mb-2">Gross Revenue</p>
+                  <p className="text-xl font-bold text-emerald-600">
+                    {loadingMetrics ? "-" : formatCurrency(metrics.grossRevenue)}
+                  </p>
+                  <p className="text-xs text-muted-foreground mt-1">Semua booking selesai</p>
                 </div>
-                <div className="p-4 rounded-md bg-muted/30 border border-dashed text-center">
-                  <p className="text-sm text-muted-foreground mb-1">Net Profit Est.</p>
-                  <p className="text-xl font-bold text-primary">{formatRupiah(65000000)}</p>
+                <div className="p-4 rounded-xl bg-primary/5 border border-primary/20 text-center">
+                  <p className="text-xs font-medium text-muted-foreground mb-2">Net Profit</p>
+                  <p className={`text-xl font-bold ${metrics.netProfit >= 0 ? 'text-primary' : 'text-destructive'}`}>
+                    {loadingMetrics ? "-" : formatCurrency(metrics.netProfit)}
+                  </p>
+                  <p className="text-xs text-muted-foreground mt-1">Setelah semua pengeluaran</p>
+                </div>
+                <div className="p-4 rounded-xl bg-muted/30 border border-border text-center col-span-2">
+                  <p className="text-xs font-medium text-muted-foreground mb-2">Avg. Order Value</p>
+                  <p className="text-2xl font-bold">
+                    {loadingMetrics ? "-" : formatCurrency(metrics.aov)}
+                  </p>
+                  <p className="text-xs text-muted-foreground mt-1">Per booking ({metrics.totalBookings.toLocaleString('id-ID')} booking selesai)</p>
                 </div>
               </div>
             </CardContent>
