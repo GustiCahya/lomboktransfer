@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import useSWR from "swr";
-import { supabase } from "@/lib/supabase/client";
+import { createClient } from "@/lib/supabase/client";
 
 export function useRevenue(filters?: { 
   startDate?: string, 
@@ -8,13 +9,12 @@ export function useRevenue(filters?: {
   payment_status?: string
 }) {
   const fetcher = async () => {
+    const supabase = createClient();
     let query = supabase
       .from("bookings")
       .select("*, routes(name, base_price), guests(full_name), drivers(full_name)")
       .order("pickup_datetime", { ascending: false });
 
-    // Only completed or in_progress bookings generally count towards actual revenue analysis
-    // But we might want to see all based on payment_status
     if (filters?.startDate) query = query.gte("pickup_datetime", filters.startDate);
     if (filters?.endDate) query = query.lte("pickup_datetime", filters.endDate);
     if (filters?.source) query = query.eq("source", filters.source);

@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import useSWR, { mutate } from "swr";
-import { supabase } from "@/lib/supabase/client";
+import { createClient } from "@/lib/supabase/client";
 
 export function useExpenses(filters?: { 
   startDate?: string, 
@@ -8,6 +9,7 @@ export function useExpenses(filters?: {
   vendor_id?: string
 }) {
   const fetcher = async () => {
+    const supabase = createClient();
     let query = supabase.from("expenses").select("*, vendors(name)").order("expense_date", { ascending: false });
 
     if (filters?.startDate) query = query.gte("expense_date", filters.startDate);
@@ -20,7 +22,7 @@ export function useExpenses(filters?: {
     return data;
   };
 
-  const { data, error, isLoading } = useSWR(
+  const { data, error, isLoading, mutate } = useSWR(
     ["expenses", filters],
     fetcher
   );
@@ -35,6 +37,7 @@ export function useExpenses(filters?: {
 
 export function useCreateExpense() {
   const createExpense = async (expenseData: any) => {
+    const supabase = createClient();
     const { data, error } = await supabase
       .from("expenses")
       .insert([expenseData])
@@ -43,7 +46,6 @@ export function useCreateExpense() {
 
     if (error) throw error;
     
-    // Invalidate expenses cache
     mutate((key: any) => Array.isArray(key) && key[0] === "expenses");
     
     return data;

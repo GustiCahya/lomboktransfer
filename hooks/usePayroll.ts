@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import useSWR, { mutate } from "swr";
-import { supabase } from "@/lib/supabase/client";
+import { createClient } from "@/lib/supabase/client";
 
 export function usePayrollList(periodMonth: number, periodYear: number) {
   const fetcher = async () => {
+    const supabase = createClient();
     const { data, error } = await supabase
       .from("payroll")
       .select("*, drivers(full_name, bank_name, bank_account_number, bank_account_name, commission_percentage)")
@@ -13,7 +15,7 @@ export function usePayrollList(periodMonth: number, periodYear: number) {
     return data;
   };
 
-  const { data, error, isLoading } = useSWR(
+  const { data, error, isLoading, mutate } = useSWR(
     ["payroll", periodMonth, periodYear],
     fetcher
   );
@@ -28,11 +30,10 @@ export function usePayrollList(periodMonth: number, periodYear: number) {
 
 export function useGeneratePayroll() {
   const generate = async (periodMonth: number, periodYear: number) => {
-    // Determine date range for the month
+    const supabase = createClient();
     const startDate = new Date(periodYear, periodMonth - 1, 1).toISOString();
     const endDate = new Date(periodYear, periodMonth, 0, 23, 59, 59).toISOString();
 
-    // Fetch all completed bookings in that period
     const { data: bookings, error: bookingsError } = await supabase
       .from("bookings")
       .select("driver_id, gross_price, drivers(commission_percentage)")
@@ -42,14 +43,13 @@ export function useGeneratePayroll() {
 
     if (bookingsError) throw bookingsError;
 
-    // Aggregate by driver
     const payrollMap = new Map();
 
-    bookings?.forEach((booking: any) => {
+    (bookings || []).forEach((booking: any) => {
       if (!booking.driver_id) return;
       
       const driverId = booking.driver_id;
-      const commissionPct = booking.drivers?.commission_percentage || 20;
+      const commissionPct = (booking.drivers as any)?.commission_percentage || 20;
       const commissionAmt = booking.gross_price * (commissionPct / 100);
 
       if (!payrollMap.has(driverId)) {
@@ -78,7 +78,6 @@ export function useGeneratePayroll() {
     const payrollRecords = Array.from(payrollMap.values());
 
     if (payrollRecords.length > 0) {
-      // Manually check and update/insert to avoid needing composite unique constraint
       for (const record of payrollRecords) {
         const { data: existing } = await supabase
           .from("payroll")
@@ -89,14 +88,13 @@ export function useGeneratePayroll() {
           .maybeSingle();
 
         if (existing) {
-          await supabase.from("payroll").update(record).eq("id", existing.id);
+          await supabase.from("payroll").update(record).eq("id", (existing as any).id);
         } else {
           await supabase.from("payroll").insert([record]);
         }
       }
     }
     
-    // Invalidate payroll list cache
     mutate((key: any) => Array.isArray(key) && key[0] === "payroll");
     
     return payrollRecords;
