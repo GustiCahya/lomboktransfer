@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Save, Upload, Building2, MapPin, Phone, Mail } from "lucide-react";
+import { Save, Upload, MapPin, Phone, Mail } from "lucide-react";
 
 export default function SettingsProfilePage() {
   const [isSaving, setIsSaving] = useState(false);
