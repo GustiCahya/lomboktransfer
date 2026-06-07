@@ -10,6 +10,12 @@ const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 export const metadata: Metadata = {
   title: "Lombok Transfer | Internal Dashboard",
   description: "Dashboard operasional internal Lombok Transfer.",
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "Lombok Transfer",
+  },
 };
 
 export default function RootLayout({

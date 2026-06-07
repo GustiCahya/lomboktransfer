@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Image from "next/image";
 import PageHeader from "@/components/shared/PageHeader";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -33,12 +34,17 @@ export default function SettingsProfilePage() {
               <CardDescription>Logo ini akan muncul di invoice, email, dan aplikasi driver.</CardDescription>
             </CardHeader>
             <CardContent className="flex flex-col items-center justify-center space-y-4">
-              <div className="h-40 w-40 rounded-xl border-2 border-dashed border-border/60 flex items-center justify-center bg-muted/20 relative overflow-hidden group">
-                <div className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
+              <div className="h-40 w-40 rounded-xl border border-border flex items-center justify-center bg-muted/10 relative overflow-hidden group">
+                <div className="absolute inset-0 bg-black/50 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer z-10">
                   <Upload className="h-8 w-8 text-white mb-2" />
                   <span className="text-xs text-white font-medium">Ubah Logo</span>
                 </div>
-                <Building2 className="h-16 w-16 text-muted-foreground/30" />
+                <Image 
+                  src="/logo.png" 
+                  alt="Logo Lombok Transfer" 
+                  fill
+                  className="object-cover"
+                />
               </div>
               <p className="text-xs text-muted-foreground text-center">
                 Format yang disarankan: PNG atau SVG transparan, minimal 512x512px.

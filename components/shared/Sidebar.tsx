@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { 
   LayoutDashboard, 
@@ -64,13 +65,15 @@ export default function Sidebar() {
     >
       {/* Sidebar Header / Logo */}
       <div className="flex items-center justify-between h-16 px-4 border-b border-border">
-        {!isCollapsed && (
-          <span className="font-bold text-lg text-primary truncate">
-            Lombok Transfer
-          </span>
-        )}
-        {isCollapsed && (
-          <span className="font-bold text-lg text-primary mx-auto">LT</span>
+        {!isCollapsed ? (
+          <Link href="/" className="flex items-center gap-2 font-bold text-lg text-primary truncate">
+            <Image src="/logo.png" alt="Lombok Transfer Logo" width={32} height={32} className="rounded-lg object-cover" />
+            <span className="tracking-tight">Lombok Transfer</span>
+          </Link>
+        ) : (
+          <Link href="/" className="flex items-center justify-center w-full">
+            <Image src="/logo.png" alt="Lombok Transfer Logo" width={32} height={32} className="rounded-lg object-cover" />
+          </Link>
         )}
       </div>
 
