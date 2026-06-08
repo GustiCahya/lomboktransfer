@@ -1,0 +1,320 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+"use client";
+
+import React, { useState, useEffect, useCallback } from "react";
+import PageHeader from "@/components/shared/PageHeader";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Badge } from "@/components/ui/badge";
+import {
+  Plus, Pencil, Trash2, MapPin, Clock, DollarSign,
+  CheckCircle2, XCircle, Loader2, ArrowRightLeft, Search
+} from "lucide-react";
+import { createClient } from "@/lib/supabase/client";
+import { toast } from "sonner";
+
+type Route = {
+  id: string;
+  name: string;
+  origin: string;
+  destination: string;
+  base_price: number;
+  is_active: boolean;
+  estimated_duration_min: number | null;
+  notes: string | null;
+};
+
+const EMPTY_FORM: Omit<Route, "id"> = {
+  name: "",
+  origin: "",
+  destination: "",
+  base_price: 0,
+  is_active: true,
+  estimated_duration_min: null,
+  notes: "",
+};
+
+function formatIDR(n: number) {
+  return new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR", maximumFractionDigits: 0 }).format(n);
+}
+
+function formatDuration(min: number | null) {
+  if (!min) return "-";
+  if (min < 60) return `${min} menit`;
+  const h = Math.floor(min / 60);
+  const m = min % 60;
+  return m > 0 ? `${h} jam ${m} menit` : `${h} jam`;
+}
+
+export default function RoutesPage() {
+  const supabase = createClient();
+  const [routes, setRoutes] = useState<Route[]>([]);
+  const [filtered, setFiltered] = useState<Route[]>([]);
+  const [search, setSearch] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+  const [showForm, setShowForm] = useState(false);
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [form, setForm] = useState(EMPTY_FORM);
+  const [saving, setSaving] = useState(false);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+
+  const fetchRoutes = useCallback(async () => {
+    setIsLoading(true);
+    const { data, error } = await supabase
+      .from("routes")
+      .select("*")
+      .order("name", { ascending: true });
+    if (error) toast.error("Gagal memuat rute: " + error.message);
+    else {
+      setRoutes(data ?? []);
+      setFiltered(data ?? []);
+    }
+    setIsLoading(false);
+  }, [supabase]);
+
+  useEffect(() => { fetchRoutes(); }, [fetchRoutes]);
+
+  useEffect(() => {
+    const q = search.toLowerCase();
+    setFiltered(
+      routes.filter(
+        (r) =>
+          r.name.toLowerCase().includes(q) ||
+          r.origin.toLowerCase().includes(q) ||
+          r.destination.toLowerCase().includes(q)
+      )
+    );
+  }, [search, routes]);
+
+  const openCreate = () => {
+    setEditingId(null);
+    setForm(EMPTY_FORM);
+    setShowForm(true);
+  };
+
+  const openEdit = (r: Route) => {
+    setEditingId(r.id);
+    setForm({
+      name: r.name,
+      origin: r.origin,
+      destination: r.destination,
+      base_price: r.base_price,
+      is_active: r.is_active,
+      estimated_duration_min: r.estimated_duration_min,
+      notes: r.notes ?? "",
+    });
+    setShowForm(true);
+  };
+
+  const handleSave = async () => {
+    if (!form.name || !form.origin || !form.destination) {
+      toast.error("Nama, asal, dan tujuan wajib diisi.");
+      return;
+    }
+    setSaving(true);
+    const payload = {
+      name: form.name,
+      origin: form.origin,
+      destination: form.destination,
+      base_price: Number(form.base_price),
+      is_active: form.is_active,
+      estimated_duration_min: form.estimated_duration_min ? Number(form.estimated_duration_min) : null,
+      notes: form.notes || null,
+    };
+
+    if (editingId) {
+      const { error } = await supabase.from("routes").update(payload).eq("id", editingId);
+      if (error) toast.error("Gagal memperbarui: " + error.message);
+      else { toast.success("Rute berhasil diperbarui."); setShowForm(false); fetchRoutes(); }
+    } else {
+      const { error } = await supabase.from("routes").insert(payload);
+      if (error) toast.error("Gagal menyimpan: " + error.message);
+      else { toast.success("Rute baru berhasil ditambahkan."); setShowForm(false); fetchRoutes(); }
+    }
+    setSaving(false);
+  };
+
+  const handleDelete = async (id: string) => {
+    if (!confirm("Hapus rute ini? Tindakan ini tidak dapat dibatalkan.")) return;
+    setDeletingId(id);
+    const { error } = await supabase.from("routes").delete().eq("id", id);
+    if (error) toast.error("Gagal menghapus: " + error.message);
+    else { toast.success("Rute dihapus."); fetchRoutes(); }
+    setDeletingId(null);
+  };
+
+  const handleToggleActive = async (r: Route) => {
+    const { error } = await supabase
+      .from("routes")
+      .update({ is_active: !r.is_active })
+      .eq("id", r.id);
+    if (error) toast.error("Gagal mengubah status.");
+    else fetchRoutes();
+  };
+
+  return (
+    <div className="space-y-6">
+      <PageHeader
+        title="Manajemen Rute"
+        subtitle="Atur daftar rute perjalanan, harga dasar, dan estimasi waktu tempuh."
+        actions={
+          <Button className="gap-2" onClick={openCreate}>
+            <Plus className="w-4 h-4" /> Tambah Rute
+          </Button>
+        }
+      />
+
+      {/* Stats bar */}
+      <div className="grid grid-cols-3 gap-4">
+        {[
+          { label: "Total Rute", value: routes.length, icon: MapPin, color: "text-primary" },
+          { label: "Aktif", value: routes.filter((r) => r.is_active).length, icon: CheckCircle2, color: "text-emerald-500" },
+          { label: "Nonaktif", value: routes.filter((r) => !r.is_active).length, icon: XCircle, color: "text-rose-500" },
+        ].map((s) => (
+          <Card key={s.label} className="border-border/60">
+            <CardContent className="p-4 flex items-center gap-3">
+              <s.icon className={`w-8 h-8 ${s.color} opacity-80`} />
+              <div>
+                <p className="text-2xl font-bold">{s.value}</p>
+                <p className="text-xs text-muted-foreground">{s.label}</p>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+
+      {/* Inline Form */}
+      {showForm && (
+        <Card className="border-primary/30 shadow-md">
+          <CardHeader className="pb-3">
+            <CardTitle className="text-base">{editingId ? "Edit Rute" : "Tambah Rute Baru"}</CardTitle>
+            <CardDescription>Isi detail rute perjalanan untuk digunakan pada sistem booking.</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="r-name">Nama Rute <span className="text-destructive">*</span></Label>
+                <Input id="r-name" placeholder="e.g. Bandara – Senggigi" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="r-origin">Asal <span className="text-destructive">*</span></Label>
+                <Input id="r-origin" placeholder="e.g. BIL Airport" value={form.origin} onChange={(e) => setForm({ ...form, origin: e.target.value })} />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="r-dest">Tujuan <span className="text-destructive">*</span></Label>
+                <Input id="r-dest" placeholder="e.g. Senggigi" value={form.destination} onChange={(e) => setForm({ ...form, destination: e.target.value })} />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="r-price">Harga Dasar (IDR)</Label>
+                <Input id="r-price" type="number" min={0} placeholder="350000" value={form.base_price || ""} onChange={(e) => setForm({ ...form, base_price: Number(e.target.value) })} />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="r-dur">Estimasi Durasi (menit)</Label>
+                <Input id="r-dur" type="number" min={0} placeholder="45" value={form.estimated_duration_min ?? ""} onChange={(e) => setForm({ ...form, estimated_duration_min: e.target.value ? Number(e.target.value) : null })} />
+              </div>
+              <div className="space-y-2">
+                <Label>Status</Label>
+                <div className="flex items-center gap-3 h-10">
+                  <button
+                    type="button"
+                    onClick={() => setForm({ ...form, is_active: !form.is_active })}
+                    className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none ${form.is_active ? "bg-primary" : "bg-muted-foreground/30"}`}
+                  >
+                    <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${form.is_active ? "translate-x-6" : "translate-x-1"}`} />
+                  </button>
+                  <span className="text-sm text-muted-foreground">{form.is_active ? "Aktif" : "Nonaktif"}</span>
+                </div>
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="r-notes">Catatan (opsional)</Label>
+              <Input id="r-notes" placeholder="Catatan tambahan..." value={form.notes ?? ""} onChange={(e) => setForm({ ...form, notes: e.target.value })} />
+            </div>
+            <div className="flex justify-end gap-2 pt-2">
+              <Button variant="outline" onClick={() => setShowForm(false)}>Batal</Button>
+              <Button onClick={handleSave} disabled={saving} className="gap-2">
+                {saving && <Loader2 className="w-4 h-4 animate-spin" />}
+                {saving ? "Menyimpan..." : editingId ? "Simpan Perubahan" : "Tambah Rute"}
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Route List */}
+      <Card className="border-border/60">
+        <CardHeader className="pb-3 flex flex-row items-center justify-between">
+          <CardTitle className="text-base">Daftar Rute ({filtered.length})</CardTitle>
+          <div className="relative w-64">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground" />
+            <Input className="pl-8 h-8 text-sm" placeholder="Cari rute..." value={search} onChange={(e) => setSearch(e.target.value)} />
+          </div>
+        </CardHeader>
+        <CardContent className="p-0">
+          {isLoading ? (
+            <div className="flex items-center justify-center py-16">
+              <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
+            </div>
+          ) : filtered.length === 0 ? (
+            <div className="text-center py-16 text-muted-foreground">
+              <MapPin className="mx-auto mb-3 w-10 h-10 opacity-20" />
+              <p className="font-medium">Belum ada rute</p>
+              <p className="text-sm">Klik &quot;Tambah Rute&quot; untuk membuat rute pertama.</p>
+            </div>
+          ) : (
+            <div className="divide-y divide-border/50">
+              {filtered.map((r) => (
+                <div key={r.id} className="flex items-center justify-between px-6 py-4 hover:bg-muted/30 transition-colors group">
+                  <div className="flex items-center gap-4 min-w-0">
+                    <div className="flex items-center justify-center w-9 h-9 rounded-lg bg-primary/10 shrink-0">
+                      <ArrowRightLeft className="w-4 h-4 text-primary" />
+                    </div>
+                    <div className="min-w-0">
+                      <p className="font-semibold text-sm truncate">{r.name}</p>
+                      <p className="text-xs text-muted-foreground truncate">
+                        {r.origin} → {r.destination}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-6 shrink-0">
+                    <div className="hidden md:flex items-center gap-1.5 text-sm text-muted-foreground">
+                      <Clock className="w-3.5 h-3.5" />
+                      {formatDuration(r.estimated_duration_min)}
+                    </div>
+                    <div className="hidden md:flex items-center gap-1.5 text-sm font-medium">
+                      <DollarSign className="w-3.5 h-3.5 text-muted-foreground" />
+                      {formatIDR(r.base_price)}
+                    </div>
+                    <Badge
+                      variant="outline"
+                      className={`text-[11px] cursor-pointer ${r.is_active ? "border-emerald-500 text-emerald-600 dark:text-emerald-400" : "border-muted-foreground/40 text-muted-foreground"}`}
+                      onClick={() => handleToggleActive(r)}
+                    >
+                      {r.is_active ? "Aktif" : "Nonaktif"}
+                    </Badge>
+                    <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <Button size="icon" variant="ghost" className="h-8 w-8" onClick={() => openEdit(r)}>
+                        <Pencil className="w-3.5 h-3.5" />
+                      </Button>
+                      <Button
+                        size="icon"
+                        variant="ghost"
+                        className="h-8 w-8 text-destructive hover:text-destructive hover:bg-destructive/10"
+                        onClick={() => handleDelete(r.id)}
+                        disabled={deletingId === r.id}
+                      >
+                        {deletingId === r.id ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Trash2 className="w-3.5 h-3.5" />}
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </CardContent>
+      </Card>
+    </div>
+  );
+}

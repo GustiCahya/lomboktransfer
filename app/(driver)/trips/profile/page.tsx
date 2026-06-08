@@ -30,7 +30,7 @@ export default function DriverProfilePage() {
   return (
     <div className="flex flex-col h-full bg-muted/10 pb-20">
       <header className="bg-primary text-primary-foreground pt-12 pb-16 px-4 relative shadow-sm">
-        <h1 className="text-xl font-bold">Profil Saya</h1>
+        <h1 className="text-xl font-bold">Profile</h1>
       </header>
 
       <div className="px-4 -mt-10 relative z-10 space-y-4">

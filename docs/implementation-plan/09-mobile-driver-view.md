@@ -16,6 +16,7 @@ Membangun tampilan mobile khusus supir — daftar trip hari ini, update status t
 ## Todo List
 
 ### 9.1 Data Layer
+
 - [ ] Buat `hooks/useDriverTrips.ts`:
   - `useMyTripsToday()` — trip hari ini milik supir yang login
   - `useMyUpcomingTrips()` — trip mendatang
@@ -26,6 +27,7 @@ Membangun tampilan mobile khusus supir — daftar trip hari ini, update status t
   - `useMyPayroll()` — riwayat payroll sendiri
 
 ### 9.2 Trip Hari Ini (Home Tab)
+
 - [ ] Buat `app/(driver)/trips/page.tsx`:
   - **Header sederhana**: "Trip Hari Ini" + tanggal
   - **Daftar trip hari ini** (cards, scroll vertikal):
@@ -54,26 +56,32 @@ Membangun tampilan mobile khusus supir — daftar trip hari ini, update status t
   - Haptic feedback (jika browser support)
 
 ### 9.3 Update Status Trip Flow
+
 - [ ] Implementasi status flow untuk supir:
+
   ```
   driver_assigned → "Sedang Menuju Tamu" (set in_progress + sub-status)
                   → "Tamu Sudah Dijemput" (update sub-status)
                   → "Trip Selesai" (set completed + timestamp)
   ```
+
 - [ ] Setiap update status:
   - Simpan timestamp perubahan di database
   - Trigger realtime update ke dashboard admin (via Supabase Realtime)
   - (Fase 2) Trigger n8n notification ke tamu
 - [ ] Buat sub-status field di bookings atau tabel terpisah `booking_status_log`:
+
   ```sql
   booking_status_log (id, booking_id, status, sub_status, updated_by, created_at)
   ```
+
 - [ ] Input odometer (opsional): muncul saat trip selesai
   - KM awal (saat berangkat)
   - KM akhir (saat selesai)
   - Auto-calculate jarak trip
 
 ### 9.4 Jadwal Mendatang (Schedule Tab)
+
 - [ ] Buat `app/(driver)/trips/schedule/page.tsx`:
   - Kalender mini (bulan view) — highlight hari-hari dengan trip
   - Daftar trip untuk tanggal yang dipilih
@@ -83,6 +91,7 @@ Membangun tampilan mobile khusus supir — daftar trip hari ini, update status t
 - [ ] Buat `components/driver/UpcomingTrips.tsx`
 
 ### 9.5 Request Cuti
+
 - [ ] Fitur request cuti dari mobile:
   - Tombol "Request Cuti" di schedule tab
   - Form sederhana:
@@ -94,7 +103,8 @@ Membangun tampilan mobile khusus supir — daftar trip hari ini, update status t
   - Notif ke admin saat supir request cuti
 - [ ] Buat `components/driver/LeaveRequestForm.tsx`
 
-### 9.6 Profil Saya (Profile Tab)
+### 9.6 Profile (Profile Tab)
+
 - [ ] Buat `app/(driver)/trips/profile/page.tsx`:
   - Foto profil
   - Nama, HP, email
@@ -114,6 +124,7 @@ Membangun tampilan mobile khusus supir — daftar trip hari ini, update status t
 - [ ] Buat `components/driver/PerformanceSummary.tsx`
 
 ### 9.7 Performance Optimization (Mobile 3G)
+
 - [ ] Optimasi untuk koneksi lambat:
   - Minimal JavaScript bundle (code splitting per route)
   - Image optimization (Next.js Image, lazy loading)
@@ -125,6 +136,7 @@ Membangun tampilan mobile khusus supir — daftar trip hari ini, update status t
 - [ ] Service worker untuk basic offline support (opsional)
 
 ### 9.8 Push Notification (Web)
+
 - [ ] Implementasi web push notification dasar:
   - Request permission saat login supir
   - Notif saat di-assign trip baru
@@ -142,7 +154,7 @@ Membangun tampilan mobile khusus supir — daftar trip hari ini, update status t
 | Update status | 3-step flow + realtime ke dashboard |
 | Jadwal mendatang | Kalender + list 7 hari ke depan |
 | Request cuti | Form request + riwayat |
-| Profil saya | Info pribadi + performa + dokumen + payroll |
+| Profile | Info pribadi + performa + dokumen + payroll |
 | Mobile optimized | Load < 3s di 3G, touch targets OK |
 
 ---
@@ -156,7 +168,7 @@ Membangun tampilan mobile khusus supir — daftar trip hari ini, update status t
 | 9.3 Status update flow | 2 jam |
 | 9.4 Schedule tab | 2 jam |
 | 9.5 Request cuti | 1.5 jam |
-| 9.6 Profil saya | 2 jam |
+| 9.6 Profile | 2 jam |
 | 9.7 Performance optimization | 2 jam |
 | 9.8 Push notification | 1.5 jam |
 | **Total** | **~16 jam** |

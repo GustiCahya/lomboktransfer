@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { 
   LayoutDashboard, 
@@ -39,13 +38,10 @@ export default function Sidebar() {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
 
-  // Persist state in localStorage
   useEffect(() => {
     setIsMounted(true);
     const stored = localStorage.getItem("sidebar_collapsed");
-    if (stored === "true") {
-      setIsCollapsed(true);
-    }
+    if (stored === "true") setIsCollapsed(true);
   }, []);
 
   const toggleSidebar = () => {
@@ -54,7 +50,7 @@ export default function Sidebar() {
     localStorage.setItem("sidebar_collapsed", String(newState));
   };
 
-  if (!isMounted) return null; // Prevent hydration mismatch
+  if (!isMounted) return null;
 
   return (
     <aside
@@ -63,16 +59,18 @@ export default function Sidebar() {
         isCollapsed ? "w-20" : "w-64"
       )}
     >
-      {/* Sidebar Header / Logo */}
-      <div className="flex items-center justify-between h-16 px-4 border-b border-border">
+      {/* Sidebar Header */}
+      <div className="flex items-center h-16 px-4 border-b border-border">
         {!isCollapsed ? (
-          <Link href="/" className="flex items-center gap-2 font-bold text-lg text-primary truncate">
-            <Image src="/logo.png" alt="Lombok Transfer Logo" width={32} height={32} className="rounded-lg object-cover" />
+          <Link href="/" className="flex items-center gap-2.5 font-bold text-base text-foreground truncate">
+            {/* Compact gradient wordmark */}
             <span className="tracking-tight">Lombok Transfer</span>
           </Link>
         ) : (
           <Link href="/" className="flex items-center justify-center w-full">
-            <Image src="/logo.png" alt="Lombok Transfer Logo" width={32} height={32} className="rounded-lg object-cover" />
+            <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-primary/60 text-primary-foreground text-sm font-black">
+              LT
+            </span>
           </Link>
         )}
       </div>
