@@ -6,8 +6,8 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 
 const items = [
-  { name: "Dashboard Analitik", href: "/reports" },
-  { name: "Export Center", href: "/reports/exports" },
+  { name: "Dashboard Analitik", href: "/admin/reports" },
+  { name: "Export Center", href: "/admin/reports/exports" },
 ];
 
 export default function ReportsNav() {
@@ -17,9 +17,9 @@ export default function ReportsNav() {
     <nav className="flex space-x-2 border-b border-border pb-px overflow-x-auto">
       {items.map((item) => {
         const isActive =
-          item.href === "/reports"
-            ? pathname === "/reports"
-            : pathname === item.href || pathname.startsWith(item.href + "/");
+          item.href === "/admin/reports"
+            ? pathname === "/admin/reports"
+            : pathname === item.href || pathname.startsWith("/admin/" + item.href + "/");
 
         return (
           <Link

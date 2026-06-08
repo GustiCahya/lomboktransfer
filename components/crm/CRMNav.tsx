@@ -6,10 +6,10 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 
 const items = [
-  { name: "Database Tamu", href: "/crm" },
-  { name: "Review Tracker", href: "/crm/reviews" },
-  { name: "Re-engagement", href: "/crm/re-engagement" },
-  { name: "💬 Live Chat AI", href: "/crm/live-chat" },
+  { name: "Database Tamu", href: "/admin/crm" },
+  { name: "Review Tracker", href: "/admin/crm/reviews" },
+  { name: "Re-engagement", href: "/admin/crm/re-engagement" },
+  { name: "💬 Live Chat AI", href: "/admin/crm/live-chat" },
 ];
 
 export default function CRMNav() {
@@ -18,14 +18,14 @@ export default function CRMNav() {
   return (
     <nav className="flex space-x-2 border-b border-border pb-px overflow-x-auto">
       {items.map((item) => {
-        // Special match for exactly /crm
+        // Special match for exactly /admin/crm
         let isActive = false;
-        if (item.href === "/crm") {
-          isActive = pathname === "/crm" || (pathname.startsWith("/crm/") && !pathname.includes("/reviews") && !pathname.includes("/re-engagement") && !pathname.includes("/live-chat"));
+        if (item.href === "/admin/crm") {
+          isActive = pathname === "/admin/crm" || (pathname.startsWith("/admin/crm/") && !pathname.includes("/admin/crm/reviews") && !pathname.includes("/admin/crm/re-engagement") && !pathname.includes("/admin/crm/live-chat"));
         } else {
-          isActive = pathname === item.href || pathname.startsWith(item.href + "/");
+          isActive = pathname === item.href || pathname.startsWith("/admin/" + item.href + "/");
         }
-        
+
         return (
           <Link
             key={item.href}

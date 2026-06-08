@@ -6,13 +6,13 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 
 const tabs = [
-  { name: "Pendapatan", href: "/accounting/revenue" },
-  { name: "Pengeluaran", href: "/accounting/expenses" },
-  { name: "Invoice", href: "/accounting/invoices" },
-  { name: "Payroll", href: "/accounting/payroll" },
-  { name: "Rekonsiliasi OTA", href: "/accounting/ota-reconciliation" },
-  { name: "P&L", href: "/accounting/pnl" },
-  { name: "Arus Kas", href: "/accounting/cashflow" },
+  { name: "Pendapatan", href: "/admin/accounting/revenue" },
+  { name: "Pengeluaran", href: "/admin/accounting/expenses" },
+  { name: "Invoice", href: "/admin/accounting/invoices" },
+  { name: "Payroll", href: "/admin/accounting/payroll" },
+  { name: "Rekonsiliasi OTA", href: "/admin/accounting/ota-reconciliation" },
+  { name: "P&L", href: "/admin/accounting/pnl" },
+  { name: "Arus Kas", href: "/admin/accounting/cashflow" },
 ];
 
 export default function AccountingNav() {

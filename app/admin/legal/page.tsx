@@ -12,33 +12,33 @@ const legalModules = [
     title: "Dokumen Perusahaan",
     description: "Kelola legalitas perusahaan (SIUP, NPWP, Akta, dll) beserta file arsip digitalnya.",
     icon: <Scale className="h-6 w-6 text-emerald-500" />,
-    href: "/legal/company-docs",
+    href: "/admin/legal/company-docs",
   },
   {
     title: "Expiry Tracker",
     description: "Konsolidasi masa berlaku dokumen supir, kendaraan, dan perusahaan dalam satu dashboard.",
     icon: <Clock className="h-6 w-6 text-rose-500" />,
-    href: "/legal/expiry-tracker",
+    href: "/admin/legal/expiry-tracker",
   },
   {
     title: "Kontrak Mitra",
     description: "Lacak masa kontrak kerja sama dengan supir mitra, agen travel, dan hotel.",
     icon: <FileText className="h-6 w-6 text-blue-500" />,
-    href: "/legal/contracts",
+    href: "/admin/legal/contracts",
   },
   {
     title: "Kepatuhan Data (Privacy)",
     description: "Log akses data sensitif dan manajemen retensi penghapusan data tamu.",
     icon: <Lock className="h-6 w-6 text-indigo-500" />,
-    href: "/legal/data-compliance",
+    href: "/admin/legal/data-compliance",
   }
 ];
 
 export default function LegalPage() {
   return (
     <div className="space-y-6">
-      <PageHeader 
-        title="Legal & Compliance" 
+      <PageHeader
+        title="Legal & Compliance"
         subtitle="Pusat kepatuhan hukum operasi, peringatan kadaluarsa dokumen, dan manajemen kontrak."
       />
 

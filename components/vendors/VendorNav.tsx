@@ -6,9 +6,9 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 
 const items = [
-  { name: "Direktori Vendor", href: "/vendors" },
-  { name: "Hotel & Travel Partner", href: "/vendors/partners" },
-  { name: "Purchase Order (PO)", href: "/vendors/purchase-orders" },
+  { name: "Direktori Vendor", href: "/admin/vendors" },
+  { name: "Hotel & Travel Partner", href: "/admin/vendors/partners" },
+  { name: "Purchase Order (PO)", href: "/admin/vendors/purchase-orders" },
 ];
 
 export default function VendorNav() {
@@ -17,14 +17,14 @@ export default function VendorNav() {
   return (
     <nav className="flex space-x-2 border-b border-border pb-px overflow-x-auto">
       {items.map((item) => {
-        // Special match for exactly /vendors
+        // Special match for exactly /admin/vendors
         let isActive = false;
-        if (item.href === "/vendors") {
-          isActive = pathname === "/vendors" || (pathname.startsWith("/vendors/") && !pathname.includes("/partners") && !pathname.includes("/purchase-orders"));
+        if (item.href === "/admin/vendors") {
+          isActive = pathname === "/admin/vendors" || (pathname.startsWith("/admin/vendors/") && !pathname.includes("/admin/vendors/partners") && !pathname.includes("/admin/vendors/purchase-orders"));
         } else {
-          isActive = pathname === item.href || pathname.startsWith(item.href + "/");
+          isActive = pathname === item.href || pathname.startsWith("/admin/" + item.href + "/");
         }
-        
+
         return (
           <Link
             key={item.href}

@@ -12,42 +12,42 @@ const settingsModules = [
     title: "Profil Perusahaan",
     description: "Atur nama, alamat, kontak, dan logo perusahaan Lombok Transfer.",
     icon: <Settings className="h-6 w-6 text-blue-500" />,
-    href: "/settings/profile",
+    href: "/admin/settings/profile",
     status: "active"
   },
   {
     title: "Audit Logs",
     description: "Pantau seluruh rekam jejak aktivitas, perubahan data, dan akses sistem.",
     icon: <Shield className="h-6 w-6 text-emerald-500" />,
-    href: "/settings/audit-logs",
+    href: "/admin/settings/audit-logs",
     status: "active"
   },
   {
     title: "Manajemen Pengguna",
     description: "Kelola hak akses admin, operator, dan batasan peran masing-masing.",
     icon: <Users className="h-6 w-6 text-indigo-500" />,
-    href: "/settings/users",
+    href: "/admin/settings/users",
     status: "coming_soon"
   },
   {
     title: "API & Integrasi",
     description: "Konfigurasi token Fonnte, n8n webhook, dan kunci API OpenRouter.",
     icon: <Key className="h-6 w-6 text-amber-500" />,
-    href: "/settings/integrations",
+    href: "/admin/settings/integrations",
     status: "coming_soon"
   },
   {
     title: "Notifikasi Sistem",
     description: "Atur template pesan WA dan trigger notifikasi otomatis.",
     icon: <Bell className="h-6 w-6 text-rose-500" />,
-    href: "/settings/notifications",
+    href: "/admin/settings/notifications",
     status: "coming_soon"
   },
   {
     title: "Preferensi Tampilan",
     description: "Sesuaikan tema, bahasa, dan format tanggal default sistem.",
     icon: <Sliders className="h-6 w-6 text-purple-500" />,
-    href: "/settings/preferences",
+    href: "/admin/settings/preferences",
     status: "coming_soon"
   }
 ];
@@ -55,8 +55,8 @@ const settingsModules = [
 export default function SettingsPage() {
   return (
     <div className="space-y-6">
-      <PageHeader 
-        title="Pengaturan Sistem" 
+      <PageHeader
+        title="Pengaturan Sistem"
         subtitle="Kelola konfigurasi global, keamanan, dan integrasi Lombok Transfer."
       />
 

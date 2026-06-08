@@ -6,10 +6,10 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 
 const items = [
-  { name: "Dokumen Perusahaan", href: "/legal/company-docs" },
-  { name: "Expiry Tracker", href: "/legal/expiry-tracker" },
-  { name: "Kontrak Mitra", href: "/legal/contracts" },
-  { name: "Kepatuhan Data", href: "/legal/data-compliance" },
+  { name: "Dokumen Perusahaan", href: "/admin/legal/company-docs" },
+  { name: "Expiry Tracker", href: "/admin/legal/expiry-tracker" },
+  { name: "Kontrak Mitra", href: "/admin/legal/contracts" },
+  { name: "Kepatuhan Data", href: "/admin/legal/data-compliance" },
 ];
 
 export default function LegalNav() {
@@ -18,7 +18,7 @@ export default function LegalNav() {
   return (
     <nav className="flex space-x-2 border-b border-border pb-px overflow-x-auto">
       {items.map((item) => {
-        const isActive = pathname === item.href || pathname.startsWith(item.href + "/");
+        const isActive = pathname === item.href || pathname.startsWith("/admin/" + item.href + "/");
         return (
           <Link
             key={item.href}

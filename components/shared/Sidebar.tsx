@@ -100,7 +100,7 @@ export default function Sidebar() {
       {/* Navigation Links */}
       <nav className="flex-1 overflow-y-auto py-4 px-2 space-y-1">
         {MENU_ITEMS.map((item) => {
-          const isActive = pathname === item.route || pathname.startsWith("admin/" + item.route + "/");
+          const isActive = item.route === "/admin" ? pathname === "/admin" : pathname.startsWith(item.route);
           return (
             <Link
               key={item.route}

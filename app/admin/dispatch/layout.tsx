@@ -7,9 +7,9 @@ import { cn } from "@/lib/utils";
 import { Calendar, ArrowRightLeft, ShieldAlert } from "lucide-react";
 
 const TABS = [
-  { label: "Kalender Dispatch", href: "/dispatch", icon: Calendar },
-  { label: "Manajemen Rute", href: "/dispatch/routes", icon: ArrowRightLeft },
-  { label: "Conflict Resolution", href: "/dispatch/conflicts", icon: ShieldAlert },
+  { label: "Kalender Dispatch", href: "/admin/dispatch", icon: Calendar },
+  { label: "Manajemen Rute", href: "/admin/dispatch/routes", icon: ArrowRightLeft },
+  { label: "Conflict Resolution", href: "/admin/dispatch/conflicts", icon: ShieldAlert },
 ];
 
 export default function DispatchLayout({ children }: { children: React.ReactNode }) {
@@ -21,8 +21,8 @@ export default function DispatchLayout({ children }: { children: React.ReactNode
       <div className="flex gap-1 border-b border-border/60 overflow-x-auto">
         {TABS.map((tab) => {
           const isActive =
-            tab.href === "/dispatch"
-              ? pathname === "/dispatch"
+            tab.href === "/admin/dispatch"
+              ? pathname === "/admin/dispatch"
               : pathname.startsWith(tab.href);
           return (
             <Link
