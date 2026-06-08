@@ -17,6 +17,7 @@ import {
   Settings,
   ChevronLeft
 } from "lucide-react";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 const MENU_ITEMS = [
@@ -63,14 +64,26 @@ export default function Sidebar() {
       <div className="flex items-center h-16 px-4 border-b border-border">
         {!isCollapsed ? (
           <Link href="/" className="flex items-center gap-2.5 font-bold text-base text-foreground truncate">
-            {/* Compact gradient wordmark */}
+            <div className="relative w-8 h-8 shrink-0 rounded-lg overflow-hidden border border-border shadow-sm">
+              <Image 
+                src="/logo_without_text.png" 
+                alt="Lombok Transfer Logo" 
+                fill 
+                className="object-cover"
+              />
+            </div>
             <span className="tracking-tight">Lombok Transfer</span>
           </Link>
         ) : (
           <Link href="/" className="flex items-center justify-center w-full">
-            <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-primary/60 text-primary-foreground text-sm font-black">
-              LT
-            </span>
+            <div className="relative w-8 h-8 shrink-0 rounded-lg overflow-hidden border border-border shadow-sm">
+              <Image 
+                src="/logo_without_text.png" 
+                alt="Lombok Transfer Logo" 
+                fill 
+                className="object-cover"
+              />
+            </div>
           </Link>
         )}
       </div>
