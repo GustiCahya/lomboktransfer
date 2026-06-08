@@ -22,7 +22,7 @@ export default function BookingsPage() {
       const supabase = createClient();
       const { data, error } = await supabase
         .from("bookings")
-        .select("id, pickup_datetime, status, total_price, source, notes, guests(full_name, phone), routes(name), drivers(full_name), vehicles(plate_number)")
+        .select("id, pickup_datetime, status, gross_price, source, notes, guests(full_name, phone_wa), routes(name), drivers(full_name), vehicles(plate_number)")
         .order("pickup_datetime", { ascending: false });
 
       if (error) throw error;
@@ -33,11 +33,11 @@ export default function BookingsPage() {
           ? format(new Date(b.pickup_datetime), "dd/MM/yyyy HH:mm", { locale: id })
           : "-",
         "Nama Tamu": b.guests?.full_name || "-",
-        "HP Tamu": b.guests?.phone || "-",
+        "HP Tamu": b.guests?.phone_wa || "-",
         "Rute": b.routes?.name || "Custom",
         "Supir": b.drivers?.full_name || "-",
         "Kendaraan": b.vehicles?.plate_number || "-",
-        "Harga (IDR)": b.total_price || 0,
+        "Harga (IDR)": b.gross_price || 0,
         "Sumber": b.source || "-",
         "Status": b.status || "-",
         "Catatan": b.notes || "",
