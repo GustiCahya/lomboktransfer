@@ -3,17 +3,17 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { 
-  LayoutDashboard, 
-  CalendarCheck, 
-  MapPin, 
-  Users, 
-  Car, 
-  DollarSign, 
-  Heart, 
-  Shield, 
-  Store, 
-  BarChart3, 
+import {
+  LayoutDashboard,
+  CalendarCheck,
+  MapPin,
+  Users,
+  Car,
+  DollarSign,
+  Heart,
+  Shield,
+  Store,
+  BarChart3,
   Settings,
   ChevronLeft
 } from "lucide-react";
@@ -21,17 +21,17 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 const MENU_ITEMS = [
-  { label: "Dashboard", icon: LayoutDashboard, route: "/" },
-  { label: "Booking", icon: CalendarCheck, route: "/bookings" },
-  { label: "Dispatch", icon: MapPin, route: "/dispatch" },
-  { label: "Supir", icon: Users, route: "/drivers" },
-  { label: "Armada", icon: Car, route: "/fleet" },
-  { label: "Keuangan", icon: DollarSign, route: "/accounting" },
-  { label: "CRM & Tamu", icon: Heart, route: "/crm" },
-  { label: "Legal", icon: Shield, route: "/legal" },
-  { label: "Vendor", icon: Store, route: "/vendors" },
-  { label: "Laporan", icon: BarChart3, route: "/reports" },
-  { label: "Pengaturan", icon: Settings, route: "/settings" },
+  { label: "Dashboard", icon: LayoutDashboard, route: "/admin" },
+  { label: "Booking", icon: CalendarCheck, route: "/admin/bookings" },
+  { label: "Dispatch", icon: MapPin, route: "/admin/dispatch" },
+  { label: "Supir", icon: Users, route: "/admin/drivers" },
+  { label: "Armada", icon: Car, route: "/admin/fleet" },
+  { label: "Keuangan", icon: DollarSign, route: "/admin/accounting" },
+  { label: "CRM & Tamu", icon: Heart, route: "/admin/crm" },
+  { label: "Legal", icon: Shield, route: "/admin/legal" },
+  { label: "Vendor", icon: Store, route: "/admin/vendors" },
+  { label: "Laporan", icon: BarChart3, route: "/admin/reports" },
+  { label: "Pengaturan", icon: Settings, route: "/admin/settings" },
 ];
 
 export default function Sidebar() {
@@ -63,24 +63,24 @@ export default function Sidebar() {
       {/* Sidebar Header */}
       <div className="flex items-center h-16 px-4 border-b border-border">
         {!isCollapsed ? (
-          <Link href="/" className="flex items-center gap-2.5 font-bold text-base text-foreground truncate">
+          <Link href="/admin" className="flex items-center gap-2.5 font-bold text-base text-foreground truncate">
             <div className="relative w-8 h-8 shrink-0 rounded-lg overflow-hidden border border-border shadow-sm">
-              <Image 
-                src="/logo_without_text.png" 
-                alt="Lombok Transfer Logo" 
-                fill 
+              <Image
+                src="/logo_without_text.png"
+                alt="Lombok Transfer Logo"
+                fill
                 className="object-cover"
               />
             </div>
             <span className="tracking-tight">Lombok Transfer</span>
           </Link>
         ) : (
-          <Link href="/" className="flex items-center justify-center w-full">
+          <Link href="/admin" className="flex items-center justify-center w-full">
             <div className="relative w-8 h-8 shrink-0 rounded-lg overflow-hidden border border-border shadow-sm">
-              <Image 
-                src="/logo_without_text.png" 
-                alt="Lombok Transfer Logo" 
-                fill 
+              <Image
+                src="/logo_without_text.png"
+                alt="Lombok Transfer Logo"
+                fill
                 className="object-cover"
               />
             </div>
@@ -100,15 +100,15 @@ export default function Sidebar() {
       {/* Navigation Links */}
       <nav className="flex-1 overflow-y-auto py-4 px-2 space-y-1">
         {MENU_ITEMS.map((item) => {
-          const isActive = pathname === item.route || pathname.startsWith(item.route + "/");
+          const isActive = pathname === item.route || pathname.startsWith("admin/" + item.route + "/");
           return (
             <Link
               key={item.route}
               href={item.route}
               className={cn(
                 "flex items-center gap-3 px-3 py-2.5 rounded-md transition-colors text-sm font-medium",
-                isActive 
-                  ? "bg-primary text-primary-foreground shadow-sm" 
+                isActive
+                  ? "bg-primary text-primary-foreground shadow-sm"
                   : "text-muted-foreground hover:bg-muted hover:text-foreground",
                 isCollapsed && "justify-center"
               )}
@@ -120,7 +120,7 @@ export default function Sidebar() {
           );
         })}
       </nav>
-      
+
       {/* User Info / Bottom Area placeholder */}
       <div className="p-4 border-t border-border">
         {!isCollapsed ? (

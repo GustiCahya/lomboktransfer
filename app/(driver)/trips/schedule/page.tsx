@@ -57,7 +57,7 @@ export default function TripsSchedulePage() {
             const timeStr = date.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
             const routeStart = trip.routes?.start_location || "Lokasi Jemput";
             const routeEnd = trip.routes?.end_location || "Lokasi Tujuan";
-            
+
             return (
               <Card key={trip.id} className="overflow-hidden shadow-sm">
                 <CardContent className="p-0">

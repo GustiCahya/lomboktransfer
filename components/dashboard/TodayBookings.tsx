@@ -27,7 +27,7 @@ export default function TodayBookings() {
         .lte("pickup_datetime", endOfToday)
         .order("pickup_datetime", { ascending: true })
         .limit(5);
-        
+
       setBookings(data || []);
       setIsLoading(false);
     };
@@ -54,7 +54,7 @@ export default function TodayBookings() {
     return (
       <div className="h-[200px] flex flex-col items-center justify-center border border-dashed rounded-md bg-muted/20">
         <p className="text-muted-foreground text-sm mb-4">Tidak ada jadwal keberangkatan untuk hari ini.</p>
-        <Link href="/bookings/new"><Button size="sm">Buat Booking</Button></Link>
+        <Link href="/admin/bookings/new"><Button size="sm">Buat Booking</Button></Link>
       </div>
     );
   }

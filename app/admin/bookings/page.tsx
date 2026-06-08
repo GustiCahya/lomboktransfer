@@ -55,8 +55,8 @@ export default function BookingsPage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader 
-        title="Daftar Booking" 
+      <PageHeader
+        title="Daftar Booking"
         subtitle="Kelola seluruh pesanan trip masuk, tugaskan supir, dan pantau status perjalanan."
         actions={
           <>
@@ -73,7 +73,7 @@ export default function BookingsPage() {
               )}
               {exporting ? "Mengexport..." : "Export CSV"}
             </Button>
-            <Link href="/bookings/new">
+            <Link href="/admin/bookings/new">
               <Button className="gap-2">
                 <Plus className="w-4 h-4" /> Booking Baru
               </Button>

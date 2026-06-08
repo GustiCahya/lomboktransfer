@@ -7,7 +7,7 @@ import { ChevronRight, Home } from "lucide-react";
 
 export default function Breadcrumb() {
   const pathname = usePathname();
-  
+
   if (pathname === "/") {
     return (
       <div className="hidden sm:flex items-center text-sm text-muted-foreground">
@@ -21,10 +21,10 @@ export default function Breadcrumb() {
 
   return (
     <div className="hidden sm:flex items-center text-sm text-muted-foreground space-x-1">
-      <Link href="/" className="hover:text-foreground flex items-center transition-colors">
+      <Link href="/admin" className="hover:text-foreground flex items-center transition-colors">
         <Home className="w-4 h-4" />
       </Link>
-      
+
       {paths.map((path, index) => {
         const isLast = index === paths.length - 1;
         const href = `/${paths.slice(0, index + 1).join("/")}`;

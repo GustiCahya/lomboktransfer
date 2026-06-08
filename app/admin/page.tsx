@@ -26,7 +26,7 @@ export default function DashboardPage() {
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <Link href="/bookings/new">
+          <Link href="/admin/bookings/new">
             <Button>Buat Booking Baru</Button>
           </Link>
         </div>
@@ -48,7 +48,7 @@ export default function DashboardPage() {
             </p>
           </CardContent>
         </Card>
-        
+
         <Card className="flex flex-col border-primary/20 bg-primary/5">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-6 px-6">
             <CardTitle className="text-sm font-medium text-primary">Trip Sedang Berjalan</CardTitle>
@@ -106,7 +106,7 @@ export default function DashboardPage() {
                 <CardTitle className="text-lg">Jadwal Keberangkatan Hari Ini</CardTitle>
                 <p className="text-sm text-muted-foreground mt-1">Urutan berdasarkan waktu penjemputan</p>
               </div>
-              <Link href="/bookings">
+              <Link href="/admin/bookings">
                 <Button variant="outline" size="sm">Lihat Semua</Button>
               </Link>
             </CardHeader>
@@ -124,7 +124,7 @@ export default function DashboardPage() {
                 </CardTitle>
                 <p className="text-sm text-muted-foreground mt-1">Berdasarkan data booking selesai &amp; pengeluaran</p>
               </div>
-              <Link href="/reports">
+              <Link href="/admin/reports">
                 <Button variant="outline" size="sm">Laporan Lengkap</Button>
               </Link>
             </CardHeader>
@@ -166,28 +166,28 @@ export default function DashboardPage() {
               </CardTitle>
             </CardHeader>
             <CardContent className="p-4 grid grid-cols-2 gap-3">
-              <Link href="/bookings/new">
+              <Link href="/admin/bookings/new">
                 <Button variant="outline" className="w-full justify-start gap-2 h-auto py-3 text-left">
                   <MapPin className="w-4 h-4 text-primary flex-shrink-0" />
-                  <span className="truncate">Booking<br/>Baru</span>
+                  <span className="truncate">Booking<br />Baru</span>
                 </Button>
               </Link>
-              <Link href="/dispatch">
+              <Link href="/admin/dispatch">
                 <Button variant="outline" className="w-full justify-start gap-2 h-auto py-3 text-left">
                   <CalendarCheck className="w-4 h-4 text-blue-500 flex-shrink-0" />
-                  <span className="truncate">Kalender<br/>Dispatch</span>
+                  <span className="truncate">Kalender<br />Dispatch</span>
                 </Button>
               </Link>
-              <Link href="/drivers/new">
+              <Link href="/admin/drivers/new">
                 <Button variant="outline" className="w-full justify-start gap-2 h-auto py-3 text-left">
                   <Users className="w-4 h-4 text-amber-500 flex-shrink-0" />
-                  <span className="truncate">Tambah<br/>Supir</span>
+                  <span className="truncate">Tambah<br />Supir</span>
                 </Button>
               </Link>
-              <Link href="/fleet/new">
+              <Link href="/admin/fleet/new">
                 <Button variant="outline" className="w-full justify-start gap-2 h-auto py-3 text-left">
                   <Car className="w-4 h-4 text-indigo-500 flex-shrink-0" />
-                  <span className="truncate">Tambah<br/>Armada</span>
+                  <span className="truncate">Tambah<br />Armada</span>
                 </Button>
               </Link>
             </CardContent>

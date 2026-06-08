@@ -12,6 +12,14 @@ const nextConfig = {
   devIndicators: {
     buildActivity: false,
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+      },
+    ],
+  },
 };
 
 export default withPWA(nextConfig);

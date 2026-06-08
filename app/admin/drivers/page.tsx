@@ -32,7 +32,7 @@ export default function DriversPage() {
         title="Manajemen Supir"
         subtitle="Kelola profil, dokumen, jadwal, dan performa seluruh supir armada."
         actions={
-          <Link href="/drivers/new">
+          <Link href="/admin/drivers/new">
             <Button className="gap-2">
               <Plus className="w-4 h-4" /> Tambah Supir
             </Button>

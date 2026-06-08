@@ -30,7 +30,7 @@ export default function FleetPage() {
         title="Manajemen Armada"
         subtitle="Kelola inventaris kendaraan, pantau jadwal servis, dan dokumen."
         actions={
-          <Link href="/fleet/new">
+          <Link href="/admin/fleet/new">
             <Button className="gap-2">
               <Plus className="w-4 h-4" /> Tambah Kendaraan
             </Button>
