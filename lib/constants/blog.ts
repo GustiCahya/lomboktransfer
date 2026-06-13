@@ -73,7 +73,7 @@ export const BLOG_DB: Record<string, BlogPost> = {
     excerpt: "Trawangan, Meno, or Air? We break down the vibe, activities, and best spots for each of the famous three Gilis.",
     image: "https://images.unsplash.com/photo-1619681216575-d6b3964fc278?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     content: `
-      <p>The Gili Islands—three tiny, picturesque specks of land floating just off the northwest coast of Lombok. With no cars or motorbikes allowed on any of them, they offer a true tropical escape. But which one should you choose?</p>
+      <p>The Gili Islands three tiny, picturesque specks of land floating just off the northwest coast of Lombok. With no cars or motorbikes allowed on any of them, they offer a true tropical escape. But which one should you choose?</p>
       
       <h2>Gili Trawangan (The Party Island)</h2>
       <p>Gili T is the largest, most developed, and most vibrant of the three. If you're looking for bustling nightlife, dive centers on every corner, night markets, and sunset beach clubs, this is your island. Despite its reputation, the northern part of the island remains surprisingly quiet and laid-back.</p>

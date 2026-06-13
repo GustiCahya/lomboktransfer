@@ -122,7 +122,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
 
           {/* Article Body */}
           <div 
-            className="prose max-w-[680px] mx-auto mt-10 mb-20 prose-headings:font-sans prose-headings:font-extrabold prose-headings:tracking-tight prose-headings:text-foreground prose-a:text-primary hover:prose-a:text-primary/80 [&_p]:font-serif [&_p]:text-[#242424] dark:[&_p]:text-foreground/90 [&_p]:text-[20px] md:[&_p]:text-[21px] [&_p]:leading-[32px] [&_p]:mb-8 [&_p]:mt-0 [&_li]:font-serif [&_li]:text-[#242424] dark:[&_li]:text-foreground/90 [&_li]:text-[20px] md:[&_li]:text-[21px] [&_li]:leading-[32px] [&_li]:mb-4 [&_ul]:mb-8 [&_h2]:mt-12 [&_h2]:mb-4"
+            className="prose max-w-[680px] mx-auto mt-10 mb-20 prose-headings:font-sans prose-headings:font-extrabold prose-headings:tracking-tight prose-headings:text-foreground prose-a:text-primary hover:prose-a:text-primary/80 [&_p]:font-serif [&_p]:text-[#242424] dark:[&_p]:text-foreground/90 [&_p]:text-[20px] md:[&_p]:text-[21px] [&_p]:leading-[32px] [&_p]:mb-8 [&_p]:mt-0 [&_li]:font-serif [&_li]:text-[#242424] dark:[&_li]:text-foreground/90 [&_li]:text-[20px] md:[&_li]:text-[21px] [&_li]:leading-[32px] [&_li]:mb-4 [&_ul]:mb-8 [&_h2]:text-[28px] md:[&_h2]:text-[32px] [&_h2]:leading-[1.3] [&_h2]:mt-12 [&_h2]:mb-4 [&_h3]:text-[24px] md:[&_h3]:text-[26px] [&_h3]:leading-[1.3] [&_h3]:mt-10 [&_h3]:mb-4"
             dangerouslySetInnerHTML={{ __html: post.content }}
           />
 
