@@ -4,21 +4,24 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { Menu, X, Globe } from "lucide-react";
 import { cn } from "@/lib/utils";
-
-const NAV_LINKS = [
-  { label: "Home", href: "/" },
-  { label: "Routes & Prices", href: "/routes" },
-  { label: "Tours", href: "/tours" },
-  { label: "About Us", href: "/about" },
-];
+import { useLanguage, Language } from "@/lib/i18n/LanguageContext";
+import { translations } from "@/lib/i18n/translations";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pathname = usePathname();
+  const { language, setLanguage } = useLanguage();
+  const t = translations[language];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -27,6 +30,18 @@ export default function Header() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const NAV_LINKS = [
+    { label: t["header.home"], href: "/" },
+    { label: t["header.routes"], href: "/routes" },
+    { label: t["header.tours"], href: "/tours" },
+    { label: t["header.about"], href: "/about" },
+  ];
+
+  const handleLanguageChange = (lang: Language) => {
+    setLanguage(lang);
+    setMobileMenuOpen(false);
+  };
 
   return (
     <header
@@ -73,12 +88,26 @@ export default function Header() {
 
         {/* Desktop Actions */}
         <div className="hidden md:flex items-center gap-4">
-          <Button variant="ghost" size="sm" className="gap-2 text-foreground/80">
-            <Globe className="h-4 w-4" />
-            <span>EN</span>
-          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger className={cn(buttonVariants({ variant: "ghost", size: "sm" }), "gap-2 text-foreground/80 cursor-pointer outline-none")}>
+              <Globe className="h-4 w-4" />
+              <span className="uppercase">{language}</span>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem onClick={() => handleLanguageChange("en")}>
+                English (EN)
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleLanguageChange("id")}>
+                Bahasa Indonesia (ID)
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleLanguageChange("zh")}>
+                中文 (ZH)
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          
           <Link href="/book" className={cn(buttonVariants({ size: "default" }), "rounded-full px-6 shadow-md hover:shadow-lg transition-all")}>
-            Book Now
+            {t["header.book"]}
           </Link>
         </div>
 
@@ -113,12 +142,13 @@ export default function Header() {
             ))}
           </nav>
           <div className="mt-8 flex flex-col gap-4">
-            <Button variant="outline" className="justify-center gap-2 w-full">
-              <Globe className="h-4 w-4" />
-              Language: English
-            </Button>
+            <div className="flex gap-2 justify-center pb-4 border-b">
+              <button onClick={() => handleLanguageChange('en')} className={cn(buttonVariants({ variant: language === 'en' ? 'default' : 'outline', size: 'sm' }))}>EN</button>
+              <button onClick={() => handleLanguageChange('id')} className={cn(buttonVariants({ variant: language === 'id' ? 'default' : 'outline', size: 'sm' }))}>ID</button>
+              <button onClick={() => handleLanguageChange('zh')} className={cn(buttonVariants({ variant: language === 'zh' ? 'default' : 'outline', size: 'sm' }))}>ZH 中文</button>
+            </div>
             <Link href="/book" onClick={() => setMobileMenuOpen(false)} className={cn(buttonVariants({ size: "lg" }), "w-full rounded-full")}>
-              Book Your Transfer
+              {t["header.book"]}
             </Link>
           </div>
         </div>

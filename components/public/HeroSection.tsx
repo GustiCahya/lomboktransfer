@@ -1,10 +1,17 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { ArrowRight, Star, ShieldCheck, Clock } from "lucide-react";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
+import { translations } from "@/lib/i18n/translations";
 
 export default function HeroSection() {
+  const { language } = useLanguage();
+  const t = translations[language];
+
   return (
     <div className="relative min-h-[90vh] flex items-center pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden">
       {/* Background Image / Gradient */}
@@ -18,29 +25,28 @@ export default function HeroSection() {
         {/* Trust Badge */}
         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium mb-8 backdrop-blur-sm">
           <Star className="h-4 w-4 fill-primary text-primary" />
-          <span>Rated 4.9/5 by 1,000+ Travelers</span>
+          <span>{t["hero.trust"]}</span>
         </div>
 
         {/* Headlines */}
         <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight text-foreground max-w-4xl leading-tight mb-6">
-          Lombok, <br className="md:hidden" />
+          {t["hero.title"]} <br className="md:hidden" />
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-indigo-400">
-            Beautifully Delivered
+            {t["hero.title2"]}
           </span>
         </h1>
 
         <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mb-10 leading-relaxed">
-          Premium 24/7 airport transfers and day tours with professional local drivers.
-          Instant confirmation, comfortable vehicles, and zero hidden fees.
+          {t["hero.subtitle"]}
         </p>
 
         {/* CTAs */}
         <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
           <Link href="/book" className={cn(buttonVariants({ size: "lg" }), "w-full sm:w-auto h-14 px-8 text-base rounded-full shadow-lg hover:shadow-primary/25 transition-all gap-2")}>
-            Book Your Transfer <ArrowRight className="h-5 w-5" />
+            {t["hero.book"]} <ArrowRight className="h-5 w-5" />
           </Link>
           <Link href="/routes" className={cn(buttonVariants({ size: "lg", variant: "outline" }), "w-full sm:w-auto h-14 px-8 text-base rounded-full bg-background/50 backdrop-blur-md border-border/50")}>
-            View Routes & Prices
+            {t["hero.routes"]}
           </Link>
         </div>
 
@@ -50,22 +56,22 @@ export default function HeroSection() {
             <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center text-primary mb-2">
               <ShieldCheck className="h-6 w-6" />
             </div>
-            <h3 className="font-semibold text-foreground">Professional Drivers</h3>
-            <p className="text-sm text-muted-foreground">Licensed, English-speaking locals who know the island best.</p>
+            <h3 className="font-semibold text-foreground">{t["hero.feature1.title"]}</h3>
+            <p className="text-sm text-muted-foreground">{t["hero.feature1.desc"]}</p>
           </div>
           <div className="flex flex-col items-center text-center gap-3">
             <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center text-primary mb-2">
               <Clock className="h-6 w-6" />
             </div>
-            <h3 className="font-semibold text-foreground">24/7 Availability</h3>
-            <p className="text-sm text-muted-foreground">Early morning flights? Late arrivals? We&apos;re always ready.</p>
+            <h3 className="font-semibold text-foreground">{t["hero.feature2.title"]}</h3>
+            <p className="text-sm text-muted-foreground">{t["hero.feature2.desc"]}</p>
           </div>
           <div className="flex flex-col items-center text-center gap-3">
             <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center text-primary mb-2">
               <Star className="h-6 w-6" />
             </div>
-            <h3 className="font-semibold text-foreground">Instant Confirmation</h3>
-            <p className="text-sm text-muted-foreground">Book online or via WhatsApp and get confirmed immediately.</p>
+            <h3 className="font-semibold text-foreground">{t["hero.feature3.title"]}</h3>
+            <p className="text-sm text-muted-foreground">{t["hero.feature3.desc"]}</p>
           </div>
         </div>
       </div>
