@@ -1,0 +1,29 @@
+/**
+ * Single Source of Truth for all static images used across the application.
+ * Update these URLs to change the images globally.
+ */
+
+export const IMAGES = {
+  // Hero section background
+  HERO_BACKGROUND: "https://images.unsplash.com/photo-1559628233-eb1b1a45564b?q=80&w=2000&auto=format&fit=crop",
+  
+  // Default fallback image for destinations
+  DEFAULT_DESTINATION: "https://images.unsplash.com/photo-1559628233-eb1b1a45564b?q=80&w=600&auto=format&fit=crop",
+
+  // Specific destination images mapped by keywords
+  DESTINATIONS: {
+    gili: "https://gilivoyages.com/wp-content/uploads/2019/12/Gili-Meno.jpg",
+    bangsal: "https://images.unsplash.com/photo-1544644181-1484b3fdfc62?q=80&w=600&auto=format&fit=crop",
+    senggigi: "https://homeiswhereyourbagis.com/wp-content/uploads/2019/06/lombok-mustsees-senggigi-beach.jpg",
+    kuta: "https://carolinerosetravel.com/wp-content/uploads/2020/04/kutalombok-8.jpg",
+    mataram: "https://static.wixstatic.com/media/735b16_6ec1314c725b4c4b8f32b58123da678b~mv2_d_5760_3840_s_4_2.jpg/v1/fill/w_654,h_363,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/735b16_6ec1314c725b4c4b8f32b58123da678b~mv2_d_5760_3840_s_4_2.jpg",
+    selong: "https://authentic-indonesia.com/wp-content/uploads/2020/07/selong-belanak-is-surfer-heaven-for-beginners.jpg",
+    mandalika: "https://www.itdc.co.id/file/page/20200213143056KApfITU4kiAUdG0SsSFKCQUjW8ToHX.jpg",
+    rinjani: "https://4.bp.blogspot.com/-soPBQYZTG6Q/Tb5rSE5TdVI/AAAAAAAABdI/ZpffadQRr0g/s1600/gunung-rinjani.jpg",
+    //TODO: Need to update these
+    tetebatu: "https://images.unsplash.com/photo-1586348943529-beaae6c28db9?q=80&w=600&auto=format&fit=crop",
+    sembalun: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=600&auto=format&fit=crop",
+    sire: "https://images.unsplash.com/photo-1516690561799-46d8f74f9abf?q=80&w=600&auto=format&fit=crop",
+    tour: "https://images.unsplash.com/photo-1559628233-eb1b1a45564b?q=80&w=600&auto=format&fit=crop",
+  } as Record<string, string>,
+};

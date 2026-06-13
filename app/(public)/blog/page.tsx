@@ -5,27 +5,7 @@ import { ArrowRight } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-const BLOGS = [
-  {
-    title: "10 Best Beaches in South Lombok",
-    date: "June 10, 2026",
-    excerpt: "Discover the hidden gems of South Lombok, from the famous pink beach to the surfer's paradise of Selong Belanak.",
-    image: "https://images.unsplash.com/photo-1544644181-1484b3fdfc62?q=80&w=600&auto=format&fit=crop"
-  },
-  {
-    title: "Ultimate Guide to Mount Rinjani",
-    date: "May 25, 2026",
-    excerpt: "Everything you need to know before trekking Indonesia's second highest volcano. What to pack, when to go, and which route to choose.",
-    image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=600&auto=format&fit=crop"
-  },
-  {
-    title: "Gili Islands: Which One is For You?",
-    date: "May 12, 2026",
-    excerpt: "Trawangan, Meno, or Air? We break down the vibe, activities, and best spots for each of the famous three Gilis.",
-    image: "https://images.unsplash.com/photo-1537953773345-d172ccf13cf1?q=80&w=600&auto=format&fit=crop"
-  }
-];
-
+import { BLOGS_LIST } from "@/lib/constants/blog";
 export default function BlogPage() {
   return (
     <div className="min-h-screen pt-32 pb-24 bg-muted/20">
@@ -38,26 +18,26 @@ export default function BlogPage() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {BLOGS.map((post, i) => (
-            <div key={i} className="group bg-card rounded-2xl overflow-hidden border border-border shadow-sm hover:shadow-md transition-all">
-              <div className="aspect-[16/9] relative overflow-hidden">
+          {BLOGS_LIST.map((blog) => (
+            <div key={blog.slug} className="group flex flex-col bg-card rounded-2xl overflow-hidden border shadow-sm hover:shadow-md transition-all duration-300">
+              <div className="relative aspect-[16/9] overflow-hidden bg-muted">
                 <Image
-                  src={post.image}
-                  alt={post.title}
+                  src={blog.image}
+                  alt={blog.title}
                   fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
                 />
               </div>
-              <div className="p-6 flex flex-col items-start">
-                <p className="text-sm text-muted-foreground mb-3">{post.date}</p>
-                <h3 className="text-xl font-bold mb-3 line-clamp-2 group-hover:text-primary transition-colors">
-                  {post.title}
-                </h3>
-                <p className="text-muted-foreground mb-6 line-clamp-3">
-                  {post.excerpt}
+              <div className="flex flex-col flex-1 p-6 md:p-8">
+                <div className="text-sm text-muted-foreground mb-3">{blog.date}</div>
+                <h2 className="text-2xl font-bold mb-4 group-hover:text-primary transition-colors line-clamp-2">
+                  {blog.title}
+                </h2>
+                <p className="text-muted-foreground mb-6 line-clamp-3 flex-1">
+                  {blog.excerpt}
                 </p>
                 <Link 
-                  href={`/blog/${post.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')}`} 
+                  href={`/blog/${blog.slug}`} 
                   className={cn(buttonVariants({ variant: "ghost", size: "sm" }), "mt-auto gap-2 p-0 hover:bg-transparent hover:text-primary")}
                 >
                   Read Article <ArrowRight className="h-4 w-4" />

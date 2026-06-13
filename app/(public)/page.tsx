@@ -10,29 +10,14 @@ import { cn } from "@/lib/utils";
 import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { translations } from "@/lib/i18n/translations";
 import { createClient } from "@/lib/supabase/client";
-
-// Destination images mapped by keyword in destination name
-const DEST_IMAGES: Record<string, string> = {
-  "gili":      "https://images.unsplash.com/photo-1544644181-1484b3fdfc62?q=80&w=600&auto=format&fit=crop",
-  "bangsal":   "https://images.unsplash.com/photo-1544644181-1484b3fdfc62?q=80&w=600&auto=format&fit=crop",
-  "senggigi":  "https://images.unsplash.com/photo-1537953773345-d172ccf13cf1?q=80&w=600&auto=format&fit=crop",
-  "kuta":      "https://images.unsplash.com/photo-1588668214407-6ea9a6d8c272?q=80&w=600&auto=format&fit=crop",
-  "mataram":   "https://images.unsplash.com/photo-1580477667995-2b94f01c9516?q=80&w=600&auto=format&fit=crop",
-  "mandalika": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=600&auto=format&fit=crop",
-  "tetebatu":  "https://images.unsplash.com/photo-1586348943529-beaae6c28db9?q=80&w=600&auto=format&fit=crop",
-  "sembalun":  "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=600&auto=format&fit=crop",
-  "rinjani":   "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=600&auto=format&fit=crop",
-  "selong":    "https://images.unsplash.com/photo-1509233725247-49e657c54213?q=80&w=600&auto=format&fit=crop",
-  "sire":      "https://images.unsplash.com/photo-1516690561799-46d8f74f9abf?q=80&w=600&auto=format&fit=crop",
-  "tour":      "https://images.unsplash.com/photo-1559628233-eb1b1a45564b?q=80&w=600&auto=format&fit=crop",
-};
+import { IMAGES } from "@/lib/constants/images";
 
 function getDestImage(route: { name: string; destination: string }): string {
   const text = (route.name + " " + route.destination).toLowerCase();
-  for (const [key, url] of Object.entries(DEST_IMAGES)) {
+  for (const [key, url] of Object.entries(IMAGES.DESTINATIONS)) {
     if (text.includes(key)) return url;
   }
-  return "https://images.unsplash.com/photo-1559628233-eb1b1a45564b?q=80&w=600&auto=format&fit=crop";
+  return IMAGES.DEFAULT_DESTINATION;
 }
 
 function formatIDR(n: number) {

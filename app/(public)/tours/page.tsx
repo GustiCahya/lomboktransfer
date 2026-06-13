@@ -11,21 +11,21 @@ const TOURS = [
     duration: "Full Day (8-10h)",
     price: "from IDR 750k",
     description: "Explore the stunning Sendang Gile and Tiu Kelep waterfalls at the foot of Mount Rinjani.",
-    image: "https://images.unsplash.com/photo-1604999333679-b86d54738315?q=80&w=600&auto=format&fit=crop"
+    image: "https://res.klook.com/images/fl_lossy.progressive,q_65/c_fill,w_1200,h_630/w_80,x_15,y_15,g_south_west,l_Klook_water_br_trans_yhcmh3/activities/p31do24ksdcrouegn6at/Lombok%20Waterfalls%20and%20Monkey%20Forest%20Private%20Day%20Tour.jpg"
   },
   {
     title: "Sasak Traditional Village",
     duration: "Half Day (4-6h)",
     price: "from IDR 500k",
     description: "Immerse yourself in the local Sasak culture, visit traditional weaving villages and pristine southern beaches.",
-    image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=600&auto=format&fit=crop"
+    image: "https://tse3.mm.bing.net/th/id/OIP.DOTssNxV_Wp3hTrVYnIZggHaE6?rs=1&pid=ImgDetMain&o=7&rm=3"
   },
   {
     title: "Gili Islands Snorkeling",
     duration: "Full Day (8-10h)",
     price: "from IDR 850k",
     description: "Private boat tour to snorkel with sea turtles around the famous three Gili islands.",
-    image: "https://images.unsplash.com/photo-1544644181-1484b3fdfc62?q=80&w=600&auto=format&fit=crop"
+    image: "https://s-light.tiket.photos/t/01E25EBZS3W0FY9GTG6C42E1SE/rsfit19201280gsm/events/2020/10/09/8120d8e6-0629-4303-8301-dcb4c8dbbf71-1602223746140-38935a774877b5b56d0177e01576113b.jpg"
   }
 ];
 

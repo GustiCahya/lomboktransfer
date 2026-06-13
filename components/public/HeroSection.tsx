@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import { ArrowRight, Star, ShieldCheck, Clock } from "lucide-react";
 import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { translations } from "@/lib/i18n/translations";
+import { IMAGES } from "@/lib/constants/images";
 
 export default function HeroSection() {
   const { language } = useLanguage();
@@ -18,7 +19,7 @@ export default function HeroSection() {
       <div className="absolute inset-0 bg-gradient-to-br from-background via-background/90 to-primary/20 z-0" />
       <div
         className="absolute inset-0 z-[-1] opacity-30 bg-cover bg-center"
-        style={{ backgroundImage: "url('https://images.unsplash.com/photo-1559628233-eb1b1a45564b?q=80&w=2000&auto=format&fit=crop')" }}
+        style={{ backgroundImage: `url('${IMAGES.HERO_BACKGROUND}')` }}
       />
 
       <div className="container mx-auto px-4 md:px-6 relative z-10 flex flex-col items-center text-center">

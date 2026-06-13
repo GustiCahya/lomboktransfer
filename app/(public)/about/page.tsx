@@ -30,7 +30,7 @@ export default function AboutPage() {
           </div>
           <div className="relative aspect-square md:aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl">
             <Image
-              src="https://images.unsplash.com/photo-1544644181-1484b3fdfc62?q=80&w=1000&auto=format&fit=crop"
+              src="https://images.unsplash.com/photo-1605752660759-2db7b7de8fa9?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
               alt="Lombok Island"
               fill
               className="object-cover"
