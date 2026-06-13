@@ -16,8 +16,8 @@ export default async function ContactPage() {
     .single();
 
   const email = settings?.email || "hello@lomboktransfer.com";
-  const phoneWa = settings?.phone_wa || "+62 812-3456-7890";
-  const address = settings?.address || "Jl. Pariwisata Senggigi, Lombok Barat, NTB, Indonesia";
+  const phoneWa = settings?.phone_wa || "+62 81-7777-480";
+  const address = settings?.address || "Jl. Langko 70, Mataram, Lombok, NTB, Indonesia";
   
   return (
     <div className="min-h-screen pt-32 pb-24 bg-muted/20">

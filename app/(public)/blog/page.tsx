@@ -16,7 +16,7 @@ const BLOGS = [
     title: "Ultimate Guide to Mount Rinjani",
     date: "May 25, 2026",
     excerpt: "Everything you need to know before trekking Indonesia's second highest volcano. What to pack, when to go, and which route to choose.",
-    image: "https://images.unsplash.com/photo-1570788647019-3dbba6f19cd6?q=80&w=600&auto=format&fit=crop"
+    image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=600&auto=format&fit=crop"
   },
   {
     title: "Gili Islands: Which One is For You?",

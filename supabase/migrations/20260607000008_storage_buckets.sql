@@ -16,21 +16,29 @@ ON CONFLICT (id) DO NOTHING;
 -- Note: Replace with more granular RLS depending on your requirements
 
 -- 1. driver-documents (Private)
+DROP POLICY IF EXISTS "Admin full access to driver-documents" ON storage.objects;
 CREATE POLICY "Admin full access to driver-documents" ON storage.objects
   FOR ALL USING (bucket_id = 'driver-documents' AND public.get_user_role() IN ('owner', 'admin'));
 
 -- 2. vehicle-documents (Private)
+DROP POLICY IF EXISTS "Admin full access to vehicle-documents" ON storage.objects;
 CREATE POLICY "Admin full access to vehicle-documents" ON storage.objects
   FOR ALL USING (bucket_id = 'vehicle-documents' AND public.get_user_role() IN ('owner', 'admin'));
 
 -- 3. vehicle-photos (Public Read)
+DROP POLICY IF EXISTS "Public read for vehicle-photos" ON storage.objects;
 CREATE POLICY "Public read for vehicle-photos" ON storage.objects
   FOR SELECT USING (bucket_id = 'vehicle-photos');
+
+DROP POLICY IF EXISTS "Admin write for vehicle-photos" ON storage.objects;
 CREATE POLICY "Admin write for vehicle-photos" ON storage.objects
   FOR INSERT WITH CHECK (bucket_id = 'vehicle-photos' AND public.get_user_role() IN ('owner', 'admin'));
 
 -- 4. driver-photos (Public Read)
+DROP POLICY IF EXISTS "Public read for driver-photos" ON storage.objects;
 CREATE POLICY "Public read for driver-photos" ON storage.objects
   FOR SELECT USING (bucket_id = 'driver-photos');
+
+DROP POLICY IF EXISTS "Driver write own photo" ON storage.objects;
 CREATE POLICY "Driver write own photo" ON storage.objects
   FOR INSERT WITH CHECK (bucket_id = 'driver-photos' AND (auth.uid() = owner OR public.get_user_role() IN ('owner', 'admin')));

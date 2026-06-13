@@ -10,7 +10,7 @@ SELECT
 FROM (
   SELECT
     DATE_TRUNC('month', pickup_datetime) AS month_date,
-    total_price AS revenue,
+    net_price AS revenue,
     0 AS expenses
   FROM public.bookings
   WHERE status = 'completed'
@@ -39,8 +39,8 @@ CREATE OR REPLACE VIEW public.v_route_popularity AS
 SELECT
   r.name AS route_name,
   COUNT(b.id) AS total_bookings,
-  COALESCE(SUM(b.total_price), 0) AS total_revenue,
-  ROUND(AVG(b.total_price), 0) AS avg_price
+  COALESCE(SUM(b.net_price), 0) AS total_revenue,
+  ROUND(AVG(b.net_price), 0) AS avg_price
 FROM public.bookings b
 LEFT JOIN public.routes r ON b.route_id = r.id
 WHERE b.status = 'completed'
@@ -53,7 +53,7 @@ CREATE OR REPLACE VIEW public.v_driver_performance AS
 SELECT
   d.full_name AS driver_name,
   COUNT(b.id) AS total_trips,
-  COALESCE(SUM(b.total_price), 0) AS total_revenue,
+  COALESCE(SUM(b.net_price), 0) AS total_revenue,
   COALESCE(AVG(rev.rating), 0) AS avg_rating
 FROM public.drivers d
 LEFT JOIN public.bookings b ON b.driver_id = d.id AND b.status = 'completed'

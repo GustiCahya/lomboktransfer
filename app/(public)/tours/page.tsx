@@ -11,14 +11,14 @@ const TOURS = [
     duration: "Full Day (8-10h)",
     price: "from IDR 750k",
     description: "Explore the stunning Sendang Gile and Tiu Kelep waterfalls at the foot of Mount Rinjani.",
-    image: "https://images.unsplash.com/photo-1570788647019-3dbba6f19cd6?q=80&w=600&auto=format&fit=crop"
+    image: "https://images.unsplash.com/photo-1604999333679-b86d54738315?q=80&w=600&auto=format&fit=crop"
   },
   {
     title: "Sasak Traditional Village",
     duration: "Half Day (4-6h)",
     price: "from IDR 500k",
     description: "Immerse yourself in the local Sasak culture, visit traditional weaving villages and pristine southern beaches.",
-    image: "https://images.unsplash.com/photo-1629854497676-e1e3e7fce51d?q=80&w=600&auto=format&fit=crop"
+    image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=600&auto=format&fit=crop"
   },
   {
     title: "Gili Islands Snorkeling",
@@ -57,7 +57,7 @@ export default function ToursPage() {
               </div>
               <div className="p-6 flex flex-col flex-1">
                 <h3 className="text-xl font-bold text-foreground mb-2 flex items-start gap-2">
-                  <Map className="h-5 w-5 text-primary shrink-0 mt-0.5" /> 
+                  <Map className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                   {tour.title}
                 </h3>
                 <p className="text-muted-foreground text-sm mb-4 flex items-center gap-2">
@@ -66,7 +66,7 @@ export default function ToursPage() {
                 <p className="text-muted-foreground text-sm mb-6 flex-1">
                   {tour.description}
                 </p>
-                <Link href={`https://wa.me/6281234567890?text=Hi! I'm interested in booking the ${encodeURIComponent(tour.title)} tour.`} target="_blank" rel="noopener noreferrer" className={cn(buttonVariants({ size: "default" }), "w-full rounded-full group-hover:bg-primary transition-colors gap-2")}>
+                <Link href={`https://wa.me/62817777480?text=Hi! I'm interested in booking the ${encodeURIComponent(tour.title)} tour.`} target="_blank" rel="noopener noreferrer" className={cn(buttonVariants({ size: "default" }), "w-full rounded-full group-hover:bg-primary transition-colors gap-2")}>
                   Book Tour <ArrowRight className="h-4 w-4" />
                 </Link>
               </div>
@@ -80,7 +80,7 @@ export default function ToursPage() {
           <p className="text-muted-foreground mb-8 max-w-2xl mx-auto">
             Have a specific itinerary in mind? We can create a custom tour just for you. Contact us to plan your perfect day in Lombok.
           </p>
-          <Link href="https://wa.me/6281234567890" target="_blank" rel="noopener noreferrer" className={cn(buttonVariants({ size: "lg" }), "rounded-full")}>
+          <Link href="https://wa.me/62817777480" target="_blank" rel="noopener noreferrer" className={cn(buttonVariants({ size: "lg" }), "rounded-full")}>
             Plan Custom Tour
           </Link>
         </div>

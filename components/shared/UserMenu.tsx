@@ -68,11 +68,11 @@ export default function UserMenu() {
   };
 
   const handleGoToProfile = () => {
-    router.push("/settings/profile");
+    router.push("/admin/settings/profile");
   };
 
   const handleGoToSettings = () => {
-    router.push("/settings");
+    router.push("/admin/settings");
   };
 
   return (

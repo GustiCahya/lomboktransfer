@@ -2,7 +2,7 @@
 
 -- 1. Create Notifications Table (In-App Dashboard Notifications)
 CREATE TABLE IF NOT EXISTS public.notifications (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id UUID, -- Optional: link to a specific user/driver. If null, broadcasts to all admins
     title TEXT NOT NULL,
     message TEXT NOT NULL,
@@ -18,7 +18,7 @@ CREATE INDEX IF NOT EXISTS idx_notifications_created_at ON public.notifications(
 
 -- 2. Create WhatsApp Logs Table
 CREATE TABLE IF NOT EXISTS public.wa_logs (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     booking_id UUID REFERENCES public.bookings(id) ON DELETE SET NULL,
     recipient_phone VARCHAR(20) NOT NULL,
     recipient_type VARCHAR(20) NOT NULL, -- 'guest', 'driver', 'admin'

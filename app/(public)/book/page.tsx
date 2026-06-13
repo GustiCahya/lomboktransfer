@@ -66,17 +66,17 @@ function BookingForm() {
           {step === 1 && (
             <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4">
               <h2 className="text-2xl font-bold mb-6">Where are you going?</h2>
-              
+
               <div className="space-y-4">
                 <div className="space-y-2">
                   <Label>Pickup Location</Label>
                   <div className="relative">
                     <MapPin className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
-                    <Input 
-                      placeholder="e.g. Lombok Airport (BIL)" 
+                    <Input
+                      placeholder="e.g. Lombok Airport (BIL)"
                       className="pl-10 h-12"
                       value={formData.origin}
-                      onChange={(e) => setFormData({...formData, origin: e.target.value})}
+                      onChange={(e) => setFormData({ ...formData, origin: e.target.value })}
                     />
                   </div>
                 </div>
@@ -85,11 +85,11 @@ function BookingForm() {
                   <Label>Drop-off Destination</Label>
                   <div className="relative">
                     <MapPin className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
-                    <Input 
-                      placeholder="e.g. Kuta Lombok, Senggigi" 
+                    <Input
+                      placeholder="e.g. Kuta Lombok, Senggigi"
                       className="pl-10 h-12"
                       value={formData.destination}
-                      onChange={(e) => setFormData({...formData, destination: e.target.value})}
+                      onChange={(e) => setFormData({ ...formData, destination: e.target.value })}
                     />
                   </div>
                 </div>
@@ -106,17 +106,17 @@ function BookingForm() {
           {step === 2 && (
             <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4">
               <h2 className="text-2xl font-bold mb-6">When do you need us?</h2>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <Label>Date</Label>
                   <div className="relative">
                     <Calendar className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
-                    <Input 
+                    <Input
                       type="date"
                       className="pl-10 h-12"
                       value={formData.date}
-                      onChange={(e) => setFormData({...formData, date: e.target.value})}
+                      onChange={(e) => setFormData({ ...formData, date: e.target.value })}
                     />
                   </div>
                 </div>
@@ -125,11 +125,11 @@ function BookingForm() {
                   <Label>Pickup Time</Label>
                   <div className="relative">
                     <Clock className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
-                    <Input 
+                    <Input
                       type="time"
                       className="pl-10 h-12"
                       value={formData.time}
-                      onChange={(e) => setFormData({...formData, time: e.target.value})}
+                      onChange={(e) => setFormData({ ...formData, time: e.target.value })}
                     />
                   </div>
                 </div>
@@ -138,10 +138,10 @@ function BookingForm() {
                   <Label>Number of Passengers</Label>
                   <div className="relative">
                     <Users className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
-                    <select 
+                    <select
                       className="flex h-12 w-full rounded-md border border-input bg-background pl-10 pr-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                       value={formData.pax}
-                      onChange={(e) => setFormData({...formData, pax: e.target.value})}
+                      onChange={(e) => setFormData({ ...formData, pax: e.target.value })}
                     >
                       {[1, 2, 3, 4, 5, 6, 7].map(num => (
                         <option key={num} value={num}>{num} {num === 1 ? 'Passenger' : 'Passengers'}</option>
@@ -169,7 +169,7 @@ function BookingForm() {
               <p className="text-muted-foreground max-w-md mx-auto mb-8">
                 To ensure immediate confirmation and perfect coordination, we complete all bookings securely via WhatsApp.
               </p>
-              
+
               <div className="bg-muted/50 rounded-xl p-6 mb-8 text-left max-w-sm mx-auto">
                 <p className="text-sm font-medium mb-2 text-muted-foreground">Your Trip Summary:</p>
                 <p className="font-semibold">{formData.origin} &rarr; {formData.destination}</p>
@@ -178,8 +178,8 @@ function BookingForm() {
 
               <div className="flex justify-center gap-4">
                 <Button variant="outline" onClick={handlePrev} className="h-12 px-6">Edit Details</Button>
-                <Link 
-                  href={`https://wa.me/6281234567890?text=Hi! I'd like to book a transfer from ${formData.origin} to ${formData.destination} on ${formData.date} at ${formData.time} for ${formData.pax} people.`}
+                <Link
+                  href={`https://wa.me/62817777480?text=Hi! I'd like to book a transfer from ${formData.origin} to ${formData.destination} on ${formData.date} at ${formData.time} for ${formData.pax} people.`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className={cn(buttonVariants({ size: "default" }), "h-12 px-8 rounded-full bg-green-600 hover:bg-green-700 text-white gap-2")}
