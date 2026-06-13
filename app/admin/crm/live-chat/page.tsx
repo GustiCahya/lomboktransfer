@@ -322,12 +322,12 @@ export default function LiveChatPage() {
         <div className="border-t border-border p-4 shrink-0 bg-card">
           {!activeSession && (
             <div className="text-xs text-center text-muted-foreground mb-3">
-              💡 Mode Demo — Test AI langsung tanpa sesi tamu aktif
+              💡 Mode Demo - Test AI langsung tanpa sesi tamu aktif
             </div>
           )}
           {activeSession?.status === "human_active" && (
             <div className="text-xs text-center text-success bg-success/10 rounded-md py-1.5 mb-3">
-              ✅ Mode Human — Pesan Anda akan masuk sebagai pesan Admin
+              ✅ Mode Human - Pesan Anda akan masuk sebagai pesan Admin
             </div>
           )}
           <div className="flex gap-3">
