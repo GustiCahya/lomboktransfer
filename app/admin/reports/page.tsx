@@ -12,7 +12,7 @@ import {
 } from "@/hooks/useAnalytics";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { formatCurrency } from "@/lib/utils";
-import { TrendingUp, BookOpen, DollarSign, Target, Star } from "lucide-react";
+import { TrendingUp, BookOpen, Banknote, Target, Star } from "lucide-react";
 import { format } from "date-fns";
 import { id } from "date-fns/locale";
 import dynamic from "next/dynamic";
@@ -128,7 +128,7 @@ export default function ReportsPage() {
             <MetricCard
               title="Gross Revenue"
               value={formatCurrency(metrics.grossRevenue)}
-              icon={DollarSign}
+              icon={Banknote}
               color="bg-emerald-500/10 text-emerald-500"
             />
             <MetricCard

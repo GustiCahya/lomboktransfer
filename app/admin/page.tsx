@@ -52,7 +52,7 @@ export default function DashboardPage() {
         <Card className="flex flex-col border-primary/20 bg-primary/5">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-6 px-6">
             <CardTitle className="text-sm font-medium text-primary">Trip Sedang Berjalan</CardTitle>
-            <div className="flex items-center justify-center w-6 h-6 rounded-full bg-primary/20 text-primary animate-pulse">
+            <div className="flex items-center justify-center w-6 h-6 rounded-full bg-primary/20 text-primary">
               <Play className="h-3 w-3 fill-current" />
             </div>
           </CardHeader>

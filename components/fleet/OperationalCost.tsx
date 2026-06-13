@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { DollarSign, Wrench, Fuel, TrendingUp } from "lucide-react";
+import { Banknote, Wrench, Fuel, TrendingUp } from "lucide-react";
 import { formatRupiah } from "@/lib/utils/format";
 
 interface OperationalCostProps {
@@ -43,7 +43,7 @@ export default function OperationalCost({ vehicleId }: OperationalCostProps) {
           </CardHeader>
           <CardContent className="px-6 pb-6 pt-0">
             <div className="text-2xl font-bold text-amber-600">{formatRupiah(stats.serviceCostYTD)}</div>
-            <p className="text-xs text-muted-foreground mt-1">Total {totalCost > 0 ? Math.round((stats.serviceCostYTD/totalCost)*100) : 0}% dari biaya</p>
+            <p className="text-xs text-muted-foreground mt-1">Total {totalCost > 0 ? Math.round((stats.serviceCostYTD / totalCost) * 100) : 0}% dari biaya</p>
           </CardContent>
         </Card>
 
@@ -61,7 +61,7 @@ export default function OperationalCost({ vehicleId }: OperationalCostProps) {
         <Card className="flex flex-col bg-primary/5 border-primary/20">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-6 px-6">
             <CardTitle className="text-sm font-medium">Profit Kontribusi</CardTitle>
-            <DollarSign className="h-4 w-4 text-primary" />
+            <Banknote className="h-4 w-4 text-primary" />
           </CardHeader>
           <CardContent className="px-6 pb-6 pt-0">
             <div className="text-2xl font-bold text-primary">{formatRupiah(netProfit)}</div>
@@ -81,7 +81,7 @@ export default function OperationalCost({ vehicleId }: OperationalCostProps) {
             </div>
           </CardContent>
         </Card>
-        
+
         <Card>
           <CardHeader>
             <CardTitle>Distribusi Biaya Operasional</CardTitle>

@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import {
-  Plus, Pencil, Trash2, MapPin, Clock, DollarSign,
+  Plus, Pencil, Trash2, MapPin, Clock, Banknote,
   CheckCircle2, XCircle, Loader2, ArrowRightLeft, Search
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
@@ -284,7 +284,7 @@ export default function RoutesPage() {
                       {formatDuration(r.estimated_duration_min)}
                     </div>
                     <div className="hidden md:flex items-center gap-1.5 text-sm font-medium">
-                      <DollarSign className="w-3.5 h-3.5 text-muted-foreground" />
+                      <Banknote className="w-3.5 h-3.5 text-muted-foreground" />
                       {formatIDR(r.base_price)}
                     </div>
                     <Badge

@@ -16,6 +16,7 @@ Membangun kerangka layout utama dashboard — sidebar navigation, header, breadc
 ## Todo List
 
 ### 4.1 Dashboard Layout (Desktop)
+
 - [ ] Buat `app/(dashboard)/layout.tsx`:
   - Sidebar navigasi (collapsible, 240px → 64px)
   - Top header bar (user info, notifikasi bell, logout)
@@ -25,9 +26,11 @@ Membangun kerangka layout utama dashboard — sidebar navigation, header, breadc
 - [ ] Animasi transisi sidebar (smooth collapse/expand)
 
 ### 4.2 Sidebar Navigation
+
 - [ ] Buat `components/shared/Sidebar.tsx`:
   - Logo Lombok Transfer di atas
   - Menu items dengan icon (lucide-react):
+
     | Menu | Icon | Route |
     |---|---|---|
     | Dashboard | `LayoutDashboard` | `/` |
@@ -35,18 +38,20 @@ Membangun kerangka layout utama dashboard — sidebar navigation, header, breadc
     | Dispatch | `MapPin` | `/dispatch` |
     | Supir | `Users` | `/drivers` |
     | Armada | `Car` | `/fleet` |
-    | Keuangan | `DollarSign` | `/accounting` |
+    | Keuangan | `Banknote` | `/accounting` |
     | CRM & Tamu | `Heart` | `/crm` |
     | Legal | `Shield` | `/legal` |
     | Vendor | `Store` | `/vendors` |
     | Laporan | `BarChart3` | `/reports` |
     | Pengaturan | `Settings` | `/settings` |
+
   - Active state highlight
   - Tooltip saat sidebar collapsed
   - **Role-based visibility**: sembunyikan menu yang tidak boleh diakses role user
 - [ ] Buat `components/shared/SidebarItem.tsx` — individual menu item component
 
 ### 4.3 Top Header Bar
+
 - [ ] Buat `components/shared/Header.tsx`:
   - Hamburger menu (toggle sidebar di mobile)
   - Breadcrumb path
@@ -58,20 +63,24 @@ Membangun kerangka layout utama dashboard — sidebar navigation, header, breadc
 - [ ] Buat `components/shared/UserMenu.tsx` — dropdown dengan profil + logout
 
 ### 4.4 Mobile Layout (Driver View)
+
 - [ ] Buat `app/(driver)/layout.tsx`:
   - Bottom navigation bar (tab style)
   - Minimal header (logo + user name)
   - Tabs:
+
     | Tab | Icon | Route |
     |---|---|---|
     | Trip Hari Ini | `Navigation` | `/trips` |
     | Jadwal | `Calendar` | `/trips/schedule` |
     | Profil | `User` | `/trips/profile` |
+
   - Full-screen content area
   - Optimasi touch targets (min 44x44px)
 - [ ] Buat `components/shared/BottomNav.tsx` — bottom tab navigation
 
 ### 4.5 Responsive Behavior
+
 - [ ] Desktop (≥1024px): sidebar + main content side by side
 - [ ] Tablet (768–1023px): sidebar collapsed by default, overlay mode
 - [ ] Mobile (≤767px): sidebar sebagai slide-out drawer dari kiri
@@ -79,7 +88,9 @@ Membangun kerangka layout utama dashboard — sidebar navigation, header, breadc
 - [ ] Test di resolusi: 375px (iPhone SE), 768px (iPad), 1440px (desktop)
 
 ### 4.6 Theme & Design System
+
 - [ ] Definisikan color tokens di CSS variables:
+
   ```css
   :root {
     --primary: /* brand blue/teal Lombok */;
@@ -95,6 +106,7 @@ Membangun kerangka layout utama dashboard — sidebar navigation, header, breadc
     --info: /* biru untuk confirmed */;
   }
   ```
+
 - [ ] Dark mode support (toggle di header) — opsional, nice to have
 - [ ] Typography: setup font Inter/Plus Jakarta Sans via Google Fonts
 - [ ] Card component style yang konsisten untuk semua modul
@@ -109,6 +121,7 @@ Membangun kerangka layout utama dashboard — sidebar navigation, header, breadc
   - `expired` → merah
 
 ### 4.7 Loading & Error States
+
 - [ ] Buat `app/(dashboard)/loading.tsx` — skeleton loading layout
 - [ ] Buat `app/(dashboard)/error.tsx` — error boundary page
 - [ ] Buat `app/(dashboard)/not-found.tsx` — 404 page
@@ -117,6 +130,7 @@ Membangun kerangka layout utama dashboard — sidebar navigation, header, breadc
 - [ ] Buat `components/shared/ErrorAlert.tsx` — inline error display
 
 ### 4.8 Common Page Patterns
+
 - [ ] Buat `components/shared/PageHeader.tsx`:
   - Title + subtitle
   - Action buttons (Add New, Export, Filter toggle)

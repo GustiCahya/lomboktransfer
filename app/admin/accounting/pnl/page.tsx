@@ -17,7 +17,7 @@ const DynamicPnLPieCharts = dynamic(
   () => import("@/components/accounting/PnLCharts").then((mod) => mod.PnLPieCharts),
   { ssr: false, loading: () => <div className="h-64 flex items-center justify-center bg-muted/20 rounded-xl"><Loader2 className="w-6 h-6 animate-spin text-muted-foreground" /></div> }
 );
-import { TrendingUp, TrendingDown, DollarSign, Percent } from "lucide-react";
+import { TrendingUp, TrendingDown, Banknote, Percent } from "lucide-react";
 
 const MONTHS_SHORT = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"];
 
@@ -112,7 +112,7 @@ export default function PnLPage() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">Pendapatan Gross</CardTitle>
-            <DollarSign className="h-4 w-4 text-muted-foreground" />
+            <Banknote className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">Rp {totalGross.toLocaleString("id-ID")}</div>

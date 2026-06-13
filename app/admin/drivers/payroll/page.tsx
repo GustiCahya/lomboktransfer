@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { formatRupiah } from "@/lib/utils/format";
-import { DollarSign, Users, TrendingUp } from "lucide-react";
+import { Banknote, Users, TrendingUp } from "lucide-react";
 
 const PLACEHOLDER = [
   { name: "Ahmad Supardi", trips: 22, gross: 15_400_000, commission: 3_080_000, status: "Draft" },
@@ -47,7 +47,7 @@ export default function PayrollPage() {
         <Card>
           <CardContent className="pt-5 flex items-center gap-4">
             <div className="w-12 h-12 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-500">
-              <DollarSign className="w-6 h-6" />
+              <Banknote className="w-6 h-6" />
             </div>
             <div>
               <p className="text-2xl font-bold">{formatRupiah(PLACEHOLDER.reduce((a, b) => a + b.commission, 0), true)}</p>

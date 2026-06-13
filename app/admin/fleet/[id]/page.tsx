@@ -13,7 +13,7 @@ import ServiceHistory from "@/components/fleet/ServiceHistory";
 import UsageLog from "@/components/fleet/UsageLog";
 import IncidentLog from "@/components/fleet/IncidentLog";
 import OperationalCost from "@/components/fleet/OperationalCost";
-import { Car, FileText, Wrench, BarChart2, AlertTriangle, DollarSign, Edit } from "lucide-react";
+import { Car, FileText, Wrench, BarChart2, AlertTriangle, Banknote, Edit } from "lucide-react";
 
 const TABS = [
   { id: "identity", label: "Identitas Unit", icon: Car },
@@ -21,7 +21,7 @@ const TABS = [
   { id: "services", label: "Riwayat Servis", icon: Wrench },
   { id: "usage", label: "Log Penggunaan", icon: BarChart2 },
   { id: "incidents", label: "Insiden", icon: AlertTriangle },
-  { id: "costs", label: "Biaya Operasional", icon: DollarSign },
+  { id: "costs", label: "Biaya Operasional", icon: Banknote },
 ];
 
 export default function VehicleDetailPage() {

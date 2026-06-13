@@ -11,7 +11,7 @@ import BookingTimeline from "@/components/bookings/BookingTimeline";
 import StatusBadge from "@/components/shared/StatusBadge";
 import { format } from "date-fns";
 import { id as localeId } from "date-fns/locale";
-import { MapPin, User, Car, DollarSign } from "lucide-react";
+import { MapPin, User, Car, Banknote } from "lucide-react";
 
 export default function BookingDetailPage() {
   const { id } = useParams();
@@ -30,8 +30,8 @@ export default function BookingDetailPage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader 
-        title={`Booking ${booking.booking_code}`} 
+      <PageHeader
+        title={`Booking ${booking.booking_code}`}
         subtitle="Detail perjalanan, informasi tamu, dan status penugasan supir."
         actions={
           <>
@@ -136,7 +136,7 @@ export default function BookingDetailPage() {
           <Card>
             <CardHeader className="pb-3 border-b">
               <CardTitle className="text-lg flex items-center gap-2">
-                <DollarSign className="w-5 h-5 text-primary" /> Pembayaran
+                <Banknote className="w-5 h-5 text-primary" /> Pembayaran
               </CardTitle>
             </CardHeader>
             <CardContent className="pt-4 space-y-2">

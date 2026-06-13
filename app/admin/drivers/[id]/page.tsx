@@ -12,14 +12,14 @@ import DocumentsTab from "@/components/drivers/DocumentsTab";
 import TripHistoryTab from "@/components/drivers/TripHistoryTab";
 import PerformanceTab from "@/components/drivers/PerformanceTab";
 import PayrollTab from "@/components/drivers/PayrollTab";
-import { User, FileText, Car, BarChart2, DollarSign, Edit } from "lucide-react";
+import { User, FileText, Car, BarChart2, Banknote, Edit } from "lucide-react";
 
 const TABS = [
   { id: "info", label: "Informasi Pribadi", icon: User },
   { id: "documents", label: "Dokumen", icon: FileText },
   { id: "trips", label: "Riwayat Trip", icon: Car },
   { id: "performance", label: "Performa", icon: BarChart2 },
-  { id: "payroll", label: "Payroll", icon: DollarSign },
+  { id: "payroll", label: "Payroll", icon: Banknote },
 ];
 
 export default function DriverDetailPage() {
