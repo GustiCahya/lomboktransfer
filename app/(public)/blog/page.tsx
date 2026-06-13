@@ -56,7 +56,10 @@ export default function BlogPage() {
                 <p className="text-muted-foreground mb-6 line-clamp-3">
                   {post.excerpt}
                 </p>
-                <Link href="#" className={cn(buttonVariants({ variant: "ghost", size: "sm" }), "mt-auto gap-2 p-0 hover:bg-transparent hover:text-primary")}>
+                <Link 
+                  href={`/blog/${post.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')}`} 
+                  className={cn(buttonVariants({ variant: "ghost", size: "sm" }), "mt-auto gap-2 p-0 hover:bg-transparent hover:text-primary")}
+                >
                   Read Article <ArrowRight className="h-4 w-4" />
                 </Link>
               </div>
