@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import PageHeader from "@/components/shared/PageHeader";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -10,7 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import {
   Plus, Pencil, Trash2, MapPin, Clock, Banknote,
-  CheckCircle2, XCircle, Loader2, ArrowRightLeft, Search
+  CheckCircle2, XCircle, Loader2, ArrowRightLeft, Search, AlertTriangle
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { toast } from "sonner";
@@ -59,6 +59,20 @@ export default function RoutesPage() {
   const [form, setForm] = useState(EMPTY_FORM);
   const [saving, setSaving] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
+
+  // Real-time duplicate detection for the open form
+  const formDuplicate = useMemo(() => {
+    if (!form.origin && !form.destination && !form.name) return null;
+    return routes.find((r) => {
+      if (editingId && r.id === editingId) return false;
+      const sameOriginDest =
+        form.origin.trim().toLowerCase()      === r.origin.trim().toLowerCase() &&
+        form.destination.trim().toLowerCase() === r.destination.trim().toLowerCase();
+      const sameName = form.name.trim().toLowerCase() !== "" &&
+        form.name.trim().toLowerCase() === r.name.trim().toLowerCase();
+      return sameOriginDest || sameName;
+    }) ?? null;
+  }, [form.origin, form.destination, form.name, routes, editingId]);
 
   const fetchRoutes = useCallback(async () => {
     setIsLoading(true);
@@ -113,11 +127,40 @@ export default function RoutesPage() {
       toast.error("Nama, asal, dan tujuan wajib diisi.");
       return;
     }
+
+    // ── Duplicate / distinct validation ──────────────────────────────────────
+    const originNorm  = form.origin.trim().toLowerCase();
+    const destNorm    = form.destination.trim().toLowerCase();
+    const nameNorm    = form.name.trim().toLowerCase();
+
+    const duplicate = routes.find((r) => {
+      // When editing, ignore the current record itself
+      if (editingId && r.id === editingId) return false;
+
+      const sameOriginDest =
+        r.origin.trim().toLowerCase()      === originNorm &&
+        r.destination.trim().toLowerCase() === destNorm;
+
+      const sameName = r.name.trim().toLowerCase() === nameNorm;
+
+      return sameOriginDest || sameName;
+    });
+
+    if (duplicate) {
+      const reason =
+        duplicate.name.trim().toLowerCase() === nameNorm
+          ? `Nama rute "${duplicate.name}" sudah ada.`
+          : `Rute ${duplicate.origin} → ${duplicate.destination} sudah terdaftar sebagai "${duplicate.name}".`;
+      toast.error(`Duplikat terdeteksi! ${reason}`, { duration: 5000 });
+      return;
+    }
+    // ─────────────────────────────────────────────────────────────────────────
+
     setSaving(true);
     const payload = {
-      name: form.name,
-      origin: form.origin,
-      destination: form.destination,
+      name: form.name.trim(),
+      origin: form.origin.trim(),
+      destination: form.destination.trim(),
       base_price: Number(form.base_price),
       is_active: form.is_active,
       estimated_duration_min: form.estimated_duration_min ? Number(form.estimated_duration_min) : null,
@@ -135,6 +178,7 @@ export default function RoutesPage() {
     }
     setSaving(false);
   };
+
 
   const handleDelete = async (id: string) => {
     if (!confirm("Hapus rute ini? Tindakan ini tidak dapat dibatalkan.")) return;
@@ -232,9 +276,19 @@ export default function RoutesPage() {
               <Label htmlFor="r-notes">Catatan (opsional)</Label>
               <Input id="r-notes" placeholder="Catatan tambahan..." value={form.notes ?? ""} onChange={(e) => setForm({ ...form, notes: e.target.value })} />
             </div>
+            {formDuplicate && (
+              <div className="flex items-start gap-2 rounded-lg border border-amber-400/50 bg-amber-50 dark:bg-amber-950/30 px-4 py-3 text-sm text-amber-700 dark:text-amber-400">
+                <AlertTriangle className="h-4 w-4 mt-0.5 shrink-0" />
+                <span>
+                  <strong>Potensi duplikat terdeteksi:</strong>{" "}
+                  Rute <em>{formDuplicate.origin} → {formDuplicate.destination}</em> sudah terdaftar sebagai{" "}
+                  <strong>&quot;{formDuplicate.name}&quot;</strong>. Pastikan rute ini berbeda sebelum menyimpan.
+                </span>
+              </div>
+            )}
             <div className="flex justify-end gap-2 pt-2">
               <Button variant="outline" onClick={() => setShowForm(false)}>Batal</Button>
-              <Button onClick={handleSave} disabled={saving} className="gap-2">
+              <Button onClick={handleSave} disabled={saving || !!formDuplicate} className="gap-2">
                 {saving && <Loader2 className="w-4 h-4 animate-spin" />}
                 {saving ? "Menyimpan..." : editingId ? "Simpan Perubahan" : "Tambah Rute"}
               </Button>

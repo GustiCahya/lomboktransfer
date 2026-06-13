@@ -7,33 +7,73 @@ export type Language = "en" | "zh" | "id";
 interface LanguageContextType {
   language: Language;
   setLanguage: (lang: Language) => void;
+  /** true once the client has finished detecting/loading the language */
+  isDetected: boolean;
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
+/**
+ * Detect preferred language from the browser without requesting any permission.
+ * Uses navigator.language (browser / OS language setting).
+ *
+ * Priority:
+ *   1. Explicit user choice saved in localStorage  → respect always
+ *   2. navigator.language / navigator.languages    → auto-detect
+ *   3. Fallback: "en"
+ *
+ * Mapping:
+ *   zh*, yue, wuu, cmn  → "zh"  (Chinese variants)
+ *   id, ms, jv, su      → "id"  (Indonesian / Malay / Javanese / Sundanese)
+ *   everything else     → "en"
+ */
+function detectLanguage(): Language {
+  // Collect all browser language candidates
+  const candidates: string[] = [];
+  if (typeof navigator !== "undefined") {
+    if (navigator.languages?.length) {
+      candidates.push(...navigator.languages);
+    } else if (navigator.language) {
+      candidates.push(navigator.language);
+    }
+  }
+
+  for (const raw of candidates) {
+    const lang = raw.toLowerCase().split(/[-_]/)[0]; // e.g. "zh-CN" → "zh"
+    if (["zh", "yue", "wuu", "cmn", "cdo", "hak"].includes(lang)) return "zh";
+    if (["id", "ms", "jv", "su", "ban"].includes(lang)) return "id";
+    if (lang === "en") return "en";
+  }
+
+  return "en"; // ultimate fallback
+}
+
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [language, setLanguage] = useState<Language>("en");
-  const [isClient, setIsClient] = useState(false);
+  const [language, setLanguage]   = useState<Language>("en");
+  const [isDetected, setIsDetected] = useState(false);
 
   useEffect(() => {
-    setIsClient(true);
-    const savedLang = localStorage.getItem("app_lang") as Language;
-    if (savedLang && ["en", "zh", "id"].includes(savedLang)) {
-      setLanguage(savedLang);
+    // 1. Respect an explicit user preference stored in localStorage
+    const saved = localStorage.getItem("app_lang") as Language | null;
+    if (saved && (["en", "zh", "id"] as Language[]).includes(saved)) {
+      setLanguage(saved);
+    } else {
+      // 2. Auto-detect from browser (no permission needed)
+      const detected = detectLanguage();
+      setLanguage(detected);
+      // Note: we do NOT persist the auto-detected value so the user can
+      // still override it and the override is what gets saved.
     }
+    setIsDetected(true);
   }, []);
 
   const handleSetLanguage = (lang: Language) => {
     setLanguage(lang);
-    localStorage.setItem("app_lang", lang);
+    localStorage.setItem("app_lang", lang); // persist explicit user choice
   };
 
-  // Prevent hydration mismatch by returning null on first render if needed, or simply let the default be "en"
-  // Since we default to "en", if localStorage has "zh", it will briefly flash "en".
-  // This is acceptable for a quick i18n implementation.
-
   return (
-    <LanguageContext.Provider value={{ language: isClient ? language : "en", setLanguage: handleSetLanguage }}>
+    <LanguageContext.Provider value={{ language, setLanguage: handleSetLanguage, isDetected }}>
       {children}
     </LanguageContext.Provider>
   );
