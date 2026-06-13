@@ -52,7 +52,7 @@ export default function AlertList() {
       const { data: expDocs } = await supabase
         .from("driver_documents")
         .select("id, doc_type, drivers(id, full_name)")
-        .lte("expires_at", threshold.toISOString())
+        .lte("expiry_date", threshold.toISOString())
         .limit(3);
 
       if (expDocs && expDocs.length > 0) {

@@ -68,7 +68,7 @@ async function fetchReportData(reportId: ReportId): Promise<Record<string, unkno
     case "bookings_weekly": {
       const { data } = await supabase
         .from("bookings")
-        .select("id, pickup_datetime, status, total_price, source, guests(full_name, phone), routes(name), drivers(full_name)")
+        .select("id, pickup_datetime, status, net_price, source, guests(full_name, phone), routes(name), drivers(full_name)")
         .gte("pickup_datetime", weekAgo)
         .order("pickup_datetime", { ascending: false });
       return (data || []).map((b: any) => ({
@@ -78,7 +78,7 @@ async function fetchReportData(reportId: ReportId): Promise<Record<string, unkno
         HP: (b.guests as any)?.phone || "-",
         Rute: (b.routes as any)?.name || "-",
         Supir: (b.drivers as any)?.full_name || "-",
-        "Harga (IDR)": b.total_price,
+        "Harga (IDR)": b.net_price,
         Sumber: b.source,
         Status: b.status,
       }));
@@ -87,13 +87,13 @@ async function fetchReportData(reportId: ReportId): Promise<Record<string, unkno
     case "revenue_monthly": {
       const { data } = await supabase
         .from("bookings")
-        .select("total_price, source, pickup_datetime")
+        .select("net_price, source, pickup_datetime")
         .eq("status", "completed")
         .gte("pickup_datetime", startOfMonth);
       return (data || []).map((b: any) => ({
         Tanggal: format(new Date(b.pickup_datetime), "dd/MM/yyyy", { locale: id }),
         Sumber: b.source,
-        "Pendapatan (IDR)": b.total_price,
+        "Pendapatan (IDR)": b.net_price,
       }));
     }
 
@@ -115,14 +115,14 @@ async function fetchReportData(reportId: ReportId): Promise<Record<string, unkno
     case "driver_payroll": {
       const { data } = await supabase
         .from("bookings")
-        .select("pickup_datetime, total_price, drivers(full_name), routes(name)")
+        .select("pickup_datetime, net_price, drivers(full_name), routes(name)")
         .eq("status", "completed")
         .gte("pickup_datetime", startOfMonth);
       return (data || []).map((b: any) => ({
         Supir: (b.drivers as any)?.full_name || "-",
         Rute: (b.routes as any)?.name || "-",
         Tanggal: format(new Date(b.pickup_datetime), "dd/MM/yyyy", { locale: id }),
-        "Pendapatan Trip (IDR)": b.total_price,
+        "Pendapatan Trip (IDR)": b.net_price,
       }));
     }
 

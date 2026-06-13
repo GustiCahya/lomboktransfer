@@ -105,8 +105,8 @@ export default function NewDriverPage() {
               <Field id="bank_name" label="Nama Bank" error={errors.bank_name?.message}>
                 <Input id="bank_name" {...register("bank_name")} placeholder="BCA, BNI, Mandiri..." />
               </Field>
-              <Field id="bank_account_number" label="No. Rekening" error={errors.bank_account_number?.message}>
-                <Input id="bank_account_number" {...register("bank_account_number")} placeholder="1234567890" />
+              <Field id="bank_account" label="No. Rekening" error={errors.bank_account?.message}>
+                <Input id="bank_account" {...register("bank_account")} placeholder="1234567890" />
               </Field>
               <Field id="bank_account_name" label="Atas Nama" error={errors.bank_account_name?.message}>
                 <Input id="bank_account_name" {...register("bank_account_name")} placeholder="Sesuai buku tabungan" />

@@ -79,14 +79,14 @@ export function useKeyMetrics() {
     const supabase = createClient();
 
     const [bookingsResult, revenueResult, expensesResult] = await Promise.all([
-      supabase.from("bookings").select("id, total_price, status").eq("status", "completed"),
-      supabase.from("bookings").select("total_price").eq("status", "completed"),
+      supabase.from("bookings").select("id, net_price, status").eq("status", "completed"),
+      supabase.from("bookings").select("net_price").eq("status", "completed"),
       supabase.from("expenses").select("amount"),
     ]);
 
     const completedBookings = bookingsResult.data || [];
     const totalBookings = completedBookings.length;
-    const grossRevenue = completedBookings.reduce((s: number, b: any) => s + (Number(b.total_price) || 0), 0);
+    const grossRevenue = completedBookings.reduce((s: number, b: any) => s + (Number(b.net_price) || 0), 0);
     const totalExpenses = (expensesResult.data || []).reduce((s: number, e: any) => s + (Number(e.amount) || 0), 0);
     const netProfit = grossRevenue - totalExpenses;
     const aov = totalBookings > 0 ? grossRevenue / totalBookings : 0;

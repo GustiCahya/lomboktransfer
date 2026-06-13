@@ -112,12 +112,12 @@ export default function VehicleDocuments({ vehicleId }: VehicleDocumentsProps) {
                     )}
                   </TableCell>
                   <TableCell className="text-sm">
-                    {doc.expires_at ? new Date(doc.expires_at).toLocaleDateString("id-ID") : "-"}
+                    {doc.expiry_date ? new Date(doc.expiry_date).toLocaleDateString("id-ID") : "-"}
                   </TableCell>
                   <TableCell className="text-sm">
-                    {doc.expires_at ? (
+                    {doc.expiry_date ? (
                       <span className={doc.status === "expired" ? "text-destructive font-medium" : doc.status === "expiring_soon" ? "text-amber-500 font-medium" : "text-muted-foreground"}>
-                        {formatSisaHari(doc.expires_at)}
+                        {formatSisaHari(doc.expiry_date)}
                       </span>
                     ) : "-"}
                   </TableCell>

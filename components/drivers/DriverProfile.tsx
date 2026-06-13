@@ -100,7 +100,7 @@ export default function DriverProfile({ driver }: DriverProfileProps) {
             <h3 className="font-semibold mb-4 flex items-center gap-2"><CreditCard className="w-4 h-4 text-primary" /> Rekening Bank</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <InfoRow icon={Briefcase} label="Nama Bank" value={driver.bank_name} />
-              <InfoRow icon={CreditCard} label="No. Rekening" value={driver.bank_account_number} />
+              <InfoRow icon={CreditCard} label="No. Rekening" value={driver.bank_account} />
               <InfoRow icon={User} label="Atas Nama" value={driver.bank_account_name} />
             </div>
           </CardContent>

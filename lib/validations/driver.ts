@@ -8,7 +8,7 @@ export const driverSchema = z.object({
   phone_wa: z.string().min(10, "Nomor HP tidak valid").regex(/^(\+62|08)\d{7,12}$/, "Format nomor HP Indonesia tidak valid"),
   email: z.string().email("Format email tidak valid").optional().or(z.literal("")),
   bank_name: z.string().optional(),
-  bank_account_number: z.string().optional(),
+  bank_account: z.string().optional(),
   bank_account_name: z.string().optional(),
   emergency_contact_name: z.string().optional(),
   emergency_contact_phone: z.string().optional(),

@@ -5,7 +5,7 @@ import { createClient } from "@/lib/supabase/client";
 export function useGuests(filters?: { search?: string, status?: string }) {
   const fetcher = async () => {
     const supabase = createClient();
-    let query = supabase.from("guests").select("*, bookings(id, total_price, pickup_datetime)").order("full_name", { ascending: true });
+    let query = supabase.from("guests").select("*, bookings(id, net_price, pickup_datetime)").order("full_name", { ascending: true });
 
     if (filters?.search) {
       query = query.ilike("full_name", `%${filters.search}%`);
@@ -18,7 +18,7 @@ export function useGuests(filters?: { search?: string, status?: string }) {
     const enrichedData = data.map(guest => {
       const allBookings = guest.bookings || [];
       const totalBookings = allBookings.length;
-      const totalSpend = allBookings.reduce((sum: number, b: any) => sum + (Number(b.total_price) || 0), 0);
+      const totalSpend = allBookings.reduce((sum: number, b: any) => sum + (Number(b.net_price) || 0), 0);
       
       const sortedBookings = [...allBookings].sort((a: any, b: any) => 
         new Date(b.pickup_datetime).getTime() - new Date(a.pickup_datetime).getTime()

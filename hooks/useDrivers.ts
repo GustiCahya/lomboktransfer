@@ -15,7 +15,7 @@ export interface Driver {
   date_of_birth: string | null;
   address: string | null;
   bank_name: string | null;
-  bank_account_number: string | null;
+  bank_account: string | null;
   bank_account_name: string | null;
   emergency_contact_name: string | null;
   emergency_contact_phone: string | null;

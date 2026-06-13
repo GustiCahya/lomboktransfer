@@ -36,7 +36,7 @@ export default function GuestProfilePage() {
     );
   }
 
-  const totalSpend = bookings.reduce((sum: number, b: any) => sum + (Number(b.total_price) || 0), 0);
+  const totalSpend = bookings.reduce((sum: number, b: any) => sum + (Number(b.net_price) || 0), 0);
 
   return (
     <div className="space-y-6">
@@ -191,7 +191,7 @@ export default function GuestProfilePage() {
                             {b.drivers?.full_name || "-"}
                           </TableCell>
                           <TableCell className="text-right font-medium">
-                            {formatCurrency(b.total_price)}
+                            {formatCurrency(b.net_price)}
                           </TableCell>
                           <TableCell>
                             <Badge variant="outline" className={

@@ -8,7 +8,7 @@ export interface VehicleDocument {
   doc_type: "stnk" | "kir" | "insurance_tlo" | "insurance_allrisk" | "insurance_passenger";
   file_url: string;
   issued_at: string | null;
-  expires_at: string | null;
+  expiry_date: string | null;
   provider_name: string | null;
   policy_number: string | null;
   status: "valid" | "expiring_soon" | "expired";
@@ -23,9 +23,9 @@ export const VEHICLE_DOC_LABELS: Record<VehicleDocument["doc_type"], string> = {
   insurance_passenger: "Asuransi Penumpang",
 };
 
-function computeDocStatus(expires_at: string | null): VehicleDocument["status"] {
-  if (!expires_at) return "valid";
-  const days = sisaHari(expires_at);
+function computeDocStatus(expiry_date: string | null): VehicleDocument["status"] {
+  if (!expiry_date) return "valid";
+  const days = sisaHari(expiry_date);
   if (days < 0) return "expired";
   if (days <= 30) return "expiring_soon";
   return "valid";
@@ -43,7 +43,7 @@ export function useVehicleDocuments(vehicleId: string | null) {
     
     const enriched = (data || []).map(d => ({
       ...d,
-      status: computeDocStatus(d.expires_at),
+      status: computeDocStatus(d.expiry_date),
     })) as VehicleDocument[];
 
     setDocuments(enriched);
@@ -67,12 +67,12 @@ export function useExpiringVehicleDocs(withinDays = 30) {
     supabase
       .from("vehicle_documents")
       .select("*, vehicles(unit_code, plate_number)")
-      .lte("expires_at", threshold.toISOString())
-      .order("expires_at")
+      .lte("expiry_date", threshold.toISOString())
+      .order("expiry_date")
       .then(({ data }) => {
         const enriched = (data || []).map(d => ({
           ...d,
-          status: computeDocStatus(d.expires_at),
+          status: computeDocStatus(d.expiry_date),
         })) as (VehicleDocument & { vehicles: { unit_code: string; plate_number: string } })[];
         setDocuments(enriched);
         setIsLoading(false);

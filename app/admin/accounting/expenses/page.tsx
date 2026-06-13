@@ -24,8 +24,9 @@ export default function ExpensesPage() {
   const currentYear = new Date().getFullYear();
   const currentMonth = new Date().getMonth() + 1;
 
+  const lastDay = new Date(currentYear, currentMonth, 0).getDate();
   const [startDate, setStartDate] = useState(`${currentYear}-${String(currentMonth).padStart(2, "0")}-01`);
-  const [endDate, setEndDate] = useState(`${currentYear}-${String(currentMonth).padStart(2, "0")}-31`);
+  const [endDate, setEndDate] = useState(`${currentYear}-${String(currentMonth).padStart(2, "0")}-${lastDay}`);
   const [category, setCategory] = useState("");
   const [dialogOpen, setDialogOpen] = useState(false);
 

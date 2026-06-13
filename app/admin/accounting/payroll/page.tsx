@@ -162,7 +162,7 @@ export default function PayrollPage() {
                   <TableRow key={p.id}>
                     <TableCell>
                       <div className="font-medium">{p.drivers?.full_name}</div>
-                      <div className="text-xs text-muted-foreground">{p.drivers?.bank_name} · {p.drivers?.bank_account_number}</div>
+                      <div className="text-xs text-muted-foreground">{p.drivers?.bank_name} · {p.drivers?.bank_account}</div>
                     </TableCell>
                     <TableCell className="text-center">{p.total_trips}</TableCell>
                     <TableCell className="text-right">Rp {p.gross_revenue?.toLocaleString("id-ID")}</TableCell>

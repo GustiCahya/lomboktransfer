@@ -102,12 +102,12 @@ export default function DocumentsTab({ driverId }: DocumentsTabProps) {
                     {doc.issued_at ? new Date(doc.issued_at).toLocaleDateString("id-ID") : "-"}
                   </TableCell>
                   <TableCell className="text-sm">
-                    {doc.expires_at ? new Date(doc.expires_at).toLocaleDateString("id-ID") : "-"}
+                    {doc.expiry_date ? new Date(doc.expiry_date).toLocaleDateString("id-ID") : "-"}
                   </TableCell>
                   <TableCell className="text-sm">
-                    {doc.expires_at ? (
+                    {doc.expiry_date ? (
                       <span className={doc.status === "expired" ? "text-destructive" : doc.status === "expiring_soon" ? "text-amber-500" : "text-muted-foreground"}>
-                        {formatSisaHari(doc.expires_at)}
+                        {formatSisaHari(doc.expiry_date)}
                       </span>
                     ) : "-"}
                   </TableCell>

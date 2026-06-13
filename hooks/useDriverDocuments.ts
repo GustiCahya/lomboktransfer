@@ -8,7 +8,7 @@ export interface DriverDocument {
   doc_type: "ktp" | "sim_a" | "sim_b1" | "skck" | "surat_sehat";
   file_url: string;
   issued_at: string | null;
-  expires_at: string | null;
+  expiry_date: string | null;
   status: "valid" | "expiring_soon" | "expired";
   created_at: string;
 }
@@ -23,9 +23,9 @@ const DOC_TYPE_LABELS: Record<DriverDocument["doc_type"], string> = {
 
 export { DOC_TYPE_LABELS };
 
-function computeStatus(expires_at: string | null): DriverDocument["status"] {
-  if (!expires_at) return "valid";
-  const days = sisaHari(expires_at);
+function computeStatus(expiry_date: string | null): DriverDocument["status"] {
+  if (!expiry_date) return "valid";
+  const days = sisaHari(expiry_date);
   if (days < 0) return "expired";
   if (days <= 30) return "expiring_soon";
   return "valid";
@@ -47,7 +47,7 @@ export function useDriverDocuments(driverId: string | null) {
 
     const enriched = (data || []).map(d => ({
       ...d,
-      status: computeStatus(d.expires_at),
+      status: computeStatus(d.expiry_date),
     })) as DriverDocument[];
 
     setDocuments(enriched);
@@ -89,7 +89,7 @@ export function useUploadDocument() {
           doc_type: docType,
           file_url: urlData.publicUrl,
           issued_at: issuedAt ?? null,
-          expires_at: expiresAt ?? null,
+          expiry_date: expiresAt ?? null,
         }, { onConflict: "driver_id,doc_type" })
         .select()
         .single();
@@ -116,12 +116,12 @@ export function useExpiringDocuments(withinDays = 30) {
     supabase
       .from("driver_documents")
       .select("*, drivers(full_name)")
-      .lte("expires_at", threshold.toISOString())
-      .order("expires_at")
+      .lte("expiry_date", threshold.toISOString())
+      .order("expiry_date")
       .then(({ data }) => {
         const enriched = (data || []).map(d => ({
           ...d,
-          status: computeStatus(d.expires_at),
+          status: computeStatus(d.expiry_date),
         })) as (DriverDocument & { drivers: { full_name: string } })[];
         setDocuments(enriched);
         setIsLoading(false);

@@ -7,7 +7,7 @@ export function usePayrollList(periodMonth: number, periodYear: number) {
     const supabase = createClient();
     const { data, error } = await supabase
       .from("payroll")
-      .select("*, drivers(full_name, bank_name, bank_account_number, bank_account_name, commission_percentage)")
+      .select("*, drivers(full_name, bank_name, bank_account, bank_account_name, commission_pct)")
       .eq("period_month", periodMonth)
       .eq("period_year", periodYear);
 
@@ -36,7 +36,7 @@ export function useGeneratePayroll() {
 
     const { data: bookings, error: bookingsError } = await supabase
       .from("bookings")
-      .select("driver_id, gross_price, drivers(commission_percentage)")
+      .select("driver_id, gross_price, drivers(commission_pct)")
       .eq("status", "completed")
       .gte("pickup_datetime", startDate)
       .lte("pickup_datetime", endDate);
@@ -49,7 +49,7 @@ export function useGeneratePayroll() {
       if (!booking.driver_id) return;
       
       const driverId = booking.driver_id;
-      const commissionPct = (booking.drivers as any)?.commission_percentage || 20;
+      const commissionPct = (booking.drivers as any)?.commission_pct || 20;
       const commissionAmt = booking.gross_price * (commissionPct / 100);
 
       if (!payrollMap.has(driverId)) {
