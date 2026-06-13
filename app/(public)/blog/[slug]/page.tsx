@@ -2,9 +2,11 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Metadata } from "next";
-import { ArrowLeft, Calendar, User, Clock, Share2 } from "lucide-react";
+import { ArrowLeft, Calendar, User, Clock } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+
+import ShareButton from "@/components/public/ShareButton";
 
 // Dummy content database
 const BLOG_DB: Record<string, any> = {
@@ -188,9 +190,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
           <div className="flex items-center justify-between border-b pb-6 mb-8">
             <p className="text-muted-foreground font-medium">Share this article</p>
             <div className="flex gap-2">
-              <button className="p-2 rounded-full bg-muted hover:bg-primary hover:text-white transition-colors">
-                <Share2 className="h-4 w-4" />
-              </button>
+              <ShareButton title={post.title} text={post.excerpt} />
             </div>
           </div>
 
