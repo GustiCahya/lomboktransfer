@@ -11,7 +11,7 @@ import {
   CheckCircle2, ChevronRight, ShieldAlert, Calendar
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
-import { format, addHours, isBefore, isAfter } from "date-fns";
+import { format, addHours, isBefore } from "date-fns";
 import { id } from "date-fns/locale";
 import { toast } from "sonner";
 

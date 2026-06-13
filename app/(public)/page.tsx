@@ -24,7 +24,7 @@ export default function PublicHomePage() {
             <div className="max-w-2xl">
               <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">Popular Destinations</h2>
               <p className="text-muted-foreground text-lg">
-                Direct transfers from Lombok International Airport (BIL) to the island's most beautiful spots.
+                Direct transfers from Lombok International Airport (BIL) to the island&apos;s most beautiful spots.
               </p>
             </div>
             <Link href="/routes" className={cn(buttonVariants({ variant: "outline" }), "gap-2 rounded-full")}>
@@ -54,7 +54,7 @@ export default function PublicHomePage() {
                   <p className="text-muted-foreground text-sm mb-6 flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-success/50" /> {dest.time}
                   </p>
-                  <Link href={`/book?destination=${encodeURIComponent(dest.name)}`} className={cn(buttonVariants({ size: "default" }), "w-full rounded-full group-hover:bg-primary transition-colors")}>
+                  <Link href={`/book?origin=Lombok%20Airport%20(BIL)&destination=${encodeURIComponent(dest.name)}`} className={cn(buttonVariants({ size: "default" }), "w-full rounded-full group-hover:bg-primary transition-colors")}>
                     Book Transfer
                   </Link>
                 </div>
@@ -85,7 +85,7 @@ export default function PublicHomePage() {
                 2
               </div>
               <h3 className="text-xl font-bold mb-3">Get Confirmed</h3>
-              <p className="text-muted-foreground">Receive instant confirmation and your driver's details via WhatsApp and email.</p>
+              <p className="text-muted-foreground">Receive instant confirmation and your driver&apos;s details via WhatsApp and email.</p>
             </div>
 
             <div className="relative z-10 flex flex-col items-center">

@@ -58,7 +58,7 @@ export default function HeroSection() {
               <Clock className="h-6 w-6" />
             </div>
             <h3 className="font-semibold text-foreground">24/7 Availability</h3>
-            <p className="text-sm text-muted-foreground">Early morning flights? Late arrivals? We're always ready.</p>
+            <p className="text-sm text-muted-foreground">Early morning flights? Late arrivals? We&apos;re always ready.</p>
           </div>
           <div className="flex flex-col items-center text-center gap-3">
             <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center text-primary mb-2">

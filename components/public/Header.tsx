@@ -9,10 +9,10 @@ import { Menu, X, Globe } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const NAV_LINKS = [
-  { label: "Home", href: "/admin/" },
-  { label: "Routes & Prices", href: "/admin/routes" },
-  { label: "Tours", href: "/admin/tours" },
-  { label: "About Us", href: "/admin/about" },
+  { label: "Home", href: "/" },
+  { label: "Routes & Prices", href: "/routes" },
+  { label: "Tours", href: "/tours" },
+  { label: "About Us", href: "/about" },
 ];
 
 export default function Header() {

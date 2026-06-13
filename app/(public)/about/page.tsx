@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { CheckCircle2, Shield, HeartHandshake, Map } from "lucide-react";
+
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -14,7 +14,7 @@ export default function AboutPage() {
           <div>
             <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-foreground mb-6">
               Connecting You to <br />
-              <span className="text-primary">Lombok's Wonders</span>
+              <span className="text-primary">Lombok&apos;s Wonders</span>
             </h1>
             <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
               Lombok Transfer was born from a simple idea: that every journey on our beautiful island should begin and end with comfort, reliability, and local warmth.

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import PageHeader from "@/components/shared/PageHeader";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
@@ -9,14 +9,62 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Save, Upload, MapPin, Phone, Mail } from "lucide-react";
+import { createClient } from "@/lib/supabase/client";
+import { toast } from "sonner";
 
 export default function SettingsProfilePage() {
+  const supabase = createClient();
   const [isSaving, setIsSaving] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [formData, setFormData] = useState({
+    company_name: "",
+    brand_name: "",
+    npwp: "",
+    nib: "",
+    email: "",
+    phone_wa: "",
+    address: "",
+    logo_url: "/logo.png"
+  });
 
-  const handleSave = () => {
-    setIsSaving(true);
-    setTimeout(() => setIsSaving(false), 1000);
+  useEffect(() => {
+    const fetchSettings = async () => {
+      const { data, error } = await supabase
+        .from('company_settings')
+        .select('*')
+        .eq('id', 1)
+        .single();
+        
+      if (data) {
+        setFormData(data);
+      } else if (error && error.code !== 'PGRST116') {
+        toast.error("Gagal memuat pengaturan");
+      }
+      setIsLoading(false);
+    };
+    
+    fetchSettings();
+  }, [supabase]);
+
+  const handleChange = (field: string, value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
   };
+
+  const handleSave = async () => {
+    setIsSaving(true);
+    const { error } = await supabase
+      .from('company_settings')
+      .upsert({ id: 1, ...formData, updated_at: new Date().toISOString() });
+      
+    if (error) {
+      toast.error("Gagal menyimpan pengaturan: " + error.message);
+    } else {
+      toast.success("Pengaturan berhasil disimpan");
+    }
+    setIsSaving(false);
+  };
+
+  if (isLoading) return <div className="p-8 text-center text-muted-foreground">Memuat data...</div>;
 
   return (
     <div className="space-y-6">
@@ -40,7 +88,7 @@ export default function SettingsProfilePage() {
                   <span className="text-xs text-white font-medium">Ubah Logo</span>
                 </div>
                 <Image 
-                  src="/logo.png" 
+                  src={formData.logo_url || "/logo.png"} 
                   alt="Logo Lombok Transfer" 
                   fill
                   className="object-cover"
@@ -63,19 +111,19 @@ export default function SettingsProfilePage() {
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="companyName">Nama Perusahaan (Legal)</Label>
-                  <Input id="companyName" defaultValue="PT Lombok Transfer Pariwisata" />
+                  <Input id="companyName" value={formData.company_name} onChange={(e) => handleChange('company_name', e.target.value)} />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="brandName">Nama Brand (Operasional)</Label>
-                  <Input id="brandName" defaultValue="Lombok Transfer" />
+                  <Input id="brandName" value={formData.brand_name} onChange={(e) => handleChange('brand_name', e.target.value)} />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="npwp">NPWP Perusahaan</Label>
-                  <Input id="npwp" defaultValue="12.345.678.9-000.000" />
+                  <Input id="npwp" value={formData.npwp} onChange={(e) => handleChange('npwp', e.target.value)} />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="nib">Nomor Induk Berusaha (NIB)</Label>
-                  <Input id="nib" defaultValue="1234567890123" />
+                  <Input id="nib" value={formData.nib} onChange={(e) => handleChange('nib', e.target.value)} />
                 </div>
               </div>
             </CardContent>
@@ -89,16 +137,16 @@ export default function SettingsProfilePage() {
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="email" className="flex items-center gap-2"><Mail className="h-3 w-3"/> Email Resmi</Label>
-                  <Input id="email" type="email" defaultValue="info@lomboktransfer.com" />
+                  <Input id="email" type="email" value={formData.email} onChange={(e) => handleChange('email', e.target.value)} />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="phone" className="flex items-center gap-2"><Phone className="h-3 w-3"/> Nomor Telepon (WA CS)</Label>
-                  <Input id="phone" defaultValue="+62 812-3456-7890" />
+                  <Input id="phone" value={formData.phone_wa} onChange={(e) => handleChange('phone_wa', e.target.value)} />
                 </div>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="address" className="flex items-center gap-2"><MapPin className="h-3 w-3"/> Alamat Kantor</Label>
-                <Textarea id="address" rows={3} defaultValue="Jl. Pariwisata No. 123, Senggigi, Batu Layar, Kabupaten Lombok Barat, Nusa Tenggara Barat 83355" />
+                <Textarea id="address" rows={3} value={formData.address} onChange={(e) => handleChange('address', e.target.value)} />
               </div>
             </CardContent>
             <CardFooter className="bg-muted/20 px-6 py-4 border-t flex justify-end">

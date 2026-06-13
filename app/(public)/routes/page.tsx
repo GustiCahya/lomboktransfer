@@ -4,12 +4,12 @@ import { ArrowRight, MapPin, CheckCircle } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/server";
 
 export const revalidate = 3600; // revalidate every hour
 
 export default async function RoutesPage() {
-  const supabase = createClient();
+  const supabase = createAdminClient();
   const { data: dbRoutes } = await supabase
     .from("routes")
     .select("*")
@@ -104,7 +104,7 @@ export default async function RoutesPage() {
         </div>
 
         <div className="mt-12 text-center">
-          <p className="text-muted-foreground mb-6">Don't see your destination? We cover the whole island!</p>
+          <p className="text-muted-foreground mb-6">Don&apos;t see your destination? We cover the whole island!</p>
           <Link href="https://wa.me/6281234567890" target="_blank" rel="noopener noreferrer" className={cn(buttonVariants({ variant: "outline", size: "lg" }), "rounded-full gap-2")}>
             Chat with us on WhatsApp <ArrowRight className="h-4 w-4" />
           </Link>
