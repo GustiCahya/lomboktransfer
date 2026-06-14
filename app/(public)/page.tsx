@@ -11,6 +11,8 @@ import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { translations } from "@/lib/i18n/translations";
 import { createClient } from "@/lib/supabase/client";
 import { IMAGES } from "@/lib/constants/images";
+import { useCurrencyConverter } from "@/hooks/useCurrencyConverter";
+import SearchableCurrencyDropdown from "@/components/shared/SearchableCurrencyDropdown";
 
 function getDestImage(route: { name: string; destination: string }): string {
   const text = (route.name + " " + route.destination).toLowerCase();
@@ -20,13 +22,7 @@ function getDestImage(route: { name: string; destination: string }): string {
   return IMAGES.DEFAULT_DESTINATION;
 }
 
-function formatIDR(n: number) {
-  return new Intl.NumberFormat("id-ID", {
-    style: "currency",
-    currency: "IDR",
-    maximumFractionDigits: 0,
-  }).format(n);
-}
+
 
 function formatDuration(min: number | null) {
   if (!min) return null;
@@ -56,6 +52,7 @@ export default function PublicHomePage() {
 
   const [routes, setRoutes] = useState<Route[]>([]);
   const [loadingRoutes, setLoadingRoutes] = useState(true);
+  const { currency, setCurrency, formatPrice, availableCurrencies, isLoading: isCurrencyLoading } = useCurrencyConverter();
 
   useEffect(() => {
     const fetchRoutes = async () => {
@@ -93,9 +90,17 @@ export default function PublicHomePage() {
                 {t["home.destinations.subtitle"]}
               </p>
             </div>
-            <Link href="/routes" className={cn(buttonVariants({ variant: "outline" }), "gap-2 rounded-full shrink-0")}>
-              {t["home.destinations.viewAll"]} <ArrowRight className="h-4 w-4" />
-            </Link>
+            <div className="flex items-center gap-4 shrink-0 flex-wrap">
+              <SearchableCurrencyDropdown 
+                currency={currency} 
+                setCurrency={setCurrency} 
+                availableCurrencies={availableCurrencies} 
+                disabled={isCurrencyLoading} 
+              />
+              <Link href="/routes" className={cn(buttonVariants({ variant: "default" }), "gap-2 rounded-full shrink-0")}>
+                {t["home.destinations.viewAll"]} <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
           </div>
 
           {loadingRoutes ? (
@@ -126,7 +131,7 @@ export default function PublicHomePage() {
                     {/* Price badge */}
                     <div className="absolute top-3 right-3 z-20 flex items-center gap-1 bg-background/90 backdrop-blur-sm px-3 py-1.5 rounded-full text-xs font-semibold text-foreground shadow-sm">
                       <Banknote className="h-3 w-3 text-primary" />
-                      {formatIDR(route.base_price)}
+                      {formatPrice(route.base_price)}
                     </div>
                   </div>
 
@@ -167,6 +172,12 @@ export default function PublicHomePage() {
                 </div>
               ))}
             </div>
+          )}
+
+          {currency !== "IDR" && (
+            <p className="text-xs text-muted-foreground mt-8 text-center italic">
+              * Prices in {currency} are estimates based on current exchange rates and may vary depending on your bank&apos;s fees.
+            </p>
           )}
         </div>
       </section>
