@@ -34,7 +34,7 @@ export default function ShareButton({ title, text }: ShareButtonProps) {
       try {
         await navigator.clipboard.writeText(shareUrl);
         toast.success("Link copied to clipboard!");
-      } catch (error) {
+      } catch {
         toast.error("Could not copy link to clipboard.");
       }
     }

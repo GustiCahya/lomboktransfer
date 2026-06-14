@@ -47,7 +47,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
     return (
       <div className="min-h-screen pt-32 pb-24 flex flex-col items-center justify-center text-center px-4">
         <h1 className="text-4xl font-bold mb-4">Article Not Found</h1>
-        <p className="text-muted-foreground mb-8">The blog post you're looking for doesn't exist or has been removed.</p>
+        <p className="text-muted-foreground mb-8">The blog post you&apos;re looking for doesn&apos;t exist or has been removed.</p>
         <Link href="/blog" className={buttonVariants({ variant: "default" })}>
           Back to Blog
         </Link>

@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Search } from "lucide-react";
+
 import Breadcrumb from "./Breadcrumb";
 import UserMenu from "./UserMenu";
 import { ThemeToggle } from "./ThemeToggle";
