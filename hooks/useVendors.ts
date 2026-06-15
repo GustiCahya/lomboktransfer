@@ -79,3 +79,27 @@ export function usePurchaseOrders() {
 
   return { purchaseOrders: data || [], isLoading, isError: error, mutate: boundMutate };
 }
+
+export function useCreateHotelPartner() {
+  const createHotelPartner = async (partnerData: any) => {
+    const supabase = createClient();
+    const { data, error } = await supabase.from("hotel_partners").insert([partnerData]).select().single();
+    if (error) throw error;
+    mutate((key: any) => Array.isArray(key) && key[0] === "hotel_partners");
+    return data;
+  };
+
+  return { createHotelPartner };
+}
+
+export function useCreatePurchaseOrder() {
+  const createPurchaseOrder = async (poData: any) => {
+    const supabase = createClient();
+    const { data, error } = await supabase.from("purchase_orders").insert([poData]).select().single();
+    if (error) throw error;
+    mutate((key: any) => Array.isArray(key) && key[0] === "purchase_orders");
+    return data;
+  };
+
+  return { createPurchaseOrder };
+}

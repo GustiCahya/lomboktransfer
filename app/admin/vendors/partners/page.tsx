@@ -2,6 +2,7 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import { useHotelPartners } from "@/hooks/useVendors";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -31,9 +32,11 @@ export default function HotelPartnersPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h2 className="text-lg font-medium">Hotel & Travel Partner</h2>
-        <Button className="gap-2">
-          <Plus className="h-4 w-4" /> Tambah Partner
-        </Button>
+        <Link href="/admin/vendors/partners/new">
+          <Button className="gap-2">
+            <Plus className="h-4 w-4" /> Tambah Partner
+          </Button>
+        </Link>
       </div>
 
       <div className="grid gap-4 md:grid-cols-3 mb-6">

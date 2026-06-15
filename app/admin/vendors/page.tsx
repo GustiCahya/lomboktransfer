@@ -51,9 +51,11 @@ export default function VendorsPage() {
             <option value="Percetakan">Percetakan</option>
           </select>
         </div>
-        <Button className="gap-2 shrink-0">
-          <Plus className="h-4 w-4" /> Tambah Vendor
-        </Button>
+        <Link href="/admin/vendors/new">
+          <Button className="gap-2 shrink-0">
+            <Plus className="h-4 w-4" /> Tambah Vendor
+          </Button>
+        </Link>
       </div>
 
       {isLoading ? (

@@ -3,6 +3,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 import { useCompanyDocuments } from "@/hooks/useLegal";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -49,9 +50,11 @@ export default function CompanyDocsPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h2 className="text-lg font-medium">Daftar Dokumen Legal Perusahaan</h2>
-        <Button className="gap-2">
-          <Plus className="h-4 w-4" /> Tambah Dokumen
-        </Button>
+        <Link href="/admin/legal/company-docs/new">
+          <Button className="gap-2">
+            <Plus className="h-4 w-4" /> Tambah Dokumen
+          </Button>
+        </Link>
       </div>
 
       {isLoading ? (
