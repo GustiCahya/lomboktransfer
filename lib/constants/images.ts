@@ -21,9 +21,9 @@ export const IMAGES = {
     mandalika: "https://www.itdc.co.id/file/page/20200213143056KApfITU4kiAUdG0SsSFKCQUjW8ToHX.jpg",
     rinjani: "https://4.bp.blogspot.com/-soPBQYZTG6Q/Tb5rSE5TdVI/AAAAAAAABdI/ZpffadQRr0g/s1600/gunung-rinjani.jpg",
     //TODO: Need to update these
-    tetebatu: "https://images.unsplash.com/photo-1586348943529-beaae6c28db9?q=80&w=600&auto=format&fit=crop",
-    sembalun: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=600&auto=format&fit=crop",
-    sire: "https://images.unsplash.com/photo-1516690561799-46d8f74f9abf?q=80&w=600&auto=format&fit=crop",
+    tetebatu: "https://www.holidify.com/images/cmsuploads/compressed/Tetebatu-13-1024x576_20220624203331.jpg",
+    sembalun: "https://lombokpersada.com/wp-content/uploads/2023/03/Explore-Wisata-Alam-Sembalun-Lombok-Timur-1-1024x480.jpg",
+    sire: "https://cdn.audleytravel.com/1920/1371/60/343437-sire-beach-lombok.jpg",
     tour: "https://images.unsplash.com/photo-1559628233-eb1b1a45564b?q=80&w=600&auto=format&fit=crop",
   } as Record<string, string>,
 };

@@ -45,7 +45,7 @@ export default async function Footer() {
               {brandName}&apos;s premier private airport transfer and tour service.
               Connecting you to the island&apos;s beauty with comfort and reliability.
             </p>
-            <div className="flex gap-4 pt-2">
+            {/* <div className="flex gap-4 pt-2">
               <Link href="#" className="text-muted-foreground hover:text-primary transition-colors text-sm font-medium">
                 Instagram
               </Link>
@@ -55,7 +55,7 @@ export default async function Footer() {
               <Link href="#" className="text-muted-foreground hover:text-primary transition-colors text-sm font-medium">
                 Twitter
               </Link>
-            </div>
+            </div> */}
           </div>
 
           {/* Quick Links */}

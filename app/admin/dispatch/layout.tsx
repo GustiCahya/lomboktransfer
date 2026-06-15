@@ -4,11 +4,12 @@ import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { Calendar, ArrowRightLeft, ShieldAlert } from "lucide-react";
+import { Calendar, ArrowRightLeft, ShieldAlert, Map } from "lucide-react";
 
 const TABS = [
   { label: "Kalender Dispatch", href: "/admin/dispatch", icon: Calendar },
   { label: "Manajemen Rute", href: "/admin/dispatch/routes", icon: ArrowRightLeft },
+  { label: "Manajemen Paket Tour", href: "/admin/dispatch/tours", icon: Map },
   { label: "Conflict Resolution", href: "/admin/dispatch/conflicts", icon: ShieldAlert },
 ];
 

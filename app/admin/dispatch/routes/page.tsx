@@ -2,6 +2,7 @@
 "use client";
 
 import React, { useState, useEffect, useCallback, useMemo } from "react";
+import Image from "next/image";
 import PageHeader from "@/components/shared/PageHeader";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -10,10 +11,12 @@ import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import {
   Plus, Pencil, Trash2, MapPin, Clock, Banknote,
-  CheckCircle2, XCircle, Loader2, ArrowRightLeft, Search, AlertTriangle
+  CheckCircle2, XCircle, Loader2, ArrowRightLeft, Search, AlertTriangle,
+  ImageIcon, X, ExternalLink
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { toast } from "sonner";
+import { IMAGES } from "@/lib/constants/images";
 
 type Route = {
   id: string;
@@ -24,6 +27,7 @@ type Route = {
   is_active: boolean;
   estimated_duration_min: number | null;
   notes: string | null;
+  image_url: string | null;
 };
 
 const EMPTY_FORM: Omit<Route, "id"> = {
@@ -34,6 +38,7 @@ const EMPTY_FORM: Omit<Route, "id"> = {
   is_active: true,
   estimated_duration_min: null,
   notes: "",
+  image_url: "",
 };
 
 function formatIDR(n: number) {
@@ -48,6 +53,88 @@ function formatDuration(min: number | null) {
   return m > 0 ? `${h} jam ${m} menit` : `${h} jam`;
 }
 
+/** Resolve a route's display image: prefer stored image_url, then keyword-match from IMAGES.DESTINATIONS */
+function resolveImage(route: Pick<Route, "name" | "origin" | "destination" | "image_url">): string | null {
+  if (route.image_url) return route.image_url;
+  const text = `${route.name} ${route.origin} ${route.destination}`.toLowerCase();
+  for (const [key, url] of Object.entries(IMAGES.DESTINATIONS)) {
+    if (text.includes(key)) return url;
+  }
+  return null;
+}
+
+// ─── Lightbox ────────────────────────────────────────────────────────────────
+
+function Lightbox({ src, alt, onClose }: { src: string; alt: string; onClose: () => void }) {
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    document.addEventListener("keydown", handleKey);
+    return () => document.removeEventListener("keydown", handleKey);
+  }, [onClose]);
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm"
+      onClick={onClose}
+    >
+      <div
+        className="relative max-w-4xl w-full mx-4"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button
+          onClick={onClose}
+          className="absolute -top-10 right-0 text-white/80 hover:text-white transition-colors flex items-center gap-1.5 text-sm"
+        >
+          <X className="w-4 h-4" /> Tutup (Esc)
+        </button>
+        <div className="relative aspect-video rounded-xl overflow-hidden shadow-2xl">
+          <Image src={src} alt={alt} fill className="object-cover" unoptimized />
+        </div>
+        <a
+          href={src}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-1.5 text-white/60 hover:text-white text-xs mt-3 transition-colors"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <ExternalLink className="w-3 h-3" /> Buka di tab baru
+        </a>
+      </div>
+    </div>
+  );
+}
+
+// ─── Image Preview Thumbnail ──────────────────────────────────────────────────
+
+function ImageThumb({ src, alt }: { src: string; alt: string }) {
+  const [lightbox, setLightbox] = useState(false);
+  const [err, setErr] = useState(false);
+
+  if (err) {
+    return (
+      <div className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center shrink-0">
+        <ImageIcon className="w-4 h-4 text-muted-foreground" />
+      </div>
+    );
+  }
+
+  return (
+    <>
+      <button
+        type="button"
+        onClick={() => setLightbox(true)}
+        className="relative w-10 h-10 rounded-lg overflow-hidden shrink-0 ring-1 ring-border hover:ring-primary transition-all"
+        title="Klik untuk memperbesar"
+      >
+        <Image src={src} alt={alt} fill className="object-cover" unoptimized onError={() => setErr(true)} />
+      </button>
+      {lightbox && <Lightbox src={src} alt={alt} onClose={() => setLightbox(false)} />}
+    </>
+  );
+}
+
+// ─── Main Page ────────────────────────────────────────────────────────────────
+
 export default function RoutesPage() {
   const supabase = createClient();
   const [routes, setRoutes] = useState<Route[]>([]);
@@ -59,6 +146,7 @@ export default function RoutesPage() {
   const [form, setForm] = useState(EMPTY_FORM);
   const [saving, setSaving] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [previewLightbox, setPreviewLightbox] = useState(false);
 
   // Real-time duplicate detection for the open form
   const formDuplicate = useMemo(() => {
@@ -66,7 +154,7 @@ export default function RoutesPage() {
     return routes.find((r) => {
       if (editingId && r.id === editingId) return false;
       const sameOriginDest =
-        form.origin.trim().toLowerCase()      === r.origin.trim().toLowerCase() &&
+        form.origin.trim().toLowerCase() === r.origin.trim().toLowerCase() &&
         form.destination.trim().toLowerCase() === r.destination.trim().toLowerCase();
       const sameName = form.name.trim().toLowerCase() !== "" &&
         form.name.trim().toLowerCase() === r.name.trim().toLowerCase();
@@ -118,6 +206,7 @@ export default function RoutesPage() {
       is_active: r.is_active,
       estimated_duration_min: r.estimated_duration_min,
       notes: r.notes ?? "",
+      image_url: r.image_url ?? "",
     });
     setShowForm(true);
   };
@@ -129,20 +218,16 @@ export default function RoutesPage() {
     }
 
     // ── Duplicate / distinct validation ──────────────────────────────────────
-    const originNorm  = form.origin.trim().toLowerCase();
-    const destNorm    = form.destination.trim().toLowerCase();
-    const nameNorm    = form.name.trim().toLowerCase();
+    const originNorm = form.origin.trim().toLowerCase();
+    const destNorm = form.destination.trim().toLowerCase();
+    const nameNorm = form.name.trim().toLowerCase();
 
     const duplicate = routes.find((r) => {
-      // When editing, ignore the current record itself
       if (editingId && r.id === editingId) return false;
-
       const sameOriginDest =
-        r.origin.trim().toLowerCase()      === originNorm &&
+        r.origin.trim().toLowerCase() === originNorm &&
         r.destination.trim().toLowerCase() === destNorm;
-
       const sameName = r.name.trim().toLowerCase() === nameNorm;
-
       return sameOriginDest || sameName;
     });
 
@@ -154,7 +239,6 @@ export default function RoutesPage() {
       toast.error(`Duplikat terdeteksi! ${reason}`, { duration: 5000 });
       return;
     }
-    // ─────────────────────────────────────────────────────────────────────────
 
     setSaving(true);
     const payload = {
@@ -165,6 +249,7 @@ export default function RoutesPage() {
       is_active: form.is_active,
       estimated_duration_min: form.estimated_duration_min ? Number(form.estimated_duration_min) : null,
       notes: form.notes || null,
+      image_url: form.image_url?.trim() || null,
     };
 
     if (editingId) {
@@ -178,7 +263,6 @@ export default function RoutesPage() {
     }
     setSaving(false);
   };
-
 
   const handleDelete = async (id: string) => {
     if (!confirm("Hapus rute ini? Tindakan ini tidak dapat dibatalkan.")) return;
@@ -197,6 +281,16 @@ export default function RoutesPage() {
     if (error) toast.error("Gagal mengubah status.");
     else fetchRoutes();
   };
+
+  // Derived: resolved preview URL from current form state
+  const formPreviewUrl = form.image_url?.trim() ||
+    (() => {
+      const text = `${form.name} ${form.origin} ${form.destination}`.toLowerCase();
+      for (const [key, url] of Object.entries(IMAGES.DESTINATIONS)) {
+        if (text.includes(key)) return url;
+      }
+      return null;
+    })();
 
   return (
     <div className="space-y-6">
@@ -272,10 +366,58 @@ export default function RoutesPage() {
                 </div>
               </div>
             </div>
+
+            {/* Image URL field with preview */}
+            <div className="space-y-2">
+              <Label htmlFor="r-image">URL Gambar (opsional)</Label>
+              <div className="flex gap-3 items-start">
+                <div className="flex-1">
+                  <Input
+                    id="r-image"
+                    placeholder="https://..."
+                    value={form.image_url ?? ""}
+                    onChange={(e) => setForm({ ...form, image_url: e.target.value })}
+                  />
+                  {!form.image_url && formPreviewUrl && (
+                    <p className="text-xs text-muted-foreground mt-1.5 flex items-center gap-1">
+                      <ImageIcon className="w-3 h-3" />
+                      Gambar otomatis dari keyword tujuan akan digunakan jika kosong.
+                    </p>
+                  )}
+                </div>
+
+                {/* Preview thumbnail */}
+                {formPreviewUrl && (
+                  <div className="shrink-0">
+                    <button
+                      type="button"
+                      onClick={() => setPreviewLightbox(true)}
+                      className="relative w-16 h-16 rounded-lg overflow-hidden ring-1 ring-border hover:ring-primary transition-all"
+                      title="Klik untuk memperbesar preview"
+                    >
+                      <Image
+                        src={formPreviewUrl}
+                        alt="Preview"
+                        fill
+                        className="object-cover"
+                        unoptimized
+                      />
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Lightbox for form preview */}
+            {previewLightbox && formPreviewUrl && (
+              <Lightbox src={formPreviewUrl} alt={form.name || "Preview"} onClose={() => setPreviewLightbox(false)} />
+            )}
+
             <div className="space-y-2">
               <Label htmlFor="r-notes">Catatan (opsional)</Label>
               <Input id="r-notes" placeholder="Catatan tambahan..." value={form.notes ?? ""} onChange={(e) => setForm({ ...form, notes: e.target.value })} />
             </div>
+
             {formDuplicate && (
               <div className="flex items-start gap-2 rounded-lg border border-amber-400/50 bg-amber-50 dark:bg-amber-950/30 px-4 py-3 text-sm text-amber-700 dark:text-amber-400">
                 <AlertTriangle className="h-4 w-4 mt-0.5 shrink-0" />
@@ -319,52 +461,60 @@ export default function RoutesPage() {
             </div>
           ) : (
             <div className="divide-y divide-border/50">
-              {filtered.map((r) => (
-                <div key={r.id} className="flex items-center justify-between px-6 py-4 hover:bg-muted/30 transition-colors group">
-                  <div className="flex items-center gap-4 min-w-0">
-                    <div className="flex items-center justify-center w-9 h-9 rounded-lg bg-primary/10 shrink-0">
-                      <ArrowRightLeft className="w-4 h-4 text-primary" />
+              {filtered.map((r) => {
+                const imgSrc = resolveImage(r);
+                return (
+                  <div key={r.id} className="flex items-center justify-between px-6 py-4 hover:bg-muted/30 transition-colors group">
+                    <div className="flex items-center gap-4 min-w-0">
+                      {/* Image thumbnail or fallback icon */}
+                      {imgSrc ? (
+                        <ImageThumb src={imgSrc} alt={r.name} />
+                      ) : (
+                        <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-primary/10 shrink-0">
+                          <ArrowRightLeft className="w-4 h-4 text-primary" />
+                        </div>
+                      )}
+                      <div className="min-w-0">
+                        <p className="font-semibold text-sm truncate">{r.name}</p>
+                        <p className="text-xs text-muted-foreground truncate">
+                          {r.origin} → {r.destination}
+                        </p>
+                      </div>
                     </div>
-                    <div className="min-w-0">
-                      <p className="font-semibold text-sm truncate">{r.name}</p>
-                      <p className="text-xs text-muted-foreground truncate">
-                        {r.origin} → {r.destination}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-6 shrink-0">
-                    <div className="hidden md:flex items-center gap-1.5 text-sm text-muted-foreground">
-                      <Clock className="w-3.5 h-3.5" />
-                      {formatDuration(r.estimated_duration_min)}
-                    </div>
-                    <div className="hidden md:flex items-center gap-1.5 text-sm font-medium">
-                      <Banknote className="w-3.5 h-3.5 text-muted-foreground" />
-                      {formatIDR(r.base_price)}
-                    </div>
-                    <Badge
-                      variant="outline"
-                      className={`text-[11px] cursor-pointer ${r.is_active ? "border-emerald-500 text-emerald-600 dark:text-emerald-400" : "border-muted-foreground/40 text-muted-foreground"}`}
-                      onClick={() => handleToggleActive(r)}
-                    >
-                      {r.is_active ? "Aktif" : "Nonaktif"}
-                    </Badge>
-                    <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <Button size="icon" variant="ghost" className="h-8 w-8" onClick={() => openEdit(r)}>
-                        <Pencil className="w-3.5 h-3.5" />
-                      </Button>
-                      <Button
-                        size="icon"
-                        variant="ghost"
-                        className="h-8 w-8 text-destructive hover:text-destructive hover:bg-destructive/10"
-                        onClick={() => handleDelete(r.id)}
-                        disabled={deletingId === r.id}
+                    <div className="flex items-center gap-6 shrink-0">
+                      <div className="hidden md:flex items-center gap-1.5 text-sm text-muted-foreground">
+                        <Clock className="w-3.5 h-3.5" />
+                        {formatDuration(r.estimated_duration_min)}
+                      </div>
+                      <div className="hidden md:flex items-center gap-1.5 text-sm font-medium">
+                        <Banknote className="w-3.5 h-3.5 text-muted-foreground" />
+                        {formatIDR(r.base_price)}
+                      </div>
+                      <Badge
+                        variant="outline"
+                        className={`text-[11px] cursor-pointer ${r.is_active ? "border-emerald-500 text-emerald-600 dark:text-emerald-400" : "border-muted-foreground/40 text-muted-foreground"}`}
+                        onClick={() => handleToggleActive(r)}
                       >
-                        {deletingId === r.id ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Trash2 className="w-3.5 h-3.5" />}
-                      </Button>
+                        {r.is_active ? "Aktif" : "Nonaktif"}
+                      </Badge>
+                      <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <Button size="icon" variant="ghost" className="h-8 w-8" onClick={() => openEdit(r)}>
+                          <Pencil className="w-3.5 h-3.5" />
+                        </Button>
+                        <Button
+                          size="icon"
+                          variant="ghost"
+                          className="h-8 w-8 text-destructive hover:text-destructive hover:bg-destructive/10"
+                          onClick={() => handleDelete(r.id)}
+                          disabled={deletingId === r.id}
+                        >
+                          {deletingId === r.id ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Trash2 className="w-3.5 h-3.5" />}
+                        </Button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           )}
         </CardContent>

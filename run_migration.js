@@ -1,121 +1,145 @@
 /**
  * run_migration.js
- * Direct PostgreSQL migration via pg driver connecting to Supabase cloud DB
- * 
- * Supabase projects expose postgres at:
- *   Host: db.<project-ref>.supabase.co  Port: 5432
- *   User: postgres
- *   Password: <your-db-password>  (from Supabase dashboard → Settings → Database)
- * 
- * Run: node run_migration.js <db-password>
- *   OR set DB_PASSWORD env variable
+ * Jalankan satu file migration SQL ke Supabase.
+ * Usage: node run_migration.js <path-to-migration.sql>
+ *
+ * Menggunakan pola yang sama dengan apply_db.js.
  */
 
-const { Client } = require('pg');
 require('dotenv').config({ path: '.env' });
+const fs = require('fs');
+const path = require('path');
 
-const projectRef = 'injscuwpllomtdaixkuo';
-const dbPassword = process.argv[2] || process.env.DB_PASSWORD;
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-if (!dbPassword) {
-  console.error('❌ Please provide the database password:');
-  console.error('   node run_migration.js <your-db-password>');
-  console.error('   OR set DB_PASSWORD in your .env file');
-  console.error('');
-  console.error('   Find it at: https://supabase.com/dashboard/project/' + projectRef + '/settings/database');
+if (!SUPABASE_URL || !SERVICE_ROLE_KEY) {
+  console.error('❌ Missing NEXT_PUBLIC_SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY in .env');
   process.exit(1);
 }
 
-const client = new Client({
-  host: `db.${projectRef}.supabase.co`,
-  port: 5432,
-  database: 'postgres',
-  user: 'postgres',
-  password: dbPassword,
-  ssl: { rejectUnauthorized: false },
-  connectionTimeoutMillis: 15000,
-});
+const projectRef = SUPABASE_URL.replace('https://', '').split('.')[0];
 
-const SQL = `
--- Create table
-CREATE TABLE IF NOT EXISTS public.company_settings (
-  id integer PRIMARY KEY DEFAULT 1 CHECK (id = 1),
-  company_name text NOT NULL DEFAULT 'Lombok Transfer Pariwisata',
-  brand_name text NOT NULL DEFAULT 'Lombok Transfer',
-  npwp text,
-  nib text,
-  email text NOT NULL DEFAULT 'hello@lomboktransfer.com',
-  phone_wa text NOT NULL DEFAULT '+62 81-7777-480',
-  address text,
-  logo_url text,
-  updated_at timestamptz DEFAULT now()
-);
+// ── SQL runners (same pattern as apply_db.js) ──────────────────────────────
 
--- Enable RLS
-ALTER TABLE public.company_settings ENABLE ROW LEVEL SECURITY;
+async function runSQLManagementAPI(sql) {
+  const res = await fetch(`https://api.supabase.com/v1/projects/${projectRef}/database/query`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${SERVICE_ROLE_KEY}` },
+    body: JSON.stringify({ query: sql }),
+  });
+  if (!res.ok) {
+    const err = await res.text();
+    console.warn(`  ⚠  Management API failed (${res.status}): ${err.slice(0, 120)}`);
+    return false;
+  }
+  return true;
+}
 
--- Policies (idempotent)
-DO $$ BEGIN
-  IF NOT EXISTS (SELECT FROM pg_policies WHERE tablename = 'company_settings' AND policyname = 'Allow public read access on company_settings') THEN
-    CREATE POLICY "Allow public read access on company_settings" ON public.company_settings FOR SELECT USING (true);
-  END IF;
-END $$;
+async function runSQLViaPG(sql) {
+  const res = await fetch(`${SUPABASE_URL}/pg`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      apikey: SERVICE_ROLE_KEY,
+      Authorization: `Bearer ${SERVICE_ROLE_KEY}`,
+    },
+    body: JSON.stringify({ query: sql }),
+  });
+  if (!res.ok) {
+    const err = await res.text();
+    console.warn(`  ⚠  /pg fallback failed (${res.status}): ${err.slice(0, 120)}`);
+    return false;
+  }
+  return true;
+}
 
-DO $$ BEGIN
-  IF NOT EXISTS (SELECT FROM pg_policies WHERE tablename = 'company_settings' AND policyname = 'Allow authenticated users to update company_settings') THEN
-    CREATE POLICY "Allow authenticated users to update company_settings" ON public.company_settings FOR UPDATE USING (auth.role() = 'authenticated');
-  END IF;
-END $$;
+// ── Split SQL into individual statements ───────────────────────────────────
 
-DO $$ BEGIN
-  IF NOT EXISTS (SELECT FROM pg_policies WHERE tablename = 'company_settings' AND policyname = 'Allow authenticated users to insert company_settings') THEN
-    CREATE POLICY "Allow authenticated users to insert company_settings" ON public.company_settings FOR INSERT WITH CHECK (auth.role() = 'authenticated');
-  END IF;
-END $$;
+function splitStatements(sql) {
+  // Split on semicolons but preserve DO $$ ... $$ blocks
+  const statements = [];
+  let current = '';
+  let inBlock = false;
 
--- Seed / upsert data
-INSERT INTO public.company_settings (id, company_name, brand_name, npwp, nib, email, phone_wa, address, logo_url)
-VALUES (
-  1,
-  'Lombok Transfer Pariwisata',
-  'Lombok Transfer',
-  NULL,
-  NULL,
-  'hello@lomboktransfer.com',
-  '+62 81-7777-480',
-  'Jl. Langko 70, Mataram, Lombok, NTB, Indonesia',
-  '/logo_without_text.png'
-)
-ON CONFLICT (id) DO UPDATE SET
-  company_name = EXCLUDED.company_name,
-  phone_wa     = EXCLUDED.phone_wa,
-  address      = EXCLUDED.address,
-  email        = EXCLUDED.email,
-  logo_url     = EXCLUDED.logo_url,
-  updated_at   = now();
-`;
+  for (const line of sql.split('\n')) {
+    if (line.trim().startsWith('DO $$') || line.trim().startsWith('DO $')) inBlock = true;
+    current += line + '\n';
+    if (inBlock && (line.trim() === '$$' || line.trim() === '$$ ;' || line.trim().endsWith('$$;'))) {
+      inBlock = false;
+      statements.push(current.trim());
+      current = '';
+      continue;
+    }
+    if (!inBlock && line.trim().endsWith(';')) {
+      const stmt = current.trim().replace(/;$/, '').trim();
+      if (stmt && !stmt.startsWith('--')) statements.push(stmt);
+      current = '';
+    }
+  }
+  if (current.trim() && !current.trim().startsWith('--')) {
+    statements.push(current.trim());
+  }
+  return statements.filter(Boolean);
+}
+
+// ── Main ───────────────────────────────────────────────────────────────────
 
 async function main() {
-  console.log(`\n🔌 Connecting to db.${projectRef}.supabase.co:5432 ...`);
-  try {
-    await client.connect();
-    console.log('✅ Connected!\n');
-    
-    console.log('🚀 Running migration...');
-    await client.query(SQL);
-    
-    const result = await client.query('SELECT id, company_name, phone_wa, address FROM public.company_settings');
-    console.log('\n🎉 Migration complete! Current company_settings:');
-    console.table(result.rows);
-  } catch (err) {
-    console.error('\n❌ Error:', err.message);
-    if (err.code === 'ECONNREFUSED' || err.code === 'ETIMEDOUT' || err.message.includes('timeout')) {
-      console.error('\n   Could not connect to the database. Please run the SQL manually:');
-      console.error('   https://supabase.com/dashboard/project/' + projectRef + '/sql/new');
+  const sqlFile = process.argv[2];
+  if (!sqlFile) {
+    console.error('Usage: node run_migration.js <path-to-migration.sql>');
+    process.exit(1);
+  }
+
+  const fullPath = path.resolve(sqlFile);
+  if (!fs.existsSync(fullPath)) {
+    console.error(`❌ File not found: ${fullPath}`);
+    process.exit(1);
+  }
+
+  const sql = fs.readFileSync(fullPath, 'utf-8');
+  const statements = splitStatements(sql);
+
+  console.log(`\n🚀  Running migration: ${path.basename(fullPath)}`);
+  console.log(`    Project: ${projectRef}`);
+  console.log(`    Statements: ${statements.length}\n`);
+
+  // Test Management API availability
+  const mgmtAvailable = await runSQLManagementAPI('SELECT 1');
+
+  let allOk = true;
+
+  for (let i = 0; i < statements.length; i++) {
+    const stmt = statements[i];
+    const preview = stmt.replace(/\s+/g, ' ').slice(0, 70);
+    process.stdout.write(`  [${i + 1}/${statements.length}] ${preview}... `);
+
+    let ok = false;
+    if (mgmtAvailable) ok = await runSQLManagementAPI(stmt);
+    if (!ok) ok = await runSQLViaPG(stmt);
+
+    if (ok) {
+      console.log('✅');
+    } else {
+      console.log('❌ FAILED');
+      allOk = false;
     }
-  } finally {
-    await client.end();
+  }
+
+  if (allOk) {
+    console.log('\n🎉  Migration completed successfully!\n');
+  } else {
+    console.log('\n⚠️  Some statements failed. Run the SQL manually in Supabase SQL Editor:');
+    console.log(`    https://supabase.com/dashboard/project/${projectRef}/sql\n`);
+    console.log('--- SQL ---\n');
+    console.log(sql);
+    console.log('\n--- END ---\n');
+    process.exit(1);
   }
 }
 
-main();
+main().catch(err => {
+  console.error('Fatal error:', err);
+  process.exit(1);
+});
