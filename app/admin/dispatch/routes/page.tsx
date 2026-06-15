@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import React, { useState, useEffect, useCallback, useMemo } from "react";
+import React, { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import Image from "next/image";
 import PageHeader from "@/components/shared/PageHeader";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -137,6 +137,8 @@ function ImageThumb({ src, alt }: { src: string; alt: string }) {
 
 export default function RoutesPage() {
   const supabase = createClient();
+  const formRef = useRef<HTMLDivElement>(null); // 1. Membuat ref untuk membidik target element
+
   const [routes, setRoutes] = useState<Route[]>([]);
   const [filtered, setFiltered] = useState<Route[]>([]);
   const [search, setSearch] = useState("");
@@ -194,6 +196,11 @@ export default function RoutesPage() {
     setEditingId(null);
     setForm(EMPTY_FORM);
     setShowForm(true);
+
+    // Smooth scroll saat menambah data baru
+    setTimeout(() => {
+      formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 50);
   };
 
   const openEdit = (r: Route) => {
@@ -209,6 +216,11 @@ export default function RoutesPage() {
       image_url: r.image_url ?? "",
     });
     setShowForm(true);
+
+    // 2. Memberi jeda makro mikro agar DOM selesai melakukan render komponen form
+    setTimeout(() => {
+      formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 50);
   };
 
   const handleSave = async () => {
@@ -323,121 +335,124 @@ export default function RoutesPage() {
         ))}
       </div>
 
-      {/* Inline Form */}
-      {showForm && (
-        <Card className="border-primary/30 shadow-md">
-          <CardHeader className="pb-3">
-            <CardTitle className="text-base">{editingId ? "Edit Rute" : "Tambah Rute Baru"}</CardTitle>
-            <CardDescription>Isi detail rute perjalanan untuk digunakan pada sistem booking.</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="r-name">Nama Rute <span className="text-destructive">*</span></Label>
-                <Input id="r-name" placeholder="e.g. Bandara – Senggigi" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="r-origin">Asal <span className="text-destructive">*</span></Label>
-                <Input id="r-origin" placeholder="e.g. BIL Airport" value={form.origin} onChange={(e) => setForm({ ...form, origin: e.target.value })} />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="r-dest">Tujuan <span className="text-destructive">*</span></Label>
-                <Input id="r-dest" placeholder="e.g. Senggigi" value={form.destination} onChange={(e) => setForm({ ...form, destination: e.target.value })} />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="r-price">Harga Dasar (IDR)</Label>
-                <Input id="r-price" type="number" min={0} placeholder="350000" value={form.base_price || ""} onChange={(e) => setForm({ ...form, base_price: Number(e.target.value) })} />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="r-dur">Estimasi Durasi (menit)</Label>
-                <Input id="r-dur" type="number" min={0} placeholder="45" value={form.estimated_duration_min ?? ""} onChange={(e) => setForm({ ...form, estimated_duration_min: e.target.value ? Number(e.target.value) : null })} />
-              </div>
-              <div className="space-y-2">
-                <Label>Status</Label>
-                <div className="flex items-center gap-3 h-10">
-                  <button
-                    type="button"
-                    onClick={() => setForm({ ...form, is_active: !form.is_active })}
-                    className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none ${form.is_active ? "bg-primary" : "bg-muted-foreground/30"}`}
-                  >
-                    <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${form.is_active ? "translate-x-6" : "translate-x-1"}`} />
-                  </button>
-                  <span className="text-sm text-muted-foreground">{form.is_active ? "Aktif" : "Nonaktif"}</span>
+      {/* 3. Elemen pembungkus ref dipasangkan class scroll-mt-6 untuk ruang batas atas scroll */}
+      <div ref={formRef} className="scroll-mt-6">
+        {/* Inline Form */}
+        {showForm && (
+          <Card className="border-primary/30 shadow-md">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-base">{editingId ? "Edit Rute" : "Tambah Rute Baru"}</CardTitle>
+              <CardDescription>Isi detail rute perjalanan untuk digunakan pada sistem booking.</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="r-name">Nama Rute <span className="text-destructive">*</span></Label>
+                  <Input id="r-name" placeholder="e.g. Bandara – Senggigi" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
                 </div>
-              </div>
-            </div>
-
-            {/* Image URL field with preview */}
-            <div className="space-y-2">
-              <Label htmlFor="r-image">URL Gambar (opsional)</Label>
-              <div className="flex gap-3 items-start">
-                <div className="flex-1">
-                  <Input
-                    id="r-image"
-                    placeholder="https://..."
-                    value={form.image_url ?? ""}
-                    onChange={(e) => setForm({ ...form, image_url: e.target.value })}
-                  />
-                  {!form.image_url && formPreviewUrl && (
-                    <p className="text-xs text-muted-foreground mt-1.5 flex items-center gap-1">
-                      <ImageIcon className="w-3 h-3" />
-                      Gambar otomatis dari keyword tujuan akan digunakan jika kosong.
-                    </p>
-                  )}
+                <div className="space-y-2">
+                  <Label htmlFor="r-origin">Asal <span className="text-destructive">*</span></Label>
+                  <Input id="r-origin" placeholder="e.g. BIL Airport" value={form.origin} onChange={(e) => setForm({ ...form, origin: e.target.value })} />
                 </div>
-
-                {/* Preview thumbnail */}
-                {formPreviewUrl && (
-                  <div className="shrink-0">
+                <div className="space-y-2">
+                  <Label htmlFor="r-dest">Tujuan <span className="text-destructive">*</span></Label>
+                  <Input id="r-dest" placeholder="e.g. Senggigi" value={form.destination} onChange={(e) => setForm({ ...form, destination: e.target.value })} />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="r-price">Harga Dasar (IDR)</Label>
+                  <Input id="r-price" type="number" min={0} placeholder="350000" value={form.base_price || ""} onChange={(e) => setForm({ ...form, base_price: Number(e.target.value) })} />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="r-dur">Estimasi Durasi (menit)</Label>
+                  <Input id="r-dur" type="number" min={0} placeholder="45" value={form.estimated_duration_min ?? ""} onChange={(e) => setForm({ ...form, estimated_duration_min: e.target.value ? Number(e.target.value) : null })} />
+                </div>
+                <div className="space-y-2">
+                  <Label>Status</Label>
+                  <div className="flex items-center gap-3 h-10">
                     <button
                       type="button"
-                      onClick={() => setPreviewLightbox(true)}
-                      className="relative w-16 h-16 rounded-lg overflow-hidden ring-1 ring-border hover:ring-primary transition-all"
-                      title="Klik untuk memperbesar preview"
+                      onClick={() => setForm({ ...form, is_active: !form.is_active })}
+                      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none ${form.is_active ? "bg-primary" : "bg-muted-foreground/30"}`}
                     >
-                      <Image
-                        src={formPreviewUrl}
-                        alt="Preview"
-                        fill
-                        className="object-cover"
-                        unoptimized
-                      />
+                      <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${form.is_active ? "translate-x-6" : "translate-x-1"}`} />
                     </button>
+                    <span className="text-sm text-muted-foreground">{form.is_active ? "Aktif" : "Nonaktif"}</span>
                   </div>
-                )}
+                </div>
               </div>
-            </div>
 
-            {/* Lightbox for form preview */}
-            {previewLightbox && formPreviewUrl && (
-              <Lightbox src={formPreviewUrl} alt={form.name || "Preview"} onClose={() => setPreviewLightbox(false)} />
-            )}
+              {/* Image URL field with preview */}
+              <div className="space-y-2">
+                <Label htmlFor="r-image">URL Gambar (opsional)</Label>
+                <div className="flex gap-3 items-start">
+                  <div className="flex-1">
+                    <Input
+                      id="r-image"
+                      placeholder="https://..."
+                      value={form.image_url ?? ""}
+                      onChange={(e) => setForm({ ...form, image_url: e.target.value })}
+                    />
+                    {!form.image_url && formPreviewUrl && (
+                      <p className="text-xs text-muted-foreground mt-1.5 flex items-center gap-1">
+                        <ImageIcon className="w-3 h-3" />
+                        Gambar otomatis dari keyword tujuan akan digunakan jika kosong.
+                      </p>
+                    )}
+                  </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="r-notes">Catatan (opsional)</Label>
-              <Input id="r-notes" placeholder="Catatan tambahan..." value={form.notes ?? ""} onChange={(e) => setForm({ ...form, notes: e.target.value })} />
-            </div>
-
-            {formDuplicate && (
-              <div className="flex items-start gap-2 rounded-lg border border-amber-400/50 bg-amber-50 dark:bg-amber-950/30 px-4 py-3 text-sm text-amber-700 dark:text-amber-400">
-                <AlertTriangle className="h-4 w-4 mt-0.5 shrink-0" />
-                <span>
-                  <strong>Potensi duplikat terdeteksi:</strong>{" "}
-                  Rute <em>{formDuplicate.origin} → {formDuplicate.destination}</em> sudah terdaftar sebagai{" "}
-                  <strong>&quot;{formDuplicate.name}&quot;</strong>. Pastikan rute ini berbeda sebelum menyimpan.
-                </span>
+                  {/* Preview thumbnail */}
+                  {formPreviewUrl && (
+                    <div className="shrink-0">
+                      <button
+                        type="button"
+                        onClick={() => setPreviewLightbox(true)}
+                        className="relative w-16 h-16 rounded-lg overflow-hidden ring-1 ring-border hover:ring-primary transition-all"
+                        title="Klik untuk memperbesar preview"
+                      >
+                        <Image
+                          src={formPreviewUrl}
+                          alt="Preview"
+                          fill
+                          className="object-cover"
+                          unoptimized
+                        />
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
-            )}
-            <div className="flex justify-end gap-2 pt-2">
-              <Button variant="outline" onClick={() => setShowForm(false)}>Batal</Button>
-              <Button onClick={handleSave} disabled={saving || !!formDuplicate} className="gap-2">
-                {saving && <Loader2 className="w-4 h-4 animate-spin" />}
-                {saving ? "Menyimpan..." : editingId ? "Simpan Perubahan" : "Tambah Rute"}
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-      )}
+
+              {/* Lightbox for form preview */}
+              {previewLightbox && formPreviewUrl && (
+                <Lightbox src={formPreviewUrl} alt={form.name || "Preview"} onClose={() => setPreviewLightbox(false)} />
+              )}
+
+              <div className="space-y-2">
+                <Label htmlFor="r-notes">Catatan (opsional)</Label>
+                <Input id="r-notes" placeholder="Catatan tambahan..." value={form.notes ?? ""} onChange={(e) => setForm({ ...form, notes: e.target.value })} />
+              </div>
+
+              {formDuplicate && (
+                <div className="flex items-start gap-2 rounded-lg border border-amber-400/50 bg-amber-50 dark:bg-amber-950/30 px-4 py-3 text-sm text-amber-700 dark:text-amber-400">
+                  <AlertTriangle className="h-4 w-4 mt-0.5 shrink-0" />
+                  <span>
+                    <strong>Potensi duplikat terdeteksi:</strong>{" "}
+                    Rute <em>{formDuplicate.origin} → {formDuplicate.destination}</em> sudah terdaftar sebagai{" "}
+                    <strong>&quot;{formDuplicate.name}&quot;</strong>. Pastikan rute ini berbeda sebelum menyimpan.
+                  </span>
+                </div>
+              )}
+              <div className="flex justify-end gap-2 pt-2">
+                <Button variant="outline" onClick={() => setShowForm(false)}>Batal</Button>
+                <Button onClick={handleSave} disabled={saving || !!formDuplicate} className="gap-2">
+                  {saving && <Loader2 className="w-4 h-4 animate-spin" />}
+                  {saving ? "Menyimpan..." : editingId ? "Simpan Perubahan" : "Tambah Rute"}
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+      </div>
 
       {/* Route List */}
       <Card className="border-border/60">

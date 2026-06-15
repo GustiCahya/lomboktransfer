@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import ToursPageClient from "./ToursPageClient";
+import { createAdminClient } from "@/lib/supabase/server";
+
+export const revalidate = 3600; // Revalidasi data otomatis setiap jam
 
 export const metadata: Metadata = {
   title: "Day Tours in Lombok",
@@ -14,6 +17,17 @@ export const metadata: Metadata = {
   alternates: { canonical: "https://lomboktransfer.com/tours" },
 };
 
-export default function ToursPage() {
-  return <ToursPageClient />;
+export default async function ToursPage() {
+  const supabase = createAdminClient();
+  
+  // Mengambil data dari tabel "tours"
+  const { data: dbTours } = await supabase
+    .from("tours")
+    .select("*")
+    .eq("is_active", true)
+    .order("created_at", { ascending: true });
+
+  const toursList = dbTours || [];
+
+  return <ToursPageClient tours={toursList} />;
 }

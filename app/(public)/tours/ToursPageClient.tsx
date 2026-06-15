@@ -9,37 +9,23 @@ import { cn } from "@/lib/utils";
 import { useCurrencyConverter } from "@/hooks/useCurrencyConverter";
 import SearchableCurrencyDropdown from "@/components/shared/SearchableCurrencyDropdown";
 
-const TOURS = [
-  {
-    title: "Waterfalls & Monkey Forest",
-    duration: "Full Day (8-10h)",
-    basePrice: 750000,
-    description:
-      "Explore the stunning Sendang Gile and Tiu Kelep waterfalls at the foot of Mount Rinjani.",
-    image:
-      "https://res.klook.com/images/fl_lossy.progressive,q_65/c_fill,w_1200,h_630/w_80,x_15,y_15,g_south_west,l_Klook_water_br_trans_yhcmh3/activities/p31do24ksdcrouegn6at/Lombok%20Waterfalls%20and%20Monkey%20Forest%20Private%20Day%20Tour.jpg",
-  },
-  {
-    title: "Sasak Traditional Village",
-    duration: "Half Day (4-6h)",
-    basePrice: 500000,
-    description:
-      "Immerse yourself in the local Sasak culture, visit traditional weaving villages and pristine southern beaches.",
-    image:
-      "https://tse3.mm.bing.net/th/id/OIP.DOTssNxV_Wp3hTrVYnIZggHaE6?rs=1&pid=ImgDetMain&o=7&rm=3",
-  },
-  {
-    title: "Gili Islands Snorkeling",
-    duration: "Full Day (8-10h)",
-    basePrice: 850000,
-    description:
-      "Private boat tour to snorkel with sea turtles around the famous three Gili islands.",
-    image:
-      "https://s-light.tiket.photos/t/01E25EBZS3W0FY9GTG6C42E1SE/rsfit19201280gsm/events/2020/10/09/8120d8e6-0629-4303-8301-dcb4c8dbbf71-1602223746140-38935a774877b5b56d0177e01576113b.jpg",
-  },
-];
+// Definisi tipe data sesuai struktur tabel database Supabase
+interface TourItem {
+  id: string;
+  title: string;
+  duration: string;
+  base_price: number;
+  description: string | null;
+  image_url: string | null;
+  is_active: boolean;
+  created_at: string;
+}
 
-export default function ToursPageClient() {
+interface ToursPageClientProps {
+  tours: TourItem[];
+}
+
+export default function ToursPageClient({ tours }: ToursPageClientProps) {
   const {
     currency,
     setCurrency,
@@ -74,52 +60,64 @@ export default function ToursPageClient() {
         </div>
 
         {/* Tour Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {TOURS.map((tour, i) => (
-            <div
-              key={i}
-              className="group rounded-2xl overflow-hidden border border-border bg-card shadow-sm hover:shadow-md transition-all duration-300 flex flex-col"
-            >
-              <div className="aspect-[4/3] relative overflow-hidden">
-                <div className="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-colors z-10" />
-                <Image
-                  src={tour.image}
-                  alt={tour.title}
-                  fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-                {/* Price Badge */}
-                <div className="absolute top-4 right-4 z-20 bg-background/90 backdrop-blur-sm px-3 py-1.5 rounded-full text-xs font-semibold text-foreground">
-                  from {formatPrice(tour.basePrice)}
+        {tours.length === 0 ? (
+          <div className="text-center py-12 text-muted-foreground">
+            No tours available at the moment.
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {tours.map((tour) => (
+              <div
+                key={tour.id}
+                className="group rounded-2xl overflow-hidden border border-border bg-card shadow-sm hover:shadow-md transition-all duration-300 flex flex-col"
+              >
+                <div className="aspect-[4/3] relative overflow-hidden">
+                  <div className="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-colors z-10" />
+                  {tour.image_url ? (
+                    <Image
+                      src={tour.image_url}
+                      alt={tour.title}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-muted flex items-center justify-center">
+                      <Map className="h-12 w-12 text-muted-foreground/40" />
+                    </div>
+                  )}
+                  {/* Price Badge */}
+                  <div className="absolute top-4 right-4 z-20 bg-background/90 backdrop-blur-sm px-3 py-1.5 rounded-full text-xs font-semibold text-foreground">
+                    from {formatPrice(tour.base_price)}
+                  </div>
+                </div>
+
+                <div className="p-6 flex flex-col flex-1">
+                  <h2 className="text-xl font-bold text-foreground mb-2 flex items-start gap-2">
+                    <Map className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                    {tour.title}
+                  </h2>
+                  <p className="text-muted-foreground text-sm mb-4 flex items-center gap-2">
+                    <Clock className="w-4 h-4 text-primary" /> {tour.duration}
+                  </p>
+                  <p className="text-muted-foreground text-sm mb-6 flex-1">
+                    {tour.description || "No description available."}
+                  </p>
+                  <Link
+                    href={`https://wa.me/62817777480?text=Hi! I'm interested in booking the ${encodeURIComponent(tour.title)} tour.`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={cn(
+                      buttonVariants({ size: "default" }),
+                      "w-full rounded-full group-hover:bg-primary transition-colors gap-2"
+                    )}
+                  >
+                    Book Tour <ArrowRight className="h-4 w-4" />
+                  </Link>
                 </div>
               </div>
-
-              <div className="p-6 flex flex-col flex-1">
-                <h2 className="text-xl font-bold text-foreground mb-2 flex items-start gap-2">
-                  <Map className="h-5 w-5 text-primary shrink-0 mt-0.5" />
-                  {tour.title}
-                </h2>
-                <p className="text-muted-foreground text-sm mb-4 flex items-center gap-2">
-                  <Clock className="w-4 h-4 text-primary" /> {tour.duration}
-                </p>
-                <p className="text-muted-foreground text-sm mb-6 flex-1">
-                  {tour.description}
-                </p>
-                <Link
-                  href={`https://wa.me/62817777480?text=Hi! I'm interested in booking the ${encodeURIComponent(tour.title)} tour.`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={cn(
-                    buttonVariants({ size: "default" }),
-                    "w-full rounded-full group-hover:bg-primary transition-colors gap-2"
-                  )}
-                >
-                  Book Tour <ArrowRight className="h-4 w-4" />
-                </Link>
-              </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
 
         {/* Currency Footnote */}
         {currency !== "IDR" && (
