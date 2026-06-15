@@ -27,6 +27,8 @@ async function updateDb() {
     if (nameLower.includes("kuta lombok") && nameLower.includes("selong belanak")) newPrice = 250000;
     if (nameLower.includes("lombok airport") && nameLower.includes("kuta lombok")) newPrice = 250000;
     if (nameLower.includes("lombok airport") && nameLower.includes("sembalun")) newPrice = 700000;
+    if ((nameLower.includes("guest accommodation") || nameLower.includes("hotel") || nameLower.includes("villa")) && (nameLower.includes("sembalun") || nameLower.includes("senaru"))) newPrice = 700000;
+    if (nameLower.includes("lombok airport") && nameLower.includes("mataram")) newPrice = 200000;
     
     // Replace pax
     if (newNotes && newNotes.includes("1–7 pax")) {
