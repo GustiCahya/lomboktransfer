@@ -1,4 +1,12 @@
 import React from "react";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Privacy Policy",
+  description: "Read our Privacy Policy to understand how Lombok Transfer collects, uses, and protects your personal information.",
+  robots: { index: false, follow: false },
+  alternates: { canonical: "https://lomboktransfer.com/privacy" },
+};
 
 export default function PrivacyPage() {
   return (

@@ -1,4 +1,4 @@
-# Step 18 — Deployment & Go-Live
+# Step 18 - Deployment & Go-Live
 
 **Fase:** Cross-cutting (Fase Akhir)  
 **Target:** Minggu 12 (Hari 43–45)  
@@ -16,6 +16,7 @@ Menyiapkan seluruh infrastruktur cloud (Frontend, Database, Otomasi) untuk lingk
 ## Todo List
 
 ### 18.1 Setup Infrastruktur Production
+
 - [ ] **Database (Supabase Cloud):**
   - Pastikan menggunakan project yang berbeda untuk Production (jangan gabung dengan Staging/Dev).
   - Terapkan seluruh SQL Migrations ke project Production.
@@ -32,6 +33,7 @@ Menyiapkan seluruh infrastruktur cloud (Frontend, Database, Otomasi) untuk lingk
   - Ganti credential test menjadi credential Fonnte & Claude versi Production.
 
 ### 18.2 Data Migration (Soft Launch)
+
 - [ ] Kosongkan data dummy (kecuali akun admin/owner).
 - [ ] Import data master sebenarnya via script atau manual entry:
   - Master Rute (harga terupdate).
@@ -41,11 +43,13 @@ Menyiapkan seluruh infrastruktur cloud (Frontend, Database, Otomasi) untuk lingk
 - [ ] Masukkan booking-booking yang sedang berjalan atau akan datang di bulan tersebut (Migrasi transisi).
 
 ### 18.3 Konfigurasi WhatsApp API
+
 - [ ] Pastikan nomor Fonnte yang digunakan adalah nomor resmi bisnis Lombok Transfer.
 - [ ] Cek profil WhatsApp Business (Logo, Deskripsi, Jam Kerja).
 - [ ] Infokan ke Supir bahwa mereka akan menerima pesan tugas dari nomor ini.
 
 ### 18.4 Training Internal & SOP
+
 - [ ] Buat sesi pelatihan 1-2 jam untuk Admin & Dispatcher (penggunaan dashboard desktop).
 - [ ] Buat sesi briefing untuk para Supir:
   - Cara login di HP (simpan shortcut di Home Screen).
@@ -54,12 +58,14 @@ Menyiapkan seluruh infrastruktur cloud (Frontend, Database, Otomasi) untuk lingk
 - [ ] Sediakan panduan darurat (Jika server down, kembali ke catatan manual / grup WA lama sementara).
 
 ### 18.5 Pemantauan Pasca-Launch (Post-Go-Live Support)
+
 - [ ] Pantau log error Next.js (Sentry atau Vercel Logs) selama 7 hari pertama.
 - [ ] Pantau eksekusi workflow di n8n untuk melihat apakah ada gagal kirim WA.
 - [ ] Minta masukan langsung dari supir mengenai UI di HP mereka (apakah tombol terlalu kecil, loading lambat, dll).
 - [ ] Lakukan penyesuaian UX minor berdasarkan keluhan hari pertama.
 
 ### 18.6 Handover Dokumentasi
+
 - [ ] Kumpulkan daftar semua credential (Supabase, Vercel, VPS, Fonnte, domain) di dalam secure vault (misal: Bitwarden / 1Password) dan serahkan ke Owner.
 - [ ] Dokumentasi struktur database (ERD).
 - [ ] Panduan restart VPS (jika n8n hang).

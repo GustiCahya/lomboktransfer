@@ -1,4 +1,5 @@
 import React from "react";
+import type { Metadata } from "next";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -6,6 +7,20 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Mail, Phone, MapPin, Send } from "lucide-react";
 import { createAdminClient } from "@/lib/supabase/server";
+
+export const metadata: Metadata = {
+  title: "Contact Us",
+  description:
+    "Get in touch with Lombok Transfer for bookings, custom itineraries, or any enquiries. Available 24/7 on WhatsApp. Based in Mataram, Lombok, Indonesia.",
+  openGraph: {
+    title: "Contact Us | Lombok Transfer",
+    description:
+      "Reach out to Lombok Transfer for bookings or custom itineraries. 24/7 WhatsApp support.",
+    url: "https://lomboktransfer.com/contact",
+  },
+  alternates: { canonical: "https://lomboktransfer.com/contact" },
+};
+
 
 export default async function ContactPage() {
   const supabase = createAdminClient();

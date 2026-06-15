@@ -1,7 +1,7 @@
 {
   "name": "Lombok Transfer",
   "short_name": "LombokTransfer",
-  "description": "Dashboard operasional internal Lombok Transfer",
+  "description": "Book private airport transfers and day tours across Lombok Island, Indonesia. Fixed pricing, local drivers, WhatsApp confirmation.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0d0e12",

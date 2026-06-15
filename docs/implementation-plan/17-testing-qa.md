@@ -1,4 +1,4 @@
-# Step 17 — Testing & QA
+# Step 17 - Testing & QA
 
 **Fase:** Cross-cutting (Berjalan terus menerus)  
 **Target:** Ongoing hingga Go-Live  
@@ -16,6 +16,7 @@ Memastikan semua fungsionalitas berjalan sesuai spesifikasi tanpa bug kritis, me
 ## Todo List
 
 ### 17.1 Unit Testing Dasar (Opsional namun disarankan)
+
 - [ ] Setup Jest dan React Testing Library (atau Vitest).
 - [ ] Tulis test untuk fungsi kritis di folder `lib/utils` dan `lib/validations`:
   - Format uang (Rupiah).
@@ -24,12 +25,14 @@ Memastikan semua fungsionalitas berjalan sesuai spesifikasi tanpa bug kritis, me
   - Kalkulator Komisi & Payroll.
 
 ### 17.2 End-to-End (E2E) Testing Flow Kritis
+
 - [ ] Gunakan tool seperti Cypress atau Playwright untuk mensimulasikan user journey utama:
   - **Journey 1 (Booking & Dispatch):** Admin login -> Buat booking manual -> Booking muncul di list -> Assign supir -> Log out.
   - **Journey 2 (Driver Mobile):** Supir login -> Cek trip hari ini -> Klik "Sedang Menuju Tamu" -> Klik "Selesai" -> Odometer ke-update.
   - **Journey 3 (Keuangan):** Accountant login -> Masukkan pengeluaran BBM -> Generate invoice PDF.
 
 ### 17.3 Security & Role-Based Access Control (RBAC) Check
+
 - [ ] Pengujian manual login dengan berbagai akun (Owner, Admin, Dispatcher, Driver, Accountant).
 - [ ] Verifikasi Row Level Security (RLS) di Supabase:
   - Login sebagai `driver` -> Coba bypass URL/query API untuk melihat data supir lain (harus gagal).
@@ -37,6 +40,7 @@ Memastikan semua fungsionalitas berjalan sesuai spesifikasi tanpa bug kritis, me
   - Login sebagai `admin` -> Pastikan bisa akses booking tapi tidak melihat profit/margin detail jika dikunci (tergantung rule owner).
 
 ### 17.4 UI/UX & Responsive Testing
+
 - [ ] Test Mobile Driver View pada device riil (atau Chrome DevTools):
   - Resolusi 375px (iPhone SE/Android kecil).
   - Cek touch target (minimal 44x44px).
@@ -48,11 +52,13 @@ Memastikan semua fungsionalitas berjalan sesuai spesifikasi tanpa bug kritis, me
 - [ ] Dark Mode testing (jika diimplementasikan).
 
 ### 17.5 Performance & Load Testing
+
 - [ ] Lighthouse Audit untuk performa (Target > 90 untuk SEO, Performance, Accessibility).
 - [ ] Cek load time untuk tabel Booking List dengan data dummy > 500 records (Pastikan pagination berfungsi cepat < 1 detik).
 - [ ] Cek size bundle Next.js, lakukan code splitting jika komponen berat membebani first load.
 
 ### 17.6 Automation & Webhook Testing
+
 - [ ] Test trigger dari n8n ke WhatsApp Fonnte dengan nomor tester (pastikan jangan sampai WA me-rate limit atau ter-ban).
 - [ ] Test skenario booking batal (Apakah notifikasi pembatalan masuk ke tamu dan supir).
 - [ ] Cek penjadwalan cron job n8n (Reminder H-1, Reminder 3 jam, Notif Expire).

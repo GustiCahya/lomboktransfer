@@ -1,6 +1,6 @@
-# Step 03 — Authentication & Authorization
+# Step 03 - Authentication & Authorization
 
-**Fase:** 1 — Fondasi  
+**Fase:** 1 - Fondasi  
 **Target:** Minggu 1 (Hari 3–4)  
 **Dependency:** Step 02 (Database Schema)  
 **Referensi PRD:** §2 Pengguna & Peran, §14 Keamanan & Akses
@@ -16,14 +16,16 @@ Implementasi sistem login, role-based access control (RBAC), Row Level Security 
 ## Todo List
 
 ### 3.1 Setup Supabase Auth
+
 - [ ] Aktifkan email + password provider di Supabase Auth settings
-- [ ] Konfigurasi email templates (welcome, reset password) — bahasa Indonesia
+- [ ] Konfigurasi email templates (welcome, reset password) - bahasa Indonesia
 - [ ] Set session timeout:
   - Admin/Owner/Dispatcher/Accountant: 8 jam
   - Driver: 24 jam
 - [ ] Disable email confirmation untuk development (enable di production)
 
 ### 3.2 Buat Halaman Login
+
 - [ ] Buat `app/(auth)/login/page.tsx`
   - Form login: email + password
   - Validasi input (zod schema)
@@ -31,13 +33,15 @@ Implementasi sistem login, role-based access control (RBAC), Row Level Security 
   - Loading state saat proses login
   - Logo Lombok Transfer + branding
   - Responsive: mobile-friendly untuk supir
-- [ ] Buat `app/(auth)/layout.tsx` — layout minimal tanpa sidebar
+- [ ] Buat `app/(auth)/layout.tsx` - layout minimal tanpa sidebar
 - [ ] Redirect ke dashboard setelah login sukses berdasarkan role:
   - `driver` → `/trips` (mobile view)
   - Lainnya → `/` (dashboard overview)
 
 ### 3.3 Implementasi Role System
+
 - [ ] Buat tabel `users` trigger: saat Supabase Auth user dibuat, auto-insert ke `public.users`
+
   ```sql
   CREATE OR REPLACE FUNCTION handle_new_user()
   RETURNS trigger AS $$
@@ -48,14 +52,18 @@ Implementasi sistem login, role-based access control (RBAC), Row Level Security 
   END;
   $$ LANGUAGE plpgsql SECURITY DEFINER;
   ```
+
 - [ ] Buat helper function `get_user_role()` di Supabase:
+
   ```sql
   CREATE OR REPLACE FUNCTION get_user_role()
   RETURNS text AS $$
     SELECT role FROM public.users WHERE id = auth.uid();
   $$ LANGUAGE sql SECURITY DEFINER;
   ```
+
 - [ ] Definisikan constant role di `lib/constants/roles.ts`:
+
   ```typescript
   export const ROLES = {
     OWNER: 'owner',
@@ -68,11 +76,13 @@ Implementasi sistem login, role-based access control (RBAC), Row Level Security 
   ```
 
 ### 3.4 Implementasi Row Level Security (RLS)
+
 - [ ] Enable RLS pada semua tabel
 - [ ] **Bookings RLS:**
   - Driver: hanya bisa SELECT booking milik sendiri
   - Dispatcher/Admin/Owner: full SELECT
   - Admin/Owner: INSERT, UPDATE
+
   ```sql
   CREATE POLICY "drivers_own_bookings" ON bookings
     FOR SELECT USING (
@@ -80,11 +90,14 @@ Implementasi sistem login, role-based access control (RBAC), Row Level Security 
       OR get_user_role() IN ('owner', 'admin', 'dispatcher')
     );
   ```
+
 - [ ] **Expenses RLS:** hanya owner + accountant
+
   ```sql
   CREATE POLICY "accounting_access" ON expenses
     FOR ALL USING (get_user_role() IN ('owner', 'accountant'));
   ```
+
 - [ ] **Drivers RLS:**
   - Driver: hanya profil sendiri (SELECT)
   - Admin/Owner: full CRUD
@@ -100,13 +113,15 @@ Implementasi sistem login, role-based access control (RBAC), Row Level Security 
 - [ ] Test semua RLS policy dengan different user roles
 
 ### 3.5 Middleware & Route Protection
+
 - [ ] Buat `middleware.ts` di root project:
   - Refresh session token
   - Redirect unauthenticated users ke `/login`
   - Redirect authenticated users dari `/login` ke dashboard
-- [ ] Buat `lib/auth/check-role.ts` — helper server-side role check
-- [ ] Buat `hooks/useUser.ts` — client-side hook untuk current user + role
-- [ ] Buat `components/shared/RoleGate.tsx` — conditional render berdasarkan role
+- [ ] Buat `lib/auth/check-role.ts` - helper server-side role check
+- [ ] Buat `hooks/useUser.ts` - client-side hook untuk current user + role
+- [ ] Buat `components/shared/RoleGate.tsx` - conditional render berdasarkan role
+
   ```tsx
   <RoleGate allowedRoles={['owner', 'admin']}>
     <SensitiveComponent />
@@ -114,7 +129,9 @@ Implementasi sistem login, role-based access control (RBAC), Row Level Security 
   ```
 
 ### 3.6 Matriks Akses per Modul
-- [ ] Buat `lib/constants/permissions.ts` — definisi akses per modul per role:
+
+- [ ] Buat `lib/constants/permissions.ts` - definisi akses per modul per role:
+
   ```typescript
   export const MODULE_ACCESS = {
     booking: { owner: 'full', admin: 'full', dispatcher: 'full', driver: 'own', accountant: 'none', viewer: 'read' },
@@ -127,15 +144,18 @@ Implementasi sistem login, role-based access control (RBAC), Row Level Security 
     reports: { owner: 'full', admin: 'full', dispatcher: 'read', driver: 'none', accountant: 'full', viewer: 'read' },
   } as const;
   ```
-- [ ] Buat `hooks/usePermission.ts` — hook untuk cek akses modul
+
+- [ ] Buat `hooks/usePermission.ts` - hook untuk cek akses modul
 
 ### 3.7 Logout & Session Management
+
 - [ ] Tombol logout di sidebar/header
 - [ ] Clear session di Supabase Auth
 - [ ] Redirect ke login page setelah logout
 - [ ] Handle expired session gracefully (auto-redirect + pesan)
 
 ### 3.8 User Management (Admin Only)
+
 - [ ] Halaman `app/(dashboard)/settings/users/page.tsx`:
   - Daftar semua user (nama, email, role, status)
   - Tambah user baru (invite via email)

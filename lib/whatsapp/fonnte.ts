@@ -3,7 +3,7 @@
  * Used to send WhatsApp messages via Fonnte gateway (fonnte.com)
  *
  * Environment variables required:
- *   FONNTE_API_KEY — Your Fonnte API key
+ *   FONNTE_API_KEY - Your Fonnte API key
  */
 
 export interface FonnteMessagePayload {
@@ -156,7 +156,7 @@ Halo ${params.guestName}!
 Mengingatkan bahwa penjemputan Anda dijadwalkan:
 📅 *${params.pickupDate}* pukul *${params.pickupTime}*
 📍 *Lokasi:* ${params.routeStart}
-👨‍✈️ *Supir:* ${params.driverName} — wa.me/${params.driverPhone}
+👨‍✈️ *Supir:* ${params.driverName} - wa.me/${params.driverPhone}
 
 Sampai jumpa besok! 🚗`,
 
@@ -181,7 +181,7 @@ Pastikan kendaraan siap dan Anda sudah menuju lokasi tepat waktu! 🚗`,
     cancelledTrips: number;
     totalRevenue: number;
     activeDrivers: number;
-  }) => `📊 *Laporan Harian — ${params.date}*
+  }) => `📊 *Laporan Harian - ${params.date}*
 
 • Booking masuk: ${params.totalBookings}
 • Trip selesai: ${params.completedTrips}

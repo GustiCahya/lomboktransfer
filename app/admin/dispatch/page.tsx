@@ -41,12 +41,12 @@ type ViewMode = "day" | "week" | "month";
 // ─── helpers ────────────────────────────────────────────────────────────────
 
 const STATUS_COLORS: Record<string, { border: string; ring: string; dot: string; badge: string }> = {
-  in_progress:     { border: "border-blue-500",   ring: "ring-blue-500/20",   dot: "bg-blue-500",   badge: "bg-blue-500/10 text-blue-600 dark:text-blue-400" },
-  confirmed:       { border: "border-emerald-500", ring: "ring-emerald-500/20", dot: "bg-emerald-500", badge: "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400" },
-  pending:         { border: "border-amber-500",   ring: "ring-amber-500/20",   dot: "bg-amber-500",   badge: "bg-amber-500/10 text-amber-600 dark:text-amber-400" },
-  driver_assigned: { border: "border-indigo-500",  ring: "ring-indigo-500/20",  dot: "bg-indigo-500",  badge: "bg-indigo-500/10 text-indigo-600 dark:text-indigo-400" },
-  completed:       { border: "border-gray-400",    ring: "ring-gray-400/20",    dot: "bg-gray-400",    badge: "bg-gray-400/10 text-gray-500" },
-  cancelled:       { border: "border-red-400",     ring: "ring-red-400/20",     dot: "bg-red-400",     badge: "bg-red-400/10 text-red-500" },
+  in_progress: { border: "border-blue-500", ring: "ring-blue-500/20", dot: "bg-blue-500", badge: "bg-blue-500/10 text-blue-600 dark:text-blue-400" },
+  confirmed: { border: "border-emerald-500", ring: "ring-emerald-500/20", dot: "bg-emerald-500", badge: "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400" },
+  pending: { border: "border-amber-500", ring: "ring-amber-500/20", dot: "bg-amber-500", badge: "bg-amber-500/10 text-amber-600 dark:text-amber-400" },
+  driver_assigned: { border: "border-indigo-500", ring: "ring-indigo-500/20", dot: "bg-indigo-500", badge: "bg-indigo-500/10 text-indigo-600 dark:text-indigo-400" },
+  completed: { border: "border-gray-400", ring: "ring-gray-400/20", dot: "bg-gray-400", badge: "bg-gray-400/10 text-gray-500" },
+  cancelled: { border: "border-red-400", ring: "ring-red-400/20", dot: "bg-red-400", badge: "bg-red-400/10 text-red-500" },
 };
 
 function getColor(status: string) {
@@ -67,7 +67,7 @@ const STATUS_LABELS: Record<string, string> = {
 function EventCard({ ev }: { ev: any }) {
   const c = getColor(ev.status);
   const guestName = ev.guests?.full_name ?? "Tamu Tidak Diketahui";
-  const routeName  = ev.routes?.name ?? "Custom Route";
+  const routeName = ev.routes?.name ?? "Custom Route";
   const driverName = ev.drivers?.full_name ?? "Belum Ditugaskan";
   const vehicleInfo = ev.vehicles
     ? `${ev.vehicles.brand} (${ev.vehicles.plate_number})`
@@ -108,7 +108,7 @@ function EventChip({ ev }: { ev: any }) {
   return (
     <div
       className={`flex items-center gap-1 rounded px-1.5 py-0.5 text-[11px] font-medium cursor-pointer truncate ${c.badge} border-l-2 ${c.border}`}
-      title={`${guestName} — ${STATUS_LABELS[ev.status]}`}
+      title={`${guestName} - ${STATUS_LABELS[ev.status]}`}
     >
       <span className="shrink-0 tabular-nums">{format(date, "HH:mm")}</span>
       <span className="truncate">{guestName}</span>
@@ -209,19 +209,17 @@ function WeekView({
               {/* Day header */}
               <button
                 onClick={() => onDayClick(day)}
-                className={`h-12 border-b border-border/50 flex flex-col items-center justify-center shrink-0 hover:bg-muted/50 transition-colors ${
-                  isToday(day) ? "bg-primary/5" : ""
-                }`}
+                className={`h-12 border-b border-border/50 flex flex-col items-center justify-center shrink-0 hover:bg-muted/50 transition-colors ${isToday(day) ? "bg-primary/5" : ""
+                  }`}
               >
                 <span className="text-[10px] text-muted-foreground uppercase font-medium">
                   {format(day, "EEE", { locale: id })}
                 </span>
                 <span
-                  className={`text-sm font-bold leading-tight ${
-                    isToday(day)
+                  className={`text-sm font-bold leading-tight ${isToday(day)
                       ? "bg-primary text-primary-foreground rounded-full w-6 h-6 flex items-center justify-center"
                       : ""
-                  }`}
+                    }`}
                 >
                   {format(day, "d")}
                 </span>
@@ -248,7 +246,7 @@ function WeekView({
                         key={ev.id}
                         className={`absolute left-1 right-1 rounded px-1.5 py-1 text-[11px] font-medium cursor-pointer truncate ${c.badge} border-l-2 ${c.border}`}
                         style={{ top: `${topPx}px`, minHeight: "28px" }}
-                        title={`${guest} — ${STATUS_LABELS[ev.status]}`}
+                        title={`${guest} - ${STATUS_LABELS[ev.status]}`}
                       >
                         <span className="tabular-nums mr-1">{format(d, "HH:mm")}</span>
                         <span className="truncate">{guest}</span>
@@ -310,23 +308,21 @@ function MonthView({
           return (
             <div
               key={day.toISOString()}
-              className={`border-r border-border/40 last:border-r-0 p-1.5 flex flex-col gap-0.5 min-h-[90px] cursor-pointer hover:bg-muted/30 transition-colors ${
-                !inMonth ? "opacity-40" : ""
-              } ${isToday(day) ? "bg-primary/5" : ""}`}
+              className={`border-r border-border/40 last:border-r-0 p-1.5 flex flex-col gap-0.5 min-h-[90px] cursor-pointer hover:bg-muted/30 transition-colors ${!inMonth ? "opacity-40" : ""
+                } ${isToday(day) ? "bg-primary/5" : ""}`}
               onClick={() => onDayClick(day)}
             >
               {/* Date number */}
               <span
-                className={`text-sm font-semibold self-start leading-tight px-1 rounded-full ${
-                  isToday(day)
+                className={`text-sm font-semibold self-start leading-tight px-1 rounded-full ${isToday(day)
                     ? "bg-primary text-primary-foreground w-6 h-6 flex items-center justify-center"
                     : "text-foreground"
-                }`}
+                  }`}
               >
                 {format(day, "d")}
               </span>
 
-              {/* Event chips — show max 3 + overflow */}
+              {/* Event chips - show max 3 + overflow */}
               {dayEvents.slice(0, 3).map((ev) => (
                 <EventChip key={ev.id} ev={ev} />
               ))}
@@ -386,13 +382,13 @@ export default function DispatchPage() {
 
   // ── Navigation ──
   const handlePrev = () => {
-    if (viewMode === "day")   setCurrentDate((d) => subDays(d, 1));
-    if (viewMode === "week")  setCurrentDate((d) => subWeeks(d, 1));
+    if (viewMode === "day") setCurrentDate((d) => subDays(d, 1));
+    if (viewMode === "week") setCurrentDate((d) => subWeeks(d, 1));
     if (viewMode === "month") setCurrentDate((d) => subMonths(d, 1));
   };
   const handleNext = () => {
-    if (viewMode === "day")   setCurrentDate((d) => addDays(d, 1));
-    if (viewMode === "week")  setCurrentDate((d) => addWeeks(d, 1));
+    if (viewMode === "day") setCurrentDate((d) => addDays(d, 1));
+    if (viewMode === "week") setCurrentDate((d) => addWeeks(d, 1));
     if (viewMode === "month") setCurrentDate((d) => addMonths(d, 1));
   };
 
@@ -407,12 +403,12 @@ export default function DispatchPage() {
     viewMode === "day"
       ? format(currentDate, "EEEE, dd MMMM yyyy", { locale: id })
       : viewMode === "week"
-      ? (() => {
+        ? (() => {
           const ws = startOfWeek(currentDate, { weekStartsOn: 1 });
           const we = endOfWeek(currentDate, { weekStartsOn: 1 });
           return `${format(ws, "d MMM", { locale: id })} – ${format(we, "d MMM yyyy", { locale: id })}`;
         })()
-      : format(currentDate, "MMMM yyyy", { locale: id });
+        : format(currentDate, "MMMM yyyy", { locale: id });
 
   const weekStart = startOfWeek(currentDate, { weekStartsOn: 1 });
 
@@ -472,9 +468,8 @@ export default function DispatchPage() {
 
         {/* ── Calendar body ── */}
         <CardContent
-          className={`flex-1 p-0 relative bg-slate-50/50 dark:bg-slate-900/20 ${
-            viewMode === "day" || viewMode === "week" ? "overflow-y-auto" : "overflow-hidden flex flex-col"
-          }`}
+          className={`flex-1 p-0 relative bg-slate-50/50 dark:bg-slate-900/20 ${viewMode === "day" || viewMode === "week" ? "overflow-y-auto" : "overflow-hidden flex flex-col"
+            }`}
         >
           {viewMode === "day" && <DayView events={events} isLoading={isLoading} />}
           {viewMode === "week" && (

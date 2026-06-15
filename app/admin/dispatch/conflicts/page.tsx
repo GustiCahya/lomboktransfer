@@ -99,7 +99,7 @@ function detectConflicts(bookings: Booking[]): Conflict[] {
               c.type === "vehicle" &&
               c.resourceId === vehicleId &&
               ((c.bookingA.id === bkgs[i].id && c.bookingB.id === bkgs[j].id) ||
-               (c.bookingA.id === bkgs[j].id && c.bookingB.id === bkgs[i].id))
+                (c.bookingA.id === bkgs[j].id && c.bookingB.id === bkgs[i].id))
           );
           if (!alreadyAdded) {
             conflicts.push({
@@ -128,16 +128,15 @@ function BookingChip({ bk, label }: { bk: Booking; label: string }) {
         <Badge variant="outline" className="text-[10px] font-mono">{bk.booking_code}</Badge>
         <Badge
           variant="outline"
-          className={`text-[10px] ${
-            bk.status === "in_progress" ? "border-blue-500 text-blue-600" :
-            bk.status === "confirmed" ? "border-emerald-500 text-emerald-600" :
-            "border-amber-500 text-amber-600"
-          }`}
+          className={`text-[10px] ${bk.status === "in_progress" ? "border-blue-500 text-blue-600" :
+              bk.status === "confirmed" ? "border-emerald-500 text-emerald-600" :
+                "border-amber-500 text-amber-600"
+            }`}
         >
           {bk.status}
         </Badge>
       </div>
-      <p className="text-sm font-semibold truncate">{bk.guests?.full_name ?? "—"}</p>
+      <p className="text-sm font-semibold truncate">{bk.guests?.full_name ?? "-"}</p>
       <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
         <Clock className="w-3 h-3 shrink-0" />
         {format(new Date(bk.pickup_datetime), "dd MMM, HH:mm", { locale: id })}

@@ -1,9 +1,24 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import type { Metadata } from "next";
 
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+
+export const metadata: Metadata = {
+  title: "About Us",
+  description:
+    "Lombok Transfer is a team of passionate local drivers offering private transfers and tours across Lombok Island, Indonesia. Born from a love of our island and a commitment to your comfort.",
+  openGraph: {
+    title: "About Us | Lombok Transfer",
+    description:
+      "Meet the local team behind Lombok Transfer - your trusted private transfer and tour service on the island.",
+    url: "https://lomboktransfer.com/about",
+  },
+  alternates: { canonical: "https://lomboktransfer.com/about" },
+};
+
 
 export default function AboutPage() {
   return (

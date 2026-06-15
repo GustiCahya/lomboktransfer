@@ -1,9 +1,9 @@
-# Step 13 — Modul Vendor & Procurement
+# Step 13 - Modul Vendor & Procurement
 
-**Fase:** 3 — Keuangan & Compliance  
+**Fase:** 3 - Keuangan & Compliance  
 **Target:** Minggu 7 (Hari 28–30)  
 **Dependency:** Step 11 (Accounting), Step 07 (Fleet)  
-**Referensi PRD:** §10 Modul 7 — Vendor & Procurement
+**Referensi PRD:** §10 Modul 7 - Vendor & Procurement
 
 ---
 
@@ -16,18 +16,20 @@ Membangun direktori vendor, riwayat transaksi, sub-modul hotel & travel partner,
 ## Todo List
 
 ### 13.1 Data Layer
+
 - [ ] Buat `hooks/useVendors.ts`:
-  - `useVendors(filters)` — list semua vendor
-  - `useVendor(id)` — detail vendor
-  - `useCreateVendor()` — mutation create
-  - `useUpdateVendor()` — mutation update
-  - `useVendorTransactions(vendorId)` — riwayat transaksi
+  - `useVendors(filters)` - list semua vendor
+  - `useVendor(id)` - detail vendor
+  - `useCreateVendor()` - mutation create
+  - `useUpdateVendor()` - mutation update
+  - `useVendorTransactions(vendorId)` - riwayat transaksi
 - [ ] Buat `hooks/useHotelPartners.ts`:
-  - `useHotelPartners()` — list hotel & travel partners
-  - `useCreateHotelPartner()` — mutation create
-- [ ] Buat `lib/validations/vendor.ts` — Zod schema
+  - `useHotelPartners()` - list hotel & travel partners
+  - `useCreateHotelPartner()` - mutation create
+- [ ] Buat `lib/validations/vendor.ts` - Zod schema
 
 ### 13.2 Direktori Vendor
+
 - [ ] Buat `app/(dashboard)/vendors/page.tsx`:
   - PageHeader: "Vendor & Procurement"
   - Sub-nav: Direktori | Hotel Partner | Purchase Order
@@ -49,6 +51,7 @@ Membangun direktori vendor, riwayat transaksi, sub-modul hotel & travel partner,
 - [ ] Buat `components/vendors/VendorCard.tsx`
 
 ### 13.3 Detail Vendor
+
 - [ ] Buat `app/(dashboard)/vendors/[id]/page.tsx`:
   - **Info Vendor:**
     - Nama, kategori, PIC, HP/WA, email, alamat, website
@@ -70,6 +73,7 @@ Membangun direktori vendor, riwayat transaksi, sub-modul hotel & travel partner,
     - Alert jika melebihi budget
 
 ### 13.4 Form Tambah/Edit Vendor
+
 - [ ] Buat `components/vendors/VendorForm.tsx` (dialog/page):
   - Nama (required)
   - Kategori (dropdown)
@@ -84,6 +88,7 @@ Membangun direktori vendor, riwayat transaksi, sub-modul hotel & travel partner,
   - Status: Aktif / Non-aktif
 
 ### 13.5 Hotel & Travel Partner
+
 - [ ] Buat `app/(dashboard)/vendors/partners/page.tsx`:
   - Daftar hotel & travel agent partners:
     | Nama | PIC Reservasi | Kontak | Komisi/Referral | Booking Bulan Ini | Total Booking | Nilai Bisnis | Status |
@@ -102,6 +107,7 @@ Membangun direktori vendor, riwayat transaksi, sub-modul hotel & travel partner,
   - ROI partnership
 
 ### 13.6 Purchase Order Sederhana
+
 - [ ] Buat `app/(dashboard)/vendors/purchase-orders/page.tsx`:
   - Untuk pengeluaran di atas threshold (misal Rp 500.000)
   - Daftar PO:
@@ -120,6 +126,7 @@ Membangun direktori vendor, riwayat transaksi, sub-modul hotel & travel partner,
   - Owner approve/reject di dashboard
   - Setelah approved → link ke bukti transaksi (expense)
 - [ ] Buat tabel `purchase_orders`:
+
   ```sql
   purchase_orders (id, po_number, vendor_id, description, items_json,
                    total_amount, status, created_by, approved_by, 
@@ -127,6 +134,7 @@ Membangun direktori vendor, riwayat transaksi, sub-modul hotel & travel partner,
   ```
 
 ### 13.7 Vendor Sub-Navigation
+
 - [ ] Buat `app/(dashboard)/vendors/layout.tsx`:
   - Sub-nav:
     - Direktori → `/vendors`

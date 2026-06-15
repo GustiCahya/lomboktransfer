@@ -1,6 +1,6 @@
-# Step 04 — Layout & Navigation Shell
+# Step 04 - Layout & Navigation Shell
 
-**Fase:** 1 — Fondasi  
+**Fase:** 1 - Fondasi  
 **Target:** Minggu 1–2 (Hari 4–5)  
 **Dependency:** Step 03 (Authentication)  
 **Referensi PRD:** §1.3 Prinsip Desain, §2.2 Akses per Modul
@@ -9,7 +9,7 @@
 
 ## Tujuan
 
-Membangun kerangka layout utama dashboard — sidebar navigation, header, breadcrumb, dan responsive shell yang menjadi fondasi semua halaman modul.
+Membangun kerangka layout utama dashboard - sidebar navigation, header, breadcrumb, dan responsive shell yang menjadi fondasi semua halaman modul.
 
 ---
 
@@ -48,19 +48,19 @@ Membangun kerangka layout utama dashboard — sidebar navigation, header, breadc
   - Active state highlight
   - Tooltip saat sidebar collapsed
   - **Role-based visibility**: sembunyikan menu yang tidak boleh diakses role user
-- [ ] Buat `components/shared/SidebarItem.tsx` — individual menu item component
+- [ ] Buat `components/shared/SidebarItem.tsx` - individual menu item component
 
 ### 4.3 Top Header Bar
 
 - [ ] Buat `components/shared/Header.tsx`:
   - Hamburger menu (toggle sidebar di mobile)
   - Breadcrumb path
-  - Search global (Command+K shortcut) — implementasi dasar
+  - Search global (Command+K shortcut) - implementasi dasar
   - Notification bell icon + badge count
   - User avatar + dropdown (profil, logout)
-- [ ] Buat `components/shared/Breadcrumb.tsx` — auto-generate dari URL path
-- [ ] Buat `components/shared/NotificationBell.tsx` — placeholder, implementasi detail di Step 10
-- [ ] Buat `components/shared/UserMenu.tsx` — dropdown dengan profil + logout
+- [ ] Buat `components/shared/Breadcrumb.tsx` - auto-generate dari URL path
+- [ ] Buat `components/shared/NotificationBell.tsx` - placeholder, implementasi detail di Step 10
+- [ ] Buat `components/shared/UserMenu.tsx` - dropdown dengan profil + logout
 
 ### 4.4 Mobile Layout (Driver View)
 
@@ -77,7 +77,7 @@ Membangun kerangka layout utama dashboard — sidebar navigation, header, breadc
 
   - Full-screen content area
   - Optimasi touch targets (min 44x44px)
-- [ ] Buat `components/shared/BottomNav.tsx` — bottom tab navigation
+- [ ] Buat `components/shared/BottomNav.tsx` - bottom tab navigation
 
 ### 4.5 Responsive Behavior
 
@@ -107,7 +107,7 @@ Membangun kerangka layout utama dashboard — sidebar navigation, header, breadc
   }
   ```
 
-- [ ] Dark mode support (toggle di header) — opsional, nice to have
+- [ ] Dark mode support (toggle di header) - opsional, nice to have
 - [ ] Typography: setup font Inter/Plus Jakarta Sans via Google Fonts
 - [ ] Card component style yang konsisten untuk semua modul
 - [ ] Status badge color system:
@@ -122,12 +122,12 @@ Membangun kerangka layout utama dashboard — sidebar navigation, header, breadc
 
 ### 4.7 Loading & Error States
 
-- [ ] Buat `app/(dashboard)/loading.tsx` — skeleton loading layout
-- [ ] Buat `app/(dashboard)/error.tsx` — error boundary page
-- [ ] Buat `app/(dashboard)/not-found.tsx` — 404 page
-- [ ] Buat `components/shared/PageSkeleton.tsx` — reusable skeleton
-- [ ] Buat `components/shared/EmptyState.tsx` — tampilan saat data kosong
-- [ ] Buat `components/shared/ErrorAlert.tsx` — inline error display
+- [ ] Buat `app/(dashboard)/loading.tsx` - skeleton loading layout
+- [ ] Buat `app/(dashboard)/error.tsx` - error boundary page
+- [ ] Buat `app/(dashboard)/not-found.tsx` - 404 page
+- [ ] Buat `components/shared/PageSkeleton.tsx` - reusable skeleton
+- [ ] Buat `components/shared/EmptyState.tsx` - tampilan saat data kosong
+- [ ] Buat `components/shared/ErrorAlert.tsx` - inline error display
 
 ### 4.8 Common Page Patterns
 
@@ -148,8 +148,8 @@ Membangun kerangka layout utama dashboard — sidebar navigation, header, breadc
   - Search input
   - Active filter badges
   - Reset filters button
-- [ ] Buat `components/shared/ConfirmDialog.tsx` — konfirmasi aksi destructive
-- [ ] Buat `components/shared/StatusBadge.tsx` — reusable status badge
+- [ ] Buat `components/shared/ConfirmDialog.tsx` - konfirmasi aksi destructive
+- [ ] Buat `components/shared/StatusBadge.tsx` - reusable status badge
 
 ---
 

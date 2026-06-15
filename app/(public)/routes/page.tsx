@@ -1,4 +1,5 @@
 import React from "react";
+import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
@@ -8,6 +9,19 @@ import RoutesTableClient from "./RoutesTableClient";
 import { createAdminClient } from "@/lib/supabase/server";
 
 export const revalidate = 3600; // revalidate every hour
+
+export const metadata: Metadata = {
+  title: "Transfer Routes & Prices",
+  description:
+    "View all Lombok transfer routes with transparent, fixed pricing. Airport to Kuta, Senggigi, Sembalun, Gili Islands & more. Price per vehicle, not per person.",
+  openGraph: {
+    title: "Transfer Routes & Prices | Lombok Transfer",
+    description:
+      "All Lombok transfer routes with fixed pricing. Airport to Kuta, Senggigi, Sembalun, Gili Islands & more.",
+    url: "https://lomboktransfer.com/routes",
+  },
+  alternates: { canonical: "https://lomboktransfer.com/routes" },
+};
 
 export default async function RoutesPage() {
   const supabase = createAdminClient();

@@ -1,6 +1,6 @@
-# Step 08 — Dashboard Overview (Home)
+# Step 08 - Dashboard Overview (Home)
 
-**Fase:** 1 — Fondasi  
+**Fase:** 1 - Fondasi  
 **Target:** Minggu 3 (Hari 11–12)  
 **Dependency:** Step 05 (Booking), Step 06 (HR), Step 07 (Fleet)  
 **Referensi PRD:** §11.2 Dashboard Overview (Home)
@@ -9,20 +9,22 @@
 
 ## Tujuan
 
-Membangun halaman utama dashboard — satu layar overview semua metrik bisnis, alert prioritas, dan quick-action untuk operasional harian.
+Membangun halaman utama dashboard - satu layar overview semua metrik bisnis, alert prioritas, dan quick-action untuk operasional harian.
 
 ---
 
 ## Todo List
 
 ### 8.1 Data Layer
+
 - [ ] Buat `hooks/useDashboard.ts`:
-  - `useDashboardStats()` — aggregated stats (booking hari ini, supir aktif, dll)
-  - `useTodayBookings()` — list booking hari ini
-  - `useActiveTrips()` — trip yang sedang berlangsung (real-time)
-  - `usePriorityAlerts()` — alert yang perlu perhatian
-  - `useMonthlyRevenue()` — pendapatan bulan ini
+  - `useDashboardStats()` - aggregated stats (booking hari ini, supir aktif, dll)
+  - `useTodayBookings()` - list booking hari ini
+  - `useActiveTrips()` - trip yang sedang berlangsung (real-time)
+  - `usePriorityAlerts()` - alert yang perlu perhatian
+  - `useMonthlyRevenue()` - pendapatan bulan ini
 - [ ] Buat Supabase SQL functions untuk aggregation:
+
   ```sql
   -- Fungsi hitung stats dashboard
   CREATE OR REPLACE FUNCTION get_dashboard_stats()
@@ -32,6 +34,7 @@ Membangun halaman utama dashboard — satu layar overview semua metrik bisnis, a
   ```
 
 ### 8.2 Widget Operasional Hari Ini
+
 - [ ] Buat section "Operasional Hari Ini":
   - **Card 1:** Total booking hari ini (angka + vs kemarin)
   - **Card 2:** Trip sedang berlangsung (angka + badge "LIVE")
@@ -45,6 +48,7 @@ Membangun halaman utama dashboard — satu layar overview semua metrik bisnis, a
   - Klik → navigasi ke halaman terkait
 
 ### 8.3 Widget Keuangan Bulan Ini
+
 - [ ] Buat section "Keuangan Bulan Ini":
   - Pendapatan gross (+ progress vs bulan lalu, bar)
   - Pendapatan nett (setelah komisi OTA)
@@ -54,6 +58,7 @@ Membangun halaman utama dashboard — satu layar overview semua metrik bisnis, a
 - [ ] **Note:** Data keuangan detail akan lengkap di Step 11 (Accounting). Saat ini tampilkan kalkulasi dari data booking.
 
 ### 8.4 Widget Alert Prioritas
+
 - [ ] Buat section "Perlu Perhatian" (alert list):
   - 🔴 Dokumen akan expire dalam 14 hari (nama dokumen + pemilik + sisa hari)
   - 🟡 Kendaraan melebihi km servis (unit + sisa km / sudah lewat)
@@ -67,6 +72,7 @@ Membangun halaman utama dashboard — satu layar overview semua metrik bisnis, a
 - [ ] Buat `components/dashboard/AlertItem.tsx`
 
 ### 8.5 Daftar Booking Hari Ini
+
 - [ ] Buat section "Booking Hari Ini":
   - Tabel ringkas booking hari ini:
     | Jam | Tamu | Rute | Supir | Status |
@@ -75,6 +81,7 @@ Membangun halaman utama dashboard — satu layar overview semua metrik bisnis, a
 - [ ] Buat `components/dashboard/TodayBookings.tsx`
 
 ### 8.6 Quick Actions
+
 - [ ] Buat section "Aksi Cepat" (button group):
   - ➕ Booking Baru → `/bookings/new`
   - 📅 Kalender Dispatch → `/dispatch`
@@ -83,6 +90,7 @@ Membangun halaman utama dashboard — satu layar overview semua metrik bisnis, a
 - [ ] Buat `components/dashboard/QuickActions.tsx`
 
 ### 8.7 Supabase Realtime Integration
+
 - [ ] Buat `hooks/useRealtime.ts`:
   - Subscribe ke perubahan tabel `bookings` (INSERT, UPDATE)
   - Auto-refresh dashboard saat ada booking baru / status change
@@ -93,6 +101,7 @@ Membangun halaman utama dashboard — satu layar overview semua metrik bisnis, a
   - Supir update status → update supir aktif count
 
 ### 8.8 Layout & Responsiveness
+
 - [ ] Layout dashboard `app/(dashboard)/page.tsx`:
   - Desktop: 2-kolom grid
     - Kiri (60%): Stats cards, Booking hari ini, Quick actions

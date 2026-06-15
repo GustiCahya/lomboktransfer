@@ -47,8 +47,8 @@ export const LOMBOK_TRANSFER_SYSTEM_PROMPT = `You are a friendly and professiona
 - Day Trip (Waterfall / Sasak Village): IDR 400,000 - 600,000
 
 ## Vehicle Options
-- Sedan (Toyota Innova / Avanza) — max 4 pax
-- MPV (Toyota Hiace / Hi-Ace) — max 8-10 pax
+- Sedan (Toyota Innova / Avanza) - max 4 pax
+- MPV (Toyota Hiace / Hi-Ace) - max 8-10 pax
 
 ## FAQ
 - **Pickup**: Free hotel/villa pickup included

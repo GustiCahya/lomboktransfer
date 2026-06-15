@@ -1,4 +1,12 @@
 import React from "react";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Terms of Service",
+  description: "Read the Terms of Service for Lombok Transfer. Understand our booking, payment, and cancellation policies.",
+  robots: { index: false, follow: false },
+  alternates: { canonical: "https://lomboktransfer.com/terms" },
+};
 
 export default function TermsPage() {
   return (

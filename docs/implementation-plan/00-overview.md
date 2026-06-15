@@ -1,8 +1,8 @@
-# 📋 Implementation Plan — Lombok Transfer Internal Dashboard
+# 📋 Implementation Plan - Lombok Transfer Internal Dashboard
 
 **Versi:** 1.0  
 **Dibuat:** 7 Juni 2026  
-**Referensi:** [PRD — Internal Dashboard Lombok Transfer](../lombok-transfer-internal-dashboard-prd.md)
+**Referensi:** [PRD - Internal Dashboard Lombok Transfer](../lombok-transfer-internal-dashboard-prd.md)
 
 ---
 
@@ -62,27 +62,32 @@ Minggu 12    ████████ Step 18: Deployment & Go-Live
 
 ## Fase Summary
 
-### Fase 1 — Fondasi (Minggu 1–3)
+### Fase 1 - Fondasi (Minggu 1–3)
+>
 > Step 01–09 | Prioritas absolut sebelum operasional
 
 Setup project, database, auth, layout, dan 3 modul inti (Booking, HR, Fleet) + dashboard overview + mobile driver view.
 
-### Fase 2 — Otomasi (Minggu 4–5)
+### Fase 2 - Otomasi (Minggu 4–5)
+>
 > Step 10 | Otomasi workflow operasional
 
 Setup n8n + Fonnte, auto-assign supir, notifikasi WA, reminder, alert dokumen.
 
-### Fase 3 — Keuangan & Compliance (Minggu 6–7)
+### Fase 3 - Keuangan & Compliance (Minggu 6–7)
+>
 > Step 11–13 | Sistem keuangan dan kepatuhan
 
 Accounting, payroll, invoice, legal compliance, vendor management.
 
-### Fase 4 — CRM & Analytics (Minggu 8–9)
+### Fase 4 - CRM & Analytics (Minggu 8–9)
+>
 > Step 14–15 | Customer relationship & business intelligence
 
 Database tamu, segmentasi, review management, grafik trend, laporan export.
 
-### Fase 5 — AI & Peningkatan (Minggu 10–12)
+### Fase 5 - AI & Peningkatan (Minggu 10–12)
+>
 > Step 16 | Fitur lanjutan
 
 Claude AI chatbot, integrasi API OTA, GPS tracking, audit log lengkap.
@@ -93,4 +98,4 @@ Claude AI chatbot, integrasi API OTA, GPS tracking, audit log lengkap.
 
 > ⚠️ Setiap step memiliki **checklist todo** yang harus diselesaikan sebelum melanjutkan ke step berikutnya dalam fase yang sama. Step dalam fase yang sama bisa dikerjakan paralel jika tidak ada dependency.
 
-> 📌 Dokumen ini adalah living document — diperbarui seiring perkembangan implementasi.
+> 📌 Dokumen ini adalah living document - diperbarui seiring perkembangan implementasi.

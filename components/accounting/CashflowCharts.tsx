@@ -11,7 +11,7 @@ export function CashflowAreaChart({ data, year }: { data: any[]; year: number })
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Arus Kas Bulanan — {year}</CardTitle>
+        <CardTitle>Arus Kas Bulanan - {year}</CardTitle>
       </CardHeader>
       <CardContent>
         <ResponsiveContainer width="100%" height={300}>

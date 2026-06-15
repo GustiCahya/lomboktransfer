@@ -1,9 +1,9 @@
-# Step 11 — Modul Accounting & Keuangan
+# Step 11 - Modul Accounting & Keuangan
 
-**Fase:** 3 — Keuangan & Compliance  
+**Fase:** 3 - Keuangan & Compliance  
 **Target:** Minggu 6–7 (Hari 21–27)  
 **Dependency:** Step 05 (Booking), Step 06 (HR), Step 10 (Automation)  
-**Referensi PRD:** §7 Modul 4 — Accounting & Keuangan
+**Referensi PRD:** §7 Modul 4 - Accounting & Keuangan
 
 ---
 
@@ -15,25 +15,27 @@ Membangun sistem keuangan internal: pendapatan, pengeluaran, invoice tamu, payro
 
 ## Todo List
 
-### 11.1 Data Layer — Hooks & Services
+### 11.1 Data Layer - Hooks & Services
+
 - [ ] Buat `hooks/useRevenue.ts`:
-  - `useRevenue(filters)` — list pendapatan dari booking
-  - `useRevenueBySource()` — breakdown per sumber
-  - `useRevenueSummary(period)` — ringkasan per periode
+  - `useRevenue(filters)` - list pendapatan dari booking
+  - `useRevenueBySource()` - breakdown per sumber
+  - `useRevenueSummary(period)` - ringkasan per periode
 - [ ] Buat `hooks/useExpenses.ts`:
-  - `useExpenses(filters)` — list pengeluaran
-  - `useCreateExpense()` — mutation create
-  - `useExpensesByCategory()` — breakdown per kategori
+  - `useExpenses(filters)` - list pengeluaran
+  - `useCreateExpense()` - mutation create
+  - `useExpensesByCategory()` - breakdown per kategori
 - [ ] Buat `hooks/usePayroll.ts`:
-  - `usePayrollList(period)` — list payroll per bulan
-  - `usePayrollDetail(id)` — detail per supir
-  - `useGeneratePayroll()` — mutation auto-calculate
-  - `useApprovePayroll()` — mutation approve
+  - `usePayrollList(period)` - list payroll per bulan
+  - `usePayrollDetail(id)` - detail per supir
+  - `useGeneratePayroll()` - mutation auto-calculate
+  - `useApprovePayroll()` - mutation approve
 - [ ] Buat `hooks/useInvoice.ts`:
-  - `useGenerateInvoice(bookingId)` — generate invoice PDF
-- [ ] Buat `lib/validations/expense.ts` — Zod schema
+  - `useGenerateInvoice(bookingId)` - generate invoice PDF
+- [ ] Buat `lib/validations/expense.ts` - Zod schema
 
 ### 11.2 Halaman Pendapatan
+
 - [ ] Buat `app/(dashboard)/accounting/revenue/page.tsx`:
   - PageHeader: "Pendapatan"
   - Filter: periode (bulan/tahun), sumber booking, status pembayaran
@@ -49,6 +51,7 @@ Membangun sistem keuangan internal: pendapatan, pengeluaran, invoice tamu, payro
 - [ ] Buat `components/accounting/RevenueSummary.tsx`
 
 ### 11.3 Halaman Pengeluaran
+
 - [ ] Buat `app/(dashboard)/accounting/expenses/page.tsx`:
   - PageHeader: "Pengeluaran" + tombol "Tambah Pengeluaran"
   - Filter: periode, kategori, vendor
@@ -62,6 +65,7 @@ Membangun sistem keuangan internal: pendapatan, pengeluaran, invoice tamu, payro
 - [ ] Buat `components/accounting/ExpenseTable.tsx`
 
 ### 11.4 Form Tambah Pengeluaran
+
 - [ ] Buat `components/accounting/ExpenseForm.tsx` (dialog):
   - Tanggal
   - Kategori (dropdown)
@@ -75,6 +79,7 @@ Membangun sistem keuangan internal: pendapatan, pengeluaran, invoice tamu, payro
 - [ ] Validasi: jumlah > 0, deskripsi required
 
 ### 11.5 Invoice Tamu
+
 - [ ] Buat `app/(dashboard)/accounting/invoices/page.tsx`:
   - Daftar semua invoice
   - Filter: periode, status (Belum Lunas / Lunas)
@@ -94,9 +99,10 @@ Membangun sistem keuangan internal: pendapatan, pengeluaran, invoice tamu, payro
   - Library: `@react-pdf/renderer` atau `jspdf`
   - Download PDF
   - Kirim via email/WA (trigger n8n)
-- [ ] Buat `components/accounting/InvoicePreview.tsx` — preview sebelum generate
+- [ ] Buat `components/accounting/InvoicePreview.tsx` - preview sebelum generate
 
 ### 11.6 Payroll & Komisi Supir (Lengkap)
+
 - [ ] Buat `app/(dashboard)/accounting/payroll/page.tsx`:
   - Pilih periode: bulan + tahun
   - Tombol "Generate Payroll Bulan Ini"
@@ -125,6 +131,7 @@ Membangun sistem keuangan internal: pendapatan, pengeluaran, invoice tamu, payro
     - Total komisi + bonus - potongan = dibayarkan
     - Tanda tangan digital (opsional)
 - [ ] Implementasi auto-calculate:
+
   ```sql
   -- Query: Hitung payroll untuk supir X, bulan Y
   SELECT
@@ -141,6 +148,7 @@ Membangun sistem keuangan internal: pendapatan, pengeluaran, invoice tamu, payro
   ```
 
 ### 11.7 Rekonsiliasi OTA
+
 - [ ] Buat `app/(dashboard)/accounting/ota-reconciliation/page.tsx`:
   - Upload settlement report (CSV/Excel) dari Klook/Viator/Traveloka
   - Parser per platform (format CSV berbeda):
@@ -158,12 +166,14 @@ Membangun sistem keuangan internal: pendapatan, pengeluaran, invoice tamu, payro
   - Resolve manual: admin bisa link transaksi yang tidak cocok ke booking
 - [ ] Buat `components/accounting/OTAUploader.tsx`
 - [ ] Buat `components/accounting/ReconciliationTable.tsx`
-- [ ] Buat `lib/parsers/klook-csv.ts` — parser Klook CSV
-- [ ] Buat `lib/parsers/viator-csv.ts` — parser Viator CSV
+- [ ] Buat `lib/parsers/klook-csv.ts` - parser Klook CSV
+- [ ] Buat `lib/parsers/viator-csv.ts` - parser Viator CSV
 
 ### 11.8 Laporan P&L
+
 - [ ] Buat `app/(dashboard)/accounting/pnl/page.tsx`:
   - Dashboard keuangan ringkas:
+
     | Metric | Bulan Ini | Bulan Lalu | YTD |
     |---|---|---|---|
     | Pendapatan gross | X | X | X |
@@ -173,6 +183,7 @@ Membangun sistem keuangan internal: pendapatan, pengeluaran, invoice tamu, payro
     | Komisi supir | (X) | (X) | (X) |
     | EBITDA | X | X | X |
     | Margin (%) | X% | X% | X% |
+
   - Grafik (recharts):
     - Bar chart: Pendapatan vs Pengeluaran per bulan (12 bulan)
     - Pie chart: Breakdown pendapatan per sumber
@@ -183,6 +194,7 @@ Membangun sistem keuangan internal: pendapatan, pengeluaran, invoice tamu, payro
 - [ ] Buat `components/accounting/ExpenseChart.tsx`
 
 ### 11.9 Arus Kas (Cash Flow)
+
 - [ ] Buat `app/(dashboard)/accounting/cashflow/page.tsx`:
   - Ringkasan kas masuk vs kas keluar per minggu/bulan
   - Saldo estimasi akhir bulan
@@ -191,6 +203,7 @@ Membangun sistem keuangan internal: pendapatan, pengeluaran, invoice tamu, payro
 - [ ] Buat `components/accounting/CashFlowChart.tsx`
 
 ### 11.10 Accounting Navigation
+
 - [ ] Buat sub-navigation di modul Accounting:
   - Pendapatan → `/accounting/revenue`
   - Pengeluaran → `/accounting/expenses`
@@ -199,7 +212,7 @@ Membangun sistem keuangan internal: pendapatan, pengeluaran, invoice tamu, payro
   - Rekonsiliasi OTA → `/accounting/ota-reconciliation`
   - Laporan P&L → `/accounting/pnl`
   - Arus Kas → `/accounting/cashflow`
-- [ ] Buat `app/(dashboard)/accounting/layout.tsx` — sub-nav layout
+- [ ] Buat `app/(dashboard)/accounting/layout.tsx` - sub-nav layout
 
 ---
 

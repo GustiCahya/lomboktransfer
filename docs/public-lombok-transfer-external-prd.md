@@ -1,8 +1,9 @@
-# PRD — External Presence & Digital Channels Lombok Transfer
+# PRD - External Presence & Digital Channels Lombok Transfer
+
 **Versi:** 1.0  
 **Tanggal:** Juni 2026  
 **Status:** Draft  
-**Pemilik:** Tim Marketing & Produk — Lombok Transfer  
+**Pemilik:** Tim Marketing & Produk - Lombok Transfer  
 
 ---
 
@@ -11,17 +12,17 @@
 1. [Overview & Tujuan](#1-overview--tujuan)
 2. [Segmentasi Pasar & Bahasa](#2-segmentasi-pasar--bahasa)
 3. [Channel Strategy Matrix](#3-channel-strategy-matrix)
-4. [Modul 1 — Website & Landing Page](#4-modul-1--website--landing-page)
-5. [Modul 2 — Online Booking Engine (Publik)](#5-modul-2--online-booking-engine-publik)
-6. [Modul 3 — SEO & Content Marketing](#6-modul-3--seo--content-marketing)
-7. [Modul 4 — Google Business Profile & Maps](#7-modul-4--google-business-profile--maps)
-8. [Modul 5 — OTA Platforms](#8-modul-5--ota-platforms)
-9. [Modul 6 — WhatsApp Business & AI Chatbot](#9-modul-6--whatsapp-business--ai-chatbot)
-10. [Modul 7 — Social Media (EN/ID Market)](#10-modul-7--social-media-enid-market)
-11. [Modul 8 — China Market (Xiaohongshu, WeChat, Trip.com)](#11-modul-8--china-market)
-12. [Modul 9 — Email Marketing](#12-modul-9--email-marketing)
-13. [Modul 10 — Review & Reputasi](#13-modul-10--review--reputasi)
-14. [Modul 11 — Hotel & Partner Network (B2B)](#14-modul-11--hotel--partner-network-b2b)
+4. [Modul 1 - Website & Landing Page](#4-modul-1--website--landing-page)
+5. [Modul 2 - Online Booking Engine (Publik)](#5-modul-2--online-booking-engine-publik)
+6. [Modul 3 - SEO & Content Marketing](#6-modul-3--seo--content-marketing)
+7. [Modul 4 - Google Business Profile & Maps](#7-modul-4--google-business-profile--maps)
+8. [Modul 5 - OTA Platforms](#8-modul-5--ota-platforms)
+9. [Modul 6 - WhatsApp Business & AI Chatbot](#9-modul-6--whatsapp-business--ai-chatbot)
+10. [Modul 7 - Social Media (EN/ID Market)](#10-modul-7--social-media-enid-market)
+11. [Modul 8 - China Market (Xiaohongshu, WeChat, Trip.com)](#11-modul-8--china-market)
+12. [Modul 9 - Email Marketing](#12-modul-9--email-marketing)
+13. [Modul 10 - Review & Reputasi](#13-modul-10--review--reputasi)
+14. [Modul 11 - Hotel & Partner Network (B2B)](#14-modul-11--hotel--partner-network-b2b)
 15. [Integrasi Antar Channel](#15-integrasi-antar-channel)
 16. [Analytics & KPI](#16-analytics--kpi)
 17. [Non-Functional Requirements](#17-non-functional-requirements)
@@ -35,7 +36,7 @@
 
 Lombok Transfer adalah layanan transportasi wisata premium yang menghubungkan wisatawan dari Bandara Internasional Lombok (BIL) ke seluruh destinasi wisata utama di Lombok. Dua pasar utama yang disasar adalah wisatawan mancanegara berbahasa Inggris dan Mandarin, serta wisatawan domestik Indonesia.
 
-Dokumen ini mendefinisikan semua sistem dan channel **eksternal** — yaitu semua titik kontak yang dilihat dan digunakan oleh calon tamu sebelum, selama, dan setelah perjalanan mereka.
+Dokumen ini mendefinisikan semua sistem dan channel **eksternal** - yaitu semua titik kontak yang dilihat dan digunakan oleh calon tamu sebelum, selama, dan setelah perjalanan mereka.
 
 ### 1.2 Tujuan
 
@@ -43,14 +44,14 @@ Dokumen ini mendefinisikan semua sistem dan channel **eksternal** — yaitu semu
 - Mengkonversi pencarian online menjadi booking aktif
 - Memastikan tamu mendapatkan pengalaman pre-trip dan post-trip yang seamless
 - Membangun reputasi dan social proof yang menghasilkan booking organik jangka panjang
-- Membuka channel akuisisi yang terdiversifikasi — tidak bergantung pada satu platform saja
+- Membuka channel akuisisi yang terdiversifikasi - tidak bergantung pada satu platform saja
 
 ### 1.3 Prinsip Desain External Channel
 
-- **Satu tone, banyak bahasa:** Karakter brand Lombok Transfer — warm, lokal, terpercaya — harus konsisten di semua channel meski bahasa berbeda
+- **Satu tone, banyak bahasa:** Karakter brand Lombok Transfer - warm, lokal, terpercaya - harus konsisten di semua channel meski bahasa berbeda
 - **Frictionless conversion:** Dari manapun tamu menemukan Lombok Transfer, jalur menuju booking harus sesedikit mungkin langkah
 - **Mobile-first:** Mayoritas tamu riset dan booking dari HP, seringkali saat sudah di perjalanan
-- **Trust building:** Di bisnis transportasi wisata, kepercayaan adalah produk utama — setiap channel harus menampilkan elemen trust (foto nyata, review asli, harga transparan, info supir)
+- **Trust building:** Di bisnis transportasi wisata, kepercayaan adalah produk utama - setiap channel harus menampilkan elemen trust (foto nyata, review asli, harga transparan, info supir)
 - **Local expertise:** Positioning Lombok Transfer bukan sekadar "antar-jemput" tapi sebagai local authority yang tahu Lombok lebih baik dari siapapun
 
 ---
@@ -71,7 +72,7 @@ Dokumen ini mendefinisikan semua sistem dan channel **eksternal** — yaitu semu
 **Website:** EN + 中文 + ID (3 bahasa wajib)  
 **Konten sosial media:** EN + ID untuk Instagram/TikTok; 中文 untuk Xiaohongshu  
 **OTA listing:** EN (platform handle terjemahan ke bahasa lokal masing-masing)  
-**WhatsApp chatbot:** Deteksi bahasa otomatis — EN / 中文 / ID  
+**WhatsApp chatbot:** Deteksi bahasa otomatis - EN / 中文 / ID  
 **WeChat:** 中文 penuh  
 
 ---
@@ -83,7 +84,7 @@ Dokumen ini mendefinisikan semua sistem dan channel **eksternal** — yaitu semu
 ```
 AWARENESS (Sadar ada Lombok Transfer)
 ├── Google Search (SEO organik)
-├── Google Ads (SEM — fase lanjutan)
+├── Google Ads (SEM - fase lanjutan)
 ├── Instagram Reels & TikTok (konten viral)
 ├── Xiaohongshu posts (pasar China)
 ├── Klook / Viator / Trip.com discovery
@@ -131,11 +132,11 @@ LOYALTY & ADVOCACY (Ulang & rekomendasikan)
 
 ---
 
-## 4. Modul 1 — Website & Landing Page
+## 4. Modul 1 - Website & Landing Page
 
 ### 4.1 Deskripsi
 
-Website resmi Lombok Transfer adalah hub digital utama — tempat semua channel lain mengarahkan tamu. Website harus mengkonversi pengunjung menjadi booking, membangun kepercayaan, dan mencerminkan posisi premium brand.
+Website resmi Lombok Transfer adalah hub digital utama - tempat semua channel lain mengarahkan tamu. Website harus mengkonversi pengunjung menjadi booking, membangun kepercayaan, dan mencerminkan posisi premium brand.
 
 **Domain:** lomboktransfer.com (atau variasi yang tersedia)  
 **Tech stack:** Next.js 14 + Tailwind CSS + Supabase  
@@ -147,6 +148,7 @@ Website resmi Lombok Transfer adalah hub digital utama — tempat semua channel 
 #### 4.2.1 Homepage (`/`)
 
 **Hero Section:**
+
 - Headline kuat yang menjual: "Lombok, Beautifully Delivered" (EN) / "让您的龙目岛之旅从落地就开始" (ZH) / "Lombok di Ujung Jari Anda" (ID)
 - Sub-headline: proposisi nilai dalam 1 kalimat (24/7, professional local drivers, instant confirmation)
 - CTA primer: tombol "Book Your Transfer" → langsung scroll ke / buka booking form
@@ -155,36 +157,43 @@ Website resmi Lombok Transfer adalah hub digital utama — tempat semua channel 
 - Trust badges: "1000+ Happy Travelers", "4.9★ Rating", "Trusted Since [tahun]"
 
 **Why Choose Us Section (3–4 poin):**
-- Professional Local Drivers — supir asli Lombok, berpengalaman, sopan
-- Transparent Pricing — no hidden fees, harga konfirmasi di depan
-- 24/7 Including Early Flights — penjemputan jam berapapun
-- Instant Confirmation via WhatsApp — konfirmasi langsung setelah booking
+
+- Professional Local Drivers - supir asli Lombok, berpengalaman, sopan
+- Transparent Pricing - no hidden fees, harga konfirmasi di depan
+- 24/7 Including Early Flights - penjemputan jam berapapun
+- Instant Confirmation via WhatsApp - konfirmasi langsung setelah booking
 
 **Destinasi Populer Section:**
+
 - Card setiap destinasi: foto, nama, jarak/waktu dari BIL, harga mulai dari
 - Destinasi: Gili Trawangan, Kuta Lombok, Senggigi, Mandalika, Tetebatu, Sembalun
 - Klik card → buka booking form dengan destinasi ter-pre-fill
 
-**Cara Kerja (How It Works) — 3 Langkah:**
+**Cara Kerja (How It Works) - 3 Langkah:**
+
 1. Book Online atau via WhatsApp
 2. Terima konfirmasi + detail supir
 3. Dijemput tepat waktu di bandara
 
 **Testimoni / Review Section:**
+
 - 6–8 review nyata dari Google/Klook/Viator (dengan nama, kebangsaan, foto profil jika ada)
 - Review dalam bahasa sesuai versi website (EN/ZH/ID)
 - Link ke halaman review lengkap
 
 **Armada Section:**
+
 - Foto interior dan eksterior kendaraan
 - Spesifikasi: merk, kapasitas, fasilitas (AC, bottled water, clean)
 - Tidak perlu nama/plat kendaraan, cukup model dan kesan premium
 
 **FAQ Section:**
+
 - 8–10 pertanyaan paling umum (embedded structured FAQ untuk SEO)
 - Pertanyaan: metode pembayaran, kebijakan cancel, bagasi, bayi, early morning, dll
 
 **Footer:**
+
 - Logo + tagline
 - Navigasi cepat
 - Nomor WhatsApp (klik langsung buka WA)
@@ -196,6 +205,7 @@ Website resmi Lombok Transfer adalah hub digital utama — tempat semua channel 
 #### 4.2.2 Halaman Rute & Harga (`/routes` atau `/prices`)
 
 Tabel atau card grid semua rute yang tersedia:
+
 - Rute asal → tujuan
 - Harga per kendaraan (max 4 pax)
 - Estimasi durasi
@@ -203,6 +213,7 @@ Tabel atau card grid semua rute yang tersedia:
 - Tombol "Book This Route" per rute
 
 Catatan pricing yang transparan:
+
 - Harga per mobil privat, bukan per orang
 - Termasuk apa saja (air mineral, meets-greets di bandara, dll)
 - Tidak termasuk apa (tiket feri Gili, dll)
@@ -213,7 +224,7 @@ Catatan pricing yang transparan:
 - Cerita singkat: siapa kami, kenapa kami ada, apa yang membuat kami berbeda
 - Foto tim dan supir nyata (nama, foto, "sudah X tahun di Lombok")
 - Misi: menghubungkan dunia dengan keajaiban Lombok melalui perjalanan yang nyaman dan terpercaya
-- Sertifikat / izin usaha (thumbnail, tidak perlu detail) — membangun kepercayaan
+- Sertifikat / izin usaha (thumbnail, tidak perlu detail) - membangun kepercayaan
 - Komitmen: keselamatan, kejujuran, kenyamanan
 
 #### 4.2.4 Halaman Paket Tour (`/tours`)
@@ -221,6 +232,7 @@ Catatan pricing yang transparan:
 Selain airport transfer, halaman ini menampilkan paket wisata sehari (day tour):
 
 Per paket:
+
 - Nama paket (misal: "West Lombok Explorer", "Gili Island Transfer + Tour")
 - Foto highlight destinasi dalam paket
 - Itinerary singkat: destinasi yang dikunjungi
@@ -231,6 +243,7 @@ Per paket:
 - Tombol "Book This Tour"
 
 Paket contoh:
+
 - West Lombok (Senggigi + Tanjung Aan + Batu Bolong)
 - East Lombok (Tetebatu + Air Terjun + Sembalun)
 - South Lombok (Kuta + Mawun + Selong Belanak + Tanjung Aan)
@@ -242,7 +255,8 @@ Paket contoh:
 Konten SEO yang menarik tamu dari Google. Minimal 1–2 artikel per bulan.
 
 Contoh artikel:
-- "How to Get from Lombok Airport to Gili Trawangan — Complete Guide 2026"
+
+- "How to Get from Lombok Airport to Gili Trawangan - Complete Guide 2026"
 - "Best Beaches in South Lombok: A Local's Guide"
 - "Lombok vs Bali: Which Island is Right for You?"
 - "What to Expect at Lombok International Airport (BIL)"
@@ -252,6 +266,7 @@ Contoh artikel:
 #### 4.2.6 Halaman Konfirmasi Booking (`/booking/confirmation/[id]`)
 
 Setelah booking berhasil:
+
 - Ringkasan booking (nomor booking, nama tamu, rute, tanggal/jam, supir yang ditugaskan)
 - Instruksi meeting point di BIL (foto gate / area penjemputan)
 - Tombol: Download PDF itinerary, Share via WhatsApp, Add to Google Calendar
@@ -260,31 +275,35 @@ Setelah booking berhasil:
 #### 4.2.7 Halaman Status Booking (`/booking/status/[code]`)
 
 Tamu bisa cek status booking mereka sendiri:
+
 - Input: booking code + nomor HP
 - Tampil: status saat ini, detail supir (nama + foto + nomor WA), progress tracker
 - Cocok untuk tamu yang ingin update real-time sebelum dijemput
 
 #### 4.2.8 Halaman Legal
 
-- `/terms` — Syarat & Ketentuan (EN/ID/ZH)
-- `/privacy` — Kebijakan Privasi (GDPR-compliant)
-- `/cookies` — Cookie Policy
+- `/terms` - Syarat & Ketentuan (EN/ID/ZH)
+- `/privacy` - Kebijakan Privasi (GDPR-compliant)
+- `/cookies` - Cookie Policy
 
 ### 4.3 Fitur Website Teknis
 
 **Multi-language:**
+
 - URL structure: `/en/`, `/id/`, `/zh/` atau sub-domain `en.lomboktransfer.com`
 - Fallback: default ke EN jika bahasa tidak terdeteksi
 - Language switcher di header (persisten via cookie)
 - `hreflang` tag untuk SEO masing-masing bahasa
 
 **Performance:**
+
 - Target Lighthouse score: 90+ semua kategori
 - Image optimization: WebP, lazy load, responsive srcset
 - Core Web Vitals: LCP < 2.5s, CLS < 0.1, FID < 100ms
 - Static generation (SSG) untuk halaman statis, SSR untuk halaman dinamis
 
 **SEO On-page:**
+
 - Meta title dan description unik per halaman per bahasa
 - Open Graph tags (preview di WhatsApp, Facebook, WeChat)
 - Structured data: `LocalBusiness`, `TouristTrip`, `FAQPage`, `BreadcrumbList`
@@ -293,6 +312,7 @@ Tamu bisa cek status booking mereka sendiri:
 - `robots.txt` yang benar
 
 **Tracking & Analytics:**
+
 - Google Analytics 4 (GA4)
 - Google Search Console
 - Facebook Pixel (untuk retargeting)
@@ -300,6 +320,7 @@ Tamu bisa cek status booking mereka sendiri:
 - Konversi tracking: booking form submit, WA button click, phone click
 
 **Security:**
+
 - HTTPS wajib (SSL via Vercel)
 - CAPTCHA atau honeypot di form booking (anti-spam)
 - Rate limiting pada booking API
@@ -307,63 +328,69 @@ Tamu bisa cek status booking mereka sendiri:
 
 ---
 
-## 5. Modul 2 — Online Booking Engine (Publik)
+## 5. Modul 2 - Online Booking Engine (Publik)
 
 ### 5.1 Deskripsi
 
-Form booking yang terintegrasi di website — bisa muncul sebagai modal, section di homepage, atau halaman tersendiri di `/book`.
+Form booking yang terintegrasi di website - bisa muncul sebagai modal, section di homepage, atau halaman tersendiri di `/book`.
 
 ### 5.2 Alur Booking (4 Langkah)
 
-#### Step 1 — Pilih Layanan & Rute
+#### Step 1 - Pilih Layanan & Rute
 
 **Tipe layanan:**
+
 - Airport Transfer (BIL → Destinasi)
 - Transfer ke Bandara (Destinasi → BIL)
 - Point-to-point (antar destinasi di Lombok)
 - Day Tour / Paket Wisata
 
 **Pilih Rute:**
+
 - Dropdown atau search "titik jemput → titik antar"
 - Jika BIL sebagai titik jemput: muncul field "Nomor Penerbangan" (opsional, untuk flight tracking)
 - Harga otomatis muncul setelah rute dipilih
 - Estimasi durasi perjalanan
 
-#### Step 2 — Pilih Tanggal & Detail
+#### Step 2 - Pilih Tanggal & Detail
 
 - Date picker (tanggal penjemputan)
-- Time picker (jam penjemputan) — dengan keterangan surcharge dini hari jika jam 00:00–06:00
+- Time picker (jam penjemputan) - dengan keterangan surcharge dini hari jika jam 00:00–06:00
 - Jumlah penumpang (1–7, dibatasi kapasitas kendaraan)
 - Jumlah bagasi besar (untuk estimasi kendaraan yang cocok)
 - Catatan khusus (child seat, tamu dengan kebutuhan khusus, dll)
 - Harga otomatis update (termasuk surcharge jika applicable)
 
-#### Step 3 — Data Tamu
+#### Step 3 - Data Tamu
 
 - Nama lengkap (required)
-- Nomor WhatsApp aktif (required) — format internasional
+- Nomor WhatsApp aktif (required) - format internasional
 - Email (optional, untuk kirim invoice)
 - Kebangsaan / preferensi bahasa (untuk supir)
 - Nomor penerbangan jika dari bandara (untuk flight tracking)
 
 **Ringkasan booking sebelum konfirmasi:**
+
 - Rute, tanggal, jam
 - Jumlah pax
 - Harga final (breakdown: base + surcharge jika ada)
 - Kebijakan cancellation ringkas
 
-#### Step 4 — Pembayaran & Konfirmasi
+#### Step 4 - Pembayaran & Konfirmasi
 
 **Opsi pembayaran:**
-- Bayar saat tiba (Cash/Transfer) — default untuk booking langsung
+
+- Bayar saat tiba (Cash/Transfer) - default untuk booking langsung
 - Bayar online via Midtrans (kartu kredit, transfer bank, GoPay, OVO, Dana)
 
 **Setelah submit:**
+
 - Loading state: "Sedang memproses booking Anda..."
 - Sukses: redirect ke `/booking/confirmation/[id]`
 - Error: pesan error yang jelas dan actionable
 
 **Konfirmasi dikirim via:**
+
 - WA ke tamu (otomatis via n8n + Fonnte)
 - Email ke tamu (jika email diisi)
 - Notif ke admin dashboard
@@ -371,6 +398,7 @@ Form booking yang terintegrasi di website — bisa muncul sebagai modal, section
 ### 5.3 Embedded Booking Widget
 
 Selain halaman `/book`, booking form tersedia sebagai widget yang bisa di-embed:
+
 - Di homepage sebagai hero section atau sticky bar
 - Di halaman rute masing-masing
 - Di artikel blog yang relevan
@@ -378,19 +406,21 @@ Selain halaman `/book`, booking form tersedia sebagai widget yang bisa di-embed:
 ### 5.4 Booking via WhatsApp (Alternative Flow)
 
 Untuk tamu yang tidak mau isi form, WA button di website langsung membuka chat dengan pesan pre-filled:
+
 ```
 "Hi! I'd like to book a transfer from [origin] to [destination] on [date]. 
 How much is it?"
 ```
+
 Flow dilanjutkan oleh Claude AI chatbot atau admin.
 
 ---
 
-## 6. Modul 3 — SEO & Content Marketing
+## 6. Modul 3 - SEO & Content Marketing
 
 ### 6.1 Deskripsi
 
-Strategi untuk mendapatkan traffic organik dari Google — tamu yang sedang riset perjalanan ke Lombok sebelum booking. Ini channel akuisisi paling murah jangka panjang.
+Strategi untuk mendapatkan traffic organik dari Google - tamu yang sedang riset perjalanan ke Lombok sebelum booking. Ini channel akuisisi paling murah jangka panjang.
 
 ### 6.2 Target Keywords
 
@@ -426,6 +456,7 @@ Strategi untuk mendapatkan traffic organik dari Google — tamu yang sedang rise
 **Frekuensi:** 2 artikel/bulan minimal, target 1 per minggu saat sudah punya resource
 
 **Struktur artikel SEO:**
+
 - Judul mengandung keyword utama
 - H2 dan H3 terstruktur dengan pertanyaan natural
 - Panjang: 1.200–2.500 kata untuk artikel utama
@@ -452,12 +483,14 @@ Strategi untuk mendapatkan traffic organik dari Google — tamu yang sedang rise
 ### 6.4 Local SEO
 
 **Optimasi untuk pencarian lokal:**
+
 - NAP consistency (Name, Address, Phone) identik di semua platform
 - "Lombok airport transfer" di title dan meta semua halaman utama
 - Schema LocalBusiness dengan area served: Lombok
 - Embed Google Maps di halaman Kontak
 
 **Link building:**
+
 - Submit ke direktori wisata (Lonely Planet, Rough Guides, travel blogs)
 - Guest post di travel blog yang menulis tentang Lombok / Indonesia
 - Dapatkan mention di forum Tripadvisor / Reddit r/solotravel / r/indonesia
@@ -475,7 +508,7 @@ Strategi untuk mendapatkan traffic organik dari Google — tamu yang sedang rise
 
 ---
 
-## 7. Modul 4 — Google Business Profile & Maps
+## 7. Modul 4 - Google Business Profile & Maps
 
 ### 7.1 Deskripsi
 
@@ -484,6 +517,7 @@ Google Business Profile (GBP) adalah salah satu asset digital paling berharga un
 ### 7.2 Setup & Optimasi
 
 **Informasi Wajib:**
+
 - Nama bisnis: Lombok Transfer (konsisten, tidak diubah-ubah)
 - Kategori utama: Airport Shuttle Service
 - Kategori tambahan: Tour Operator, Transportation Service
@@ -495,12 +529,14 @@ Google Business Profile (GBP) adalah salah satu asset digital paling berharga un
 - Deskripsi (750 karakter): mencakup keyword utama, USP, layanan utama
 
 **Foto yang Harus Diupload:**
+
 - Logo (format persegi, JPG/PNG)
 - Cover photo (landscape, kendaraan atau destinasi Lombok)
 - 10–15 foto: armada kendaraan (interior + eksterior), supir profesional, tamu puas (dengan izin), destinasi wisata
-- Foto diupdate minimal sebulan sekali — Google memberi prioritas pada profil aktif
+- Foto diupdate minimal sebulan sekali - Google memberi prioritas pada profil aktif
 
 **Posting GBP:**
+
 - Buat "update" / post baru setiap 1–2 minggu
 - Konten: promosi, tips perjalanan, foto baru, high season info
 - Ini meningkatkan visibility di Google Maps
@@ -516,22 +552,26 @@ Google Business Profile (GBP) adalah salah satu asset digital paling berharga un
 ### 7.4 Google Maps Integration
 
 **Di website:**
+
 - Embed peta Google Maps di halaman Contact/About dengan pin lokasi kantor
 - Link "Get Directions" ke Google Maps
 
 **Di komunikasi tamu:**
+
 - Kirim Google Maps pin lokasi meeting point di BIL saat konfirmasi booking
 - Supir bisa share live location via WA saat menuju tamu
 
 ### 7.5 Google Analytics & Search Console
 
 **Google Analytics 4:**
+
 - Setup GA4 property di website
 - Event tracking: booking_initiated, booking_completed, whatsapp_click, phone_click
 - Goal: booking form submission = konversi
 - Audience: buat audience dari pengunjung yang belum booking untuk retargeting
 
 **Google Search Console:**
+
 - Verify ownership website
 - Submit sitemap
 - Monitor: keyword yang membawa traffic, CTR, posisi rata-rata
@@ -539,11 +579,11 @@ Google Business Profile (GBP) adalah salah satu asset digital paling berharga un
 
 ---
 
-## 8. Modul 5 — OTA Platforms
+## 8. Modul 5 - OTA Platforms
 
 ### 8.1 Deskripsi
 
-OTA (Online Travel Agency) adalah channel distribusi yang membawa tamu yang sudah niat beli — mereka aktif mencari layanan di platform, bukan perlu diedukasi lagi. Komisi OTA (15–25%) sepadan dengan kualitas lead-nya.
+OTA (Online Travel Agency) adalah channel distribusi yang membawa tamu yang sudah niat beli - mereka aktif mencari layanan di platform, bukan perlu diedukasi lagi. Komisi OTA (15–25%) sepadan dengan kualitas lead-nya.
 
 ### 8.2 Platform Prioritas
 
@@ -555,7 +595,7 @@ OTA (Online Travel Agency) adalah channel distribusi yang membawa tamu yang suda
 
 - Daftar sebagai supplier di Klook Merchant Portal
 - Buat listing: "Lombok Airport Private Transfer"
-- Buat listing terpisah per rute utama (BIL→Gili, BIL→Kuta, dll) — lebih banyak listing = lebih banyak surface
+- Buat listing terpisah per rute utama (BIL→Gili, BIL→Kuta, dll) - lebih banyak listing = lebih banyak surface
 - Foto: minimum 8 foto profesional (armada, supir, destinasi)
 - Deskripsi: EN, detail, keyword-rich, highlight USP (24/7, meet-greet, etc.)
 - Set harga: gross price (Klook potong komisi otomatis)
@@ -564,6 +604,7 @@ OTA (Online Travel Agency) adalah channel distribusi yang membawa tamu yang suda
 - Cancellation policy: Full refund jika cancel 24 jam sebelum
 
 **Optimasi listing Klook:**
+
 - Tanggapi semua review di Klook Merchant Portal
 - Aktifkan Klook Deals untuk periode high season
 - Request Klook untuk featured placement setelah mencapai 50+ review
@@ -576,11 +617,11 @@ OTA (Online Travel Agency) adalah channel distribusi yang membawa tamu yang suda
 
 - Daftar sebagai experience provider di Viator Supplier Portal
 - Listing "Lombok Airport Private Transfer & Tours"
-- Viator memiliki program "Book on TripAdvisor" — listing otomatis muncul di TripAdvisor
+- Viator memiliki program "Book on TripAdvisor" - listing otomatis muncul di TripAdvisor
 - Foto: minimum 6 foto
 - Deskripsi EN profesional, temukan tone yang tepat (bukan terlalu formal)
 - Harga dalam USD (Viator convert otomatis)
-- Viator memiliki program review generation — manfaatkan
+- Viator memiliki program review generation - manfaatkan
 
 #### 8.2.3 Traveloka Xperience
 
@@ -601,7 +642,7 @@ OTA (Online Travel Agency) adalah channel distribusi yang membawa tamu yang suda
 **Setup:**
 
 - Daftar di GetYourGuide Supplier Center
-- Listing "Lombok Airport Transfer — Private & Comfortable"
+- Listing "Lombok Airport Transfer - Private & Comfortable"
 - GetYourGuide punya traffic sangat besar dari Eropa
 - Harga dalam EUR
 - Foto dan deskripsi serupa dengan Viator
@@ -624,18 +665,21 @@ OTA (Online Travel Agency) adalah channel distribusi yang membawa tamu yang suda
 Idealnya gunakan channel manager untuk sinkronisasi availability dan harga ke semua OTA sekaligus. Opsi: BookingKit, Fareharbor, Rezdy. Namun sebagai fase awal, update manual bisa dilakukan.
 
 **Proses booking dari OTA:**
+
 1. Booking masuk di OTA → notif email ke admin
 2. n8n pickup notif → buat booking di Supabase → proses dispatch normal
-3. Settlement: OTA transfer nett setiap 2 minggu atau bulanan — upload ke modul Accounting untuk rekonsiliasi
+3. Settlement: OTA transfer nett setiap 2 minggu atau bulanan - upload ke modul Accounting untuk rekonsiliasi
 
 **Kebijakan harga OTA:**
-- Harga di semua OTA harus sama (price parity) — OTA akan penalti jika ada perbedaan harga
+
+- Harga di semua OTA harus sama (price parity) - OTA akan penalti jika ada perbedaan harga
 - Harga direct booking di website boleh lebih murah karena tidak ada komisi
 - Tidak disarankan publikasikan harga yang lebih murah secara terbuka di OTA vs website
 
 ### 8.4 TripAdvisor
 
 TripAdvisor lebih berfungsi sebagai review platform daripada booking platform untuk transport, tapi tetap penting:
+
 - Klaim listing di TripAdvisor Business Center
 - Lengkapi profil dan upload foto
 - Respond semua review dalam 48 jam
@@ -643,11 +687,11 @@ TripAdvisor lebih berfungsi sebagai review platform daripada booking platform un
 
 ---
 
-## 9. Modul 6 — WhatsApp Business & AI Chatbot
+## 9. Modul 6 - WhatsApp Business & AI Chatbot
 
 ### 9.1 Deskripsi
 
-WhatsApp adalah channel konversi tertinggi di Indonesia dan sangat populer di Asia. Hampir semua tamu — baik domestik maupun mancanegara dari Asia — lebih nyaman tanya via WA sebelum booking. Ini wajib dioptimalkan.
+WhatsApp adalah channel konversi tertinggi di Indonesia dan sangat populer di Asia. Hampir semua tamu - baik domestik maupun mancanegara dari Asia - lebih nyaman tanya via WA sebelum booking. Ini wajib dioptimalkan.
 
 ### 9.2 WhatsApp Business Account Setup
 
@@ -656,15 +700,17 @@ WhatsApp adalah channel konversi tertinggi di Indonesia dan sangat populer di As
 **Nomor:** Nomor khusus bisnis, bukan nomor pribadi  
 
 **Profil WhatsApp Business:**
+
 - Nama: Lombok Transfer
 - Foto profil: logo
 - Deskripsi: "Lombok's Premier Airport Transfer & Tour Service | 24/7 | EN/ID/中文"
 - Kategori: Travel & Transportation
-- Email: hello@lomboktransfer.com
+- Email: <hello@lomboktransfer.com>
 - Website: lomboktransfer.com
 - Jam: 24/7 (dengan catatan response time)
 
 **Katalog Produk (WhatsApp Catalog):**
+
 - Daftar layanan utama dengan foto, deskripsi singkat, harga mulai dari
 - Tamu bisa browse dan share katalog
 
@@ -673,6 +719,7 @@ WhatsApp adalah channel konversi tertinggi di Indonesia dan sangat populer di As
 **Link WA custom:** `wa.me/628xxxxxxxxxx?text=Hi!%20I'd%20like%20to%20book%20a%20transfer`
 
 **Entry points ke WA:**
+
 - Tombol "Book via WhatsApp" / "Chat with Us" di semua halaman website
 - Floating button WA di pojok kanan bawah website (mobile-friendly)
 - Link di bio Instagram dan TikTok
@@ -687,7 +734,8 @@ Auto-reply untuk tamu yang mengirim pesan di luar jam kerja atau untuk pertanyaa
 
 **Kemampuan Chatbot:**
 
-Level 1 — Informasi & FAQ:
+Level 1 - Informasi & FAQ:
+
 - Harga transfer per rute
 - Cara booking
 - Jam operasional
@@ -695,35 +743,40 @@ Level 1 — Informasi & FAQ:
 - Informasi meeting point di BIL
 - Pertanyaan umum tentang Lombok (apakah bisa ke Gili hari ini, berapa lama perjalanan, dll)
 
-Level 2 — Pengumpulan Data Booking:
+Level 2 - Pengumpulan Data Booking:
+
 - Tanya rute yang diinginkan
 - Tanya tanggal dan jam
 - Tanya jumlah penumpang
 - Konfirmasi harga
 - Arahkan ke booking form atau proses booking langsung di WA
 
-Level 3 — Eskalasi ke Manusia:
+Level 3 - Eskalasi ke Manusia:
+
 - Jika pertanyaan di luar kemampuan AI (komplain, kondisi khusus, negosiasi harga)
 - Jika tamu eksplisit minta bicara dengan manusia
 - Chatbot kirim notif ke admin: "Ada tamu yang perlu dihandle manual"
 
 **Bahasa:**
+
 - Deteksi otomatis bahasa tamu (EN / ID / ZH)
 - Chatbot reply dalam bahasa yang sama
 - Zhongwen chatbot untuk pasar China
 
 **Sistem Prompt Chatbot (ringkasan):**
+
 ```
 Kamu adalah asisten Lombok Transfer, layanan transportasi wisata premium di Lombok, Indonesia.
 Tugasmu: bantu calon tamu mendapatkan informasi dan booking.
 Karakter: ramah, helpful, professional, singkat dan jelas.
 Bahasa: sesuaikan dengan bahasa tamu (EN/ID/ZH).
-Jangan berikan informasi yang tidak kamu tahu — arahkan ke admin.
+Jangan berikan informasi yang tidak kamu tahu - arahkan ke admin.
 Selalu coba arahkan menuju booking.
 Data harga dan rute: [embed dari database]
 ```
 
 **Teknis:**
+
 - Webhook Fonnte → n8n → Claude API → n8n → Fonnte → WA tamu
 - Riwayat percakapan per nomor WA disimpan di Supabase (context window)
 - Rate limit: max 10 reply otomatis per sesi sebelum eskalasi ke manusia
@@ -747,7 +800,7 @@ Versi ID dan ZH untuk semua template di atas.
 
 ---
 
-## 10. Modul 7 — Social Media (EN/ID Market)
+## 10. Modul 7 - Social Media (EN/ID Market)
 
 ### 10.1 Deskripsi
 
@@ -782,6 +835,7 @@ Social media berfungsi untuk membangun brand awareness, konten yang bisa di-shar
    - FAQ dalam format carousel
 
 **Format Konten:**
+
 - Reels (15–60 detik): jangkauan terluas, prioritas utama
 - Carousel (3–10 slide): bagus untuk tips & edukasi, bisa di-save
 - Single photo: untuk visual kuat (sunrise, pantai)
@@ -789,11 +843,13 @@ Social media berfungsi untuk membangun brand awareness, konten yang bisa di-shar
 - Highlights: Destinasi / Armada / Testimoni / FAQ / Booking Guide
 
 **Frekuensi:**
+
 - 4–5 post per minggu (minimal)
 - Stories: setiap hari jika memungkinkan
 - Reels: 3 per minggu
 
 **Hashtag Strategy:**
+
 ```
 #LombokTransfer #LombokAirportTransfer #VisitLombok #LombokIsland
 #GiliTrawangan #KutaLombok #Senggigi #MandalikaN #LombokTravel
@@ -802,6 +858,7 @@ Social media berfungsi untuk membangun brand awareness, konten yang bisa di-shar
 ```
 
 **Posting Best Practices:**
+
 - Caption dalam EN + ID (bilingual lebih baik)
 - Selalu ada CTA: "Book now via link in bio" / "DM or WhatsApp to book"
 - Tag lokasi (geotag) di setiap post
@@ -816,14 +873,16 @@ Social media berfungsi untuk membangun brand awareness, konten yang bisa di-shar
 TikTok algoritma sangat mengutamakan konten yang entertain dan informatif, bukan promosi langsung.
 
 Format yang works:
+
 - "POV: dijemput di Bandara Lombok jam 4 pagi" (storytelling + emotional)
-- "Gili Trawangan trip dari BIL — full experience" (vlog gaya)
+- "Gili Trawangan trip dari BIL - full experience" (vlog gaya)
 - "3 pantai tersembunyi di Lombok yang hanya driver lokal tahu" (hook kuat)
 - "Berapa harga transfer Lombok yang wajar? Jangan kena tipu" (konten warning)
 - Duet atau reply ke video turis yang ke Lombok
 - Before/after: dari bandara sampai destinasi impian dalam 60 detik
 
 **Teknis TikTok:**
+
 - Vertical video 9:16
 - Hook dalam 3 detik pertama
 - Musik trending yang relevan
@@ -837,18 +896,20 @@ Format yang works:
 **Fungsi utama:** komunitas, grup travel, tamu yang lebih senior  
 
 **Strategi:**
+
 - Cross-post konten dari Instagram
 - Aktif di grup: "Lombok Travelers", "Backpackers Indonesia", "Expats in Lombok", "Visit Lombok"
-- Bukan iklan langsung di grup — bantu dengan konten berguna, sertakan brand mention natural
+- Bukan iklan langsung di grup - bantu dengan konten berguna, sertakan brand mention natural
 - Facebook Events untuk high season / paket khusus
 
 **Facebook Pixel:**
+
 - Pasang Facebook Pixel di website untuk retargeting pengunjung yang belum booking
 - Fase lanjutan: buat lookalike audience dari tamu yang sudah booking
 
 ---
 
-## 11. Modul 8 — China Market
+## 11. Modul 8 - China Market
 
 ### 11.1 Deskripsi
 
@@ -860,11 +921,13 @@ Pasar China adalah segmen dengan yield tinggi dan membutuhkan pendekatan yang sa
 **Bio dalam Mandarin:** "龙目岛专业机场接送服务 | 24小时 | 专业司机 | 安全舒适"  
 
 **Kenapa Xiaohongshu:**
+
 - Platform utama untuk riset travel Gen Z dan Millennial China
 - Konten berfungsi seperti Pinterest + Instagram + review blog sekaligus
 - Turis China sangat bergantung pada Xiaohongshu sebelum memilih layanan di destinasi asing
 
 **Jenis Konten:**
+
 - Photo essay: "从龙目岛机场到吉利群岛的完整攻略" (panduan lengkap dari BIL ke Gili)
 - Review style: tulis seperti travel note, bukan iklan
 - Real photo: foto armada, supir, jalan menuju Gili, pantai Kuta
@@ -875,6 +938,7 @@ Pasar China adalah segmen dengan yield tinggi dan membutuhkan pendekatan yang sa
 **Bahasa:** Mandarin (Simplified Chinese) penuh  
 
 **Kolaborasi KOL/KOC:**
+
 - Ajak travel KOC (Key Opinion Consumer) China yang sedang ke Lombok untuk review
 - KOC lebih kecil tapi lebih authentic dari KOL besar
 - Kompensasi: layanan gratis atau diskon significant sebagai imbalan konten jujur
@@ -885,16 +949,19 @@ Pasar China adalah segmen dengan yield tinggi dan membutuhkan pendekatan yang sa
 **Tipe:** Service Account (lebih banyak fitur, bisa broadcast bulanan)  
 
 **Kenapa WeChat:**
+
 - Turis China yang sudah landing di Lombok masih pakai WeChat untuk komunikasi
 - WeChat Pay juga bisa dijadikan opsi pembayaran untuk tamu China
 - Official Account bisa jadi pengganti website mini untuk pasar China
 
 **Konten WeChat:**
+
 - Artikel bulanan: tips wisata Lombok dalam Mandarin
 - Mini-program sederhana (opsional fase lanjutan): booking form dalam Mandarin
 - Broadcast pesan ke subscribers untuk high season offers
 
 **WeChat Customer Service:**
+
 - Set up WeChat sebagai channel CS parallel dengan WhatsApp
 - Chatbot Claude dalam Mandarin untuk reply otomatis di WeChat
 - Admin yang bisa Mandarin atau dengan Google Translate untuk backup
@@ -904,21 +971,24 @@ Pasar China adalah segmen dengan yield tinggi dan membutuhkan pendekatan yang sa
 Sudah dibahas di Modul OTA (Modul 5), namun ada strategi tambahan untuk pasar China:
 
 **Konten listing dalam Mandarin:**
+
 - Deskripsi harus ditulis dalam Mandarin oleh native speaker atau diterjemahkan profesional
-- Tidak cukup machine translate — tamu China sangat sensitif dengan kualitas Mandarin
+- Tidak cukup machine translate - tamu China sangat sensitif dengan kualitas Mandarin
 - Sertakan tips yang relevan untuk tamu China (halal food nearby? Muslim prayer room di BIL? dll)
 
 **Harga dalam CNY:**
+
 - Set harga di Trip.com dalam CNY (Yuan)
 - Perbarui jika ada perubahan kurs signifikan
 
 **Review response dalam Mandarin:**
+
 - Balas review dari tamu China di Trip.com dalam Mandarin
 - Ini sangat mempengaruhi keputusan booking tamu China lainnya
 
 ---
 
-## 12. Modul 9 — Email Marketing
+## 12. Modul 9 - Email Marketing
 
 ### 12.1 Deskripsi
 
@@ -931,7 +1001,7 @@ Email marketing untuk follow-up tamu pasca-trip, newsletter, dan re-engagement t
 
 ### 12.3 Automated Email Sequences
 
-#### Sequence 1 — Post Booking
+#### Sequence 1 - Post Booking
 
 | Email | Waktu | Konten |
 |---|---|---|
@@ -939,7 +1009,7 @@ Email marketing untuk follow-up tamu pasca-trip, newsletter, dan re-engagement t
 | Pre-Trip Reminder | H-1 | Reminder jadwal, kontak supir, info cuaca Lombok |
 | Day-Of | Hari H (2 jam sebelum) | Reminder final, link live status tracking |
 
-#### Sequence 2 — Post Trip
+#### Sequence 2 - Post Trip
 
 | Email | Waktu | Konten |
 |---|---|---|
@@ -947,16 +1017,17 @@ Email marketing untuk follow-up tamu pasca-trip, newsletter, dan re-engagement t
 | Review Reminder | H+3 (jika belum review) | Follow-up minta review, dengan link langsung |
 | Travel Tips | H+7 | "Enjoyed Lombok? Here are more tips for your next visit" |
 
-#### Sequence 3 — Re-engagement
+#### Sequence 3 - Re-engagement
 
 | Email | Waktu | Konten |
 |---|---|---|
 | We Miss You | 3 bulan setelah trip terakhir | "Planning another visit? Here's what's new in Lombok" |
 | Referral Ask | 1 bulan setelah trip | "Loved your trip? Share with friends and get 10% off" |
 
-### 12.4 Newsletter Bulanan (Opsional — Fase Lanjutan)
+### 12.4 Newsletter Bulanan (Opsional - Fase Lanjutan)
 
 Untuk tamu yang opt-in newsletter:
+
 - Konten: what's new di Lombok, tips musiman, penawaran khusus
 - Frekuensi: 1x per bulan
 - Subject line: harus compelling, tidak generik
@@ -971,7 +1042,7 @@ Untuk tamu yang opt-in newsletter:
 
 ---
 
-## 13. Modul 10 — Review & Reputasi
+## 13. Modul 10 - Review & Reputasi
 
 ### 13.1 Deskripsi
 
@@ -991,6 +1062,7 @@ Review adalah mata uang bisnis transportasi wisata. Tamu internasional hampir 10
 ### 13.3 Review Collection Workflow
 
 **Automated (via n8n):**
+
 1. Trip status berubah ke "Completed" di dashboard
 2. Tunggu 2 jam
 3. n8n kirim WA ke tamu:
@@ -1004,36 +1076,41 @@ Review adalah mata uang bisnis transportasi wisata. Tamu internasional hampir 10
 ### 13.4 Respons Review
 
 **Kebijakan:**
+
 - Semua review (positif dan negatif) wajib dibalas
 - Waktu respons: positif dalam 48 jam, negatif dalam 24 jam
 - Bahasa respons: sesuai bahasa review
-- Jangan defensif atau berdalih di respons review negatif — akui dan tawarkan solusi
+- Jangan defensif atau berdalih di respons review negatif - akui dan tawarkan solusi
 
 **Template Respons Review Positif (EN):**
+
 ```
 Thank you so much, [Name]! 🌴 We're thrilled you had a great experience with us.
-[Nama supir] is truly one of our best — we'll be sure to pass along your kind words.
+[Nama supir] is truly one of our best - we'll be sure to pass along your kind words.
 We hope to see you again on your next Lombok adventure!
-— Team Lombok Transfer
+- Team Lombok Transfer
 ```
 
 **Template Respons Review Negatif (EN):**
+
 ```
 Hi [Name], thank you for taking the time to share your feedback. 
 We sincerely apologize for [specific issue]. This is not the standard we hold ourselves to.
 We've already taken steps to address this with our team.
-We'd love the opportunity to make it right — please contact us directly at [WA link].
-— Team Lombok Transfer
+We'd love the opportunity to make it right - please contact us directly at [WA link].
+- Team Lombok Transfer
 ```
 
 ### 13.5 Monitoring Reputasi
 
 **Tools:**
-- Google Alerts: set alert untuk "Lombok Transfer" — notif email setiap ada mention baru di web
+
+- Google Alerts: set alert untuk "Lombok Transfer" - notif email setiap ada mention baru di web
 - Manual monitoring: cek semua platform review minimal 2x per minggu
 - n8n workflow: jika ada review baru dengan rating ≤3 → alert ke admin via WA segera
 
 **KPI Reputasi:**
+
 - Google rating: target 4.7+ (maintain)
 - Klook rating: target 4.8+
 - Total review Google: target +10 review per bulan
@@ -1041,7 +1118,7 @@ We'd love the opportunity to make it right — please contact us directly at [WA
 
 ---
 
-## 14. Modul 11 — Hotel & Partner Network (B2B)
+## 14. Modul 11 - Hotel & Partner Network (B2B)
 
 ### 14.1 Deskripsi
 
@@ -1052,18 +1129,21 @@ Hotel concierge dan travel agent lokal adalah mesin booking pasif yang sangat po
 **Hotel bintang 4–5 di Lombok yang menjadi target:**
 
 Area Senggigi:
+
 - The Oberoi Beach Resort Lombok
 - Sheraton Senggigi Beach Resort
 - Aruna Resort Senggigi
 - Qunci Villas
 
 Area Mandalika / Kuta:
+
 - Pullman Lombok Merujani Mandalika
 - Novotel Lombok Mandalika
 - Paramount Hotel & Resort Lombok
 - Club Med Lombok
 
 Area Gili:
+
 - Hotel Tugu Lombok (Gili Meno)
 - Slow Lombok (Gili Air)
 - Ayana Villas Bali (jika ada cabang Gili)
@@ -1082,17 +1162,20 @@ Apa yang ditawarkan Lombok Transfer ke hotel:
 
 ### 14.4 Proses Onboarding Hotel Partner
 
-**Tahap 1 — Approach:**
+**Tahap 1 - Approach:**
+
 - Kunjungi hotel secara langsung, minta meeting dengan Guest Relations Manager atau Concierge Manager
 - Bawa proposal tertulis: profil Lombok Transfer, armada, harga, skema komisi
 - Bawa kartu nama dan brosur fisik berkualitas
 
-**Tahap 2 — Perjanjian:**
+**Tahap 2 - Perjanjian:**
+
 - Tandatangani perjanjian referral sederhana (1–2 halaman)
 - Tetapkan skema komisi (% atau flat per booking)
 - Tetapkan proses: hotel email/WA booking request → konfirmasi dalam X jam
 
-**Tahap 3 — Aktivasi:**
+**Tahap 3 - Aktivasi:**
+
 - Berikan materi fisik ke concierge desk: rate card, kartu nama, QR code ke WA
 - Training singkat untuk concierge: cara booking, cara communicate ke tamu
 - Setup email atau WA khusus untuk channel dari hotel partner ini
@@ -1108,6 +1191,7 @@ Apa yang ditawarkan Lombok Transfer ke hotel:
 ### 14.6 Tracking Partnership
 
 Di modul internal (Vendor & Procurement):
+
 - Setiap booking yang masuk dari hotel partner harus diberi tag sumber
 - Laporan bulanan: berapa booking dari masing-masing partner, berapa komisi yang dibayarkan
 - Review partnership: evaluasi setiap 3 bulan, apakah worth dilanjutkan
@@ -1156,6 +1240,7 @@ Ini memungkinkan Google Analytics GA4 menunjukkan dengan tepat dari channel mana
 ### 15.3 Konsistensi Brand Antar Channel
 
 **Yang harus konsisten:**
+
 - Nama bisnis: "Lombok Transfer" (tidak disingkat, tidak diubah)
 - Logo: selalu versi yang sama, tidak di-modifikasi
 - Nomor WA: selalu nomor yang sama di semua channel
@@ -1163,9 +1248,10 @@ Ini memungkinkan Google Analytics GA4 menunjukkan dengan tepat dari channel mana
 - Harga: konsisten antar channel (price parity)
 
 **Tone of voice:**
+
 - EN: warm, knowledgeable, professional. Seperti local guide berpengalaman yang ramah.
 - ID: santai tapi profesional, tidak terlalu formal, tapi tidak slang berlebihan
-- ZH: sopan, informatif, detail — tamu China menghargai informasi yang lengkap
+- ZH: sopan, informatif, detail - tamu China menghargai informasi yang lengkap
 
 ---
 
@@ -1174,6 +1260,7 @@ Ini memungkinkan Google Analytics GA4 menunjukkan dengan tepat dari channel mana
 ### 16.1 KPI Utama per Channel
 
 **Website:**
+
 | Metric | Target |
 |---|---|
 | Monthly unique visitors | 2.000+ (bulan 3), 5.000+ (bulan 6) |
@@ -1183,6 +1270,7 @@ Ini memungkinkan Google Analytics GA4 menunjukkan dengan tepat dari channel mana
 | Top organic keywords | Rank 1–3 untuk "lombok airport transfer" |
 
 **Google Business Profile:**
+
 | Metric | Target |
 |---|---|
 | Jumlah review | 100+ (bulan 6) |
@@ -1191,6 +1279,7 @@ Ini memungkinkan Google Analytics GA4 menunjukkan dengan tepat dari channel mana
 | Click-to-call / Website | 200+ per bulan |
 
 **OTA:**
+
 | Metric | Target |
 |---|---|
 | Klook booking per bulan | 30+ (bulan 3) |
@@ -1199,6 +1288,7 @@ Ini memungkinkan Google Analytics GA4 menunjukkan dengan tepat dari channel mana
 | Rating rata-rata di semua OTA | 4.8+ |
 
 **WhatsApp:**
+
 | Metric | Target |
 |---|---|
 | Inquiry per bulan | 200+ |
@@ -1207,6 +1297,7 @@ Ini memungkinkan Google Analytics GA4 menunjukkan dengan tepat dari channel mana
 | Response time (manusia) | < 15 menit saat jam kerja |
 
 **Social Media:**
+
 | Platform | Follower Target (bulan 6) | Engagement Rate |
 |---|---|---|
 | Instagram | 2.000+ | > 3% |
@@ -1216,6 +1307,7 @@ Ini memungkinkan Google Analytics GA4 menunjukkan dengan tepat dari channel mana
 ### 16.2 Dashboard Analytics Eksternal
 
 Di internal dashboard, ada tab "Marketing Analytics" yang menampilkan:
+
 - Booking per sumber (pie chart, monthly)
 - Revenue per channel (bar chart)
 - Trend follower sosial media (connect via API)
@@ -1273,31 +1365,31 @@ Di internal dashboard, ada tab "Marketing Analytics" yang menampilkan:
 
 ## 18. Roadmap Implementasi
 
-### Fase 1 — Fondasi Digital (Minggu 1–4)
+### Fase 1 - Fondasi Digital (Minggu 1–4)
 
 **Wajib sebelum operasional:**
 
 - [ ] Daftar dan verifikasi Google Business Profile
 - [ ] Setup WhatsApp Business API via Fonnte
 - [ ] Buat akun semua OTA: Klook, Traveloka Xperience
-- [ ] Launch website (Next.js) — minimal versi EN + ID
+- [ ] Launch website (Next.js) - minimal versi EN + ID
 - [ ] Booking form online live dan terkoneksi ke Supabase
 - [ ] Setup GA4 + Google Search Console
 - [ ] Buat akun Instagram dan TikTok (posting pertama: 3 konten)
 - [ ] Setup WhatsApp chatbot sederhana (auto-reply FAQ dasar)
 
-### Fase 2 — Distribusi & Konten (Minggu 5–8)
+### Fase 2 - Distribusi & Konten (Minggu 5–8)
 
 - [ ] Daftar Viator dan GetYourGuide
 - [ ] Daftar Trip.com untuk pasar China
-- [ ] Buat akun Xiaohongshu — posting 5 konten pertama
+- [ ] Buat akun Xiaohongshu - posting 5 konten pertama
 - [ ] Tambahkan bahasa ZH di website
 - [ ] Publish 4 artikel blog SEO pertama (EN)
 - [ ] Setup Claude AI chatbot (EN + ID) via n8n + Claude API
 - [ ] Setup email sequence otomatis (booking confirmation, post-trip review request)
 - [ ] Mulai aktif kumpulkan review Google (request via WA setelah setiap trip)
 
-### Fase 3 — Optimasi & Skalasi (Bulan 3–4)
+### Fase 3 - Optimasi & Skalasi (Bulan 3–4)
 
 - [ ] Analisis performa: channel mana yang paling banyak menghasilkan booking
 - [ ] Buat akun WeChat Official Account (untuk pasar China)
@@ -1307,9 +1399,9 @@ Di internal dashboard, ada tab "Marketing Analytics" yang menampilkan:
 - [ ] Chatbot Claude dalam Mandarin (ZH) untuk WA dan WeChat
 - [ ] Setup email newsletter bulanan
 
-### Fase 4 — Dominasi Pasar (Bulan 5–6)
+### Fase 4 - Dominasi Pasar (Bulan 5–6)
 
-- [ ] Evaluasi ROI semua channel — pertahankan yang terbaik, stop yang tidak produktif
+- [ ] Evaluasi ROI semua channel - pertahankan yang terbaik, stop yang tidak produktif
 - [ ] Ekspansi konten: target 8 artikel blog per bulan
 - [ ] KOL/KOC collaboration di Xiaohongshu (undang 2–3 travel content creator China)
 - [ ] Setup Facebook dan Instagram Ads (retargeting + lookalike)
@@ -1336,7 +1428,7 @@ Di internal dashboard, ada tab "Marketing Analytics" yang menampilkan:
 | Canva Pro | Desain konten sosmed | ~$15/bulan |
 | **Total estimasi** | | **~Rp 400–600rb/bulan** |
 
-### B. Daftar Konten Instagram — 30 Hari Pertama
+### B. Daftar Konten Instagram - 30 Hari Pertama
 
 | Minggu | Post | Format |
 |---|---|---|
@@ -1351,7 +1443,7 @@ Di internal dashboard, ada tab "Marketing Analytics" yang menampilkan:
 | 3 | FAQ: "Berapa biaya transfer ke Gili?" | Carousel |
 | 4 | Spotlight supir: cerita lokal dari Pak [Nama] | Reels |
 | 4 | Destinasi: Senggigi beach walk | Reels |
-| 4 | Perbandingan: "Transfer privat vs shuttle — mana lebih baik?" | Carousel |
+| 4 | Perbandingan: "Transfer privat vs shuttle - mana lebih baik?" | Carousel |
 
 ### C. Template Posting Xiaohongshu (Artikel Pertama)
 
@@ -1376,6 +1468,7 @@ Di internal dashboard, ada tab "Marketing Analytics" yang menampilkan:
 ### D. Checklist Sebelum Go-Live
 
 **Website:**
+
 - [ ] Semua halaman ter-load tanpa error di mobile dan desktop
 - [ ] Form booking berfungsi dan data masuk ke Supabase
 - [ ] WA button mengarah ke nomor yang benar
@@ -1385,6 +1478,7 @@ Di internal dashboard, ada tab "Marketing Analytics" yang menampilkan:
 - [ ] Privacy Policy dan Terms ada dan accessible
 
 **Google Business Profile:**
+
 - [ ] Terverifikasi (proses verifikasi 3–7 hari kerja via kartu pos atau video)
 - [ ] Foto minimal 10 foto diupload
 - [ ] Jam buka benar (24 jam)
@@ -1392,11 +1486,13 @@ Di internal dashboard, ada tab "Marketing Analytics" yang menampilkan:
 - [ ] Deskripsi bisnis terisi lengkap
 
 **WhatsApp:**
+
 - [ ] Akun bisnis live dan bisa menerima pesan
 - [ ] Auto-reply tersedia untuk jam di luar operasional
 - [ ] Chatbot AI live dan merespons pertanyaan dasar
 
 **OTA:**
+
 - [ ] Listing Klook: published dan bisa di-booking
 - [ ] Listing Traveloka: published
 - [ ] Foto OTA berkualitas tinggi, minimal 8 foto

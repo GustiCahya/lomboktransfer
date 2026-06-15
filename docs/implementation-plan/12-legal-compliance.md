@@ -1,9 +1,9 @@
-# Step 12 — Modul Legal & Compliance
+# Step 12 - Modul Legal & Compliance
 
-**Fase:** 3 — Keuangan & Compliance  
+**Fase:** 3 - Keuangan & Compliance  
 **Target:** Minggu 6–7 (Hari 25–28)  
 **Dependency:** Step 06 (HR), Step 07 (Fleet)  
-**Referensi PRD:** §9 Modul 6 — Legal & Compliance
+**Referensi PRD:** §9 Modul 6 - Legal & Compliance
 
 ---
 
@@ -16,21 +16,23 @@ Membangun tracker dokumen legal perusahaan, konsolidasi expiry dokumen supir & k
 ## Todo List
 
 ### 12.1 Data Layer
+
 - [ ] Buat `hooks/useCompanyDocuments.ts`:
-  - `useCompanyDocuments(filters)` — list dokumen perusahaan
-  - `useCreateCompanyDocument()` — mutation create
-  - `useUpdateCompanyDocument()` — mutation update
+  - `useCompanyDocuments(filters)` - list dokumen perusahaan
+  - `useCreateCompanyDocument()` - mutation create
+  - `useUpdateCompanyDocument()` - mutation update
 - [ ] Buat `hooks/useContracts.ts`:
-  - `useContracts(filters)` — list kontrak mitra
-  - `useCreateContract()` — mutation create
+  - `useContracts(filters)` - list kontrak mitra
+  - `useCreateContract()` - mutation create
 - [ ] Buat `hooks/useExpiryTracker.ts`:
-  - `useAllExpiringDocs(days)` — konsolidasi semua dokumen akan expire
-  - `useExpiringDriverDocs(days)` — dokumen supir
-  - `useExpiringVehicleDocs(days)` — dokumen kendaraan
-  - `useExpiringCompanyDocs(days)` — dokumen perusahaan
-- [ ] Buat `lib/validations/legal.ts` — Zod schemas
+  - `useAllExpiringDocs(days)` - konsolidasi semua dokumen akan expire
+  - `useExpiringDriverDocs(days)` - dokumen supir
+  - `useExpiringVehicleDocs(days)` - dokumen kendaraan
+  - `useExpiringCompanyDocs(days)` - dokumen perusahaan
+- [ ] Buat `lib/validations/legal.ts` - Zod schemas
 
 ### 12.2 Dokumen Perusahaan
+
 - [ ] Buat `app/(dashboard)/legal/page.tsx`:
   - PageHeader: "Legal & Compliance"
   - Sub-nav: Dokumen Perusahaan | Expiry Tracker | Kontrak Mitra | Kepatuhan Data
@@ -56,6 +58,7 @@ Membangun tracker dokumen legal perusahaan, konsolidasi expiry dokumen supir & k
   - Catatan
 
 ### 12.3 Expiry Tracker (Konsolidasi)
+
 - [ ] Buat `app/(dashboard)/legal/expiry-tracker/page.tsx`:
   - **Tab Dokumen Supir** (linked ke HR):
     - Tabel konsolidasi SEMUA dokumen supir yang akan expire:
@@ -79,6 +82,7 @@ Membangun tracker dokumen legal perusahaan, konsolidasi expiry dokumen supir & k
 - [ ] Buat `components/legal/ExpirySummaryCards.tsx`
 
 ### 12.4 Kontrak Mitra
+
 - [ ] Buat `app/(dashboard)/legal/contracts/page.tsx`:
   - Daftar semua kontrak:
     | Pihak | Jenis | Tipe Kontrak | Mulai | Berakhir | Sisa | Status | File |
@@ -97,6 +101,7 @@ Membangun tracker dokumen legal perusahaan, konsolidasi expiry dokumen supir & k
   - Status
 
 ### 12.5 Kepatuhan Data (GDPR/Privacy)
+
 - [ ] Buat `app/(dashboard)/legal/data-compliance/page.tsx`:
   - **Log Penghapusan Data:**
     - Daftar request penghapusan data tamu (right to be forgotten)
@@ -114,15 +119,19 @@ Membangun tracker dokumen legal perusahaan, konsolidasi expiry dokumen supir & k
 - [ ] Buat `components/legal/RetentionPolicy.tsx`
 - [ ] Buat `components/legal/AccessLog.tsx`
 - [ ] Buat tabel `data_access_log`:
+
   ```sql
   data_access_log (id, user_id, data_type, data_id, action, ip_address, created_at)
   ```
+
 - [ ] Buat tabel `data_deletion_requests`:
+
   ```sql
   data_deletion_requests (id, guest_id, requested_at, processed_at, status, processed_by)
   ```
 
 ### 12.6 Legal Sub-Navigation
+
 - [ ] Buat `app/(dashboard)/legal/layout.tsx`:
   - Sub-nav tabs:
     - Dokumen Perusahaan → `/legal/company-docs`

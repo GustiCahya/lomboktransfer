@@ -1,11 +1,26 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import type { Metadata } from "next";
 import { ArrowRight } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 import { BLOGS_LIST } from "@/lib/constants/blog";
+
+export const metadata: Metadata = {
+  title: "Lombok Travel Blog",
+  description:
+    "Tips, travel guides, and local stories to help you plan your perfect Lombok adventure. Explore the best beaches, waterfalls, Gili Islands, and Rinjani trekking routes.",
+  openGraph: {
+    title: "Lombok Travel Blog | Lombok Transfer",
+    description:
+      "Travel tips and guides for Lombok, Gili Islands, and Rinjani. Plan your perfect island adventure.",
+    url: "https://lomboktransfer.com/blog",
+  },
+  alternates: { canonical: "https://lomboktransfer.com/blog" },
+};
+
 export default function BlogPage() {
   return (
     <div className="min-h-screen pt-32 pb-24 bg-muted/20">

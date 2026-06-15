@@ -196,7 +196,7 @@ async function main() {
   console.log("┌──────────────────────────────────────────────────────────┐");
   console.log("│   Lombok Transfer – Translate & Normalize Route Names    │");
   if (DRY_RUN)
-  console.log("│              ⚠️  DRY RUN MODE (no changes applied)      │");
+    console.log("│              ⚠️  DRY RUN MODE (no changes applied)      │");
   console.log("└──────────────────────────────────────────────────────────┘\n");
 
   console.log("📡  Fetching current routes...");
@@ -213,7 +213,7 @@ async function main() {
     );
 
     if (!mapping) {
-      console.log(`⚠️   No mapping for: "${route.name}" — skipping`);
+      console.log(`⚠️   No mapping for: "${route.name}" - skipping`);
       unmatched.push(route.name);
       skipped++;
       continue;

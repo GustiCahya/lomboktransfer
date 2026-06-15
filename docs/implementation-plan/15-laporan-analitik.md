@@ -1,9 +1,9 @@
-# Step 15 — Modul Laporan & Analitik
+# Step 15 - Modul Laporan & Analitik
 
-**Fase:** 4 — CRM & Analytics  
+**Fase:** 4 - CRM & Analytics  
 **Target:** Minggu 8–9 (Hari 34–36)  
 **Dependency:** Semua modul sebelumnya  
-**Referensi PRD:** §11 Modul 8 — Laporan & Analitik
+**Referensi PRD:** §11 Modul 8 - Laporan & Analitik
 
 ---
 
@@ -16,16 +16,18 @@ Membangun satu halaman pusat untuk overview seluruh metrik bisnis, visualisasi g
 ## Todo List
 
 ### 15.1 Data Layer (Analytics Data)
+
 - [ ] Buat `hooks/useAnalytics.ts`:
-  - `useRevenueTrend(period)` — trend pendapatan vs pengeluaran
-  - `useBookingSources()` — pie chart sumber booking
-  - `useRoutePopularity()` — rute terlaris
-  - `useDriverPerformanceChart()` — radar/bar chart perbandingan supir
-  - `useFleetUtilization()` — % kendaraan terpakai vs idle
-  - `useGuestDemographics()` — distribusi negara tamu
+  - `useRevenueTrend(period)` - trend pendapatan vs pengeluaran
+  - `useBookingSources()` - pie chart sumber booking
+  - `useRoutePopularity()` - rute terlaris
+  - `useDriverPerformanceChart()` - radar/bar chart perbandingan supir
+  - `useFleetUtilization()` - % kendaraan terpakai vs idle
+  - `useGuestDemographics()` - distribusi negara tamu
 - [ ] Buat SQL Views/Functions kompleks di Supabase untuk agregasi data berat agar frontend ringan.
 
 ### 15.2 Dashboard Analytics (Visualisasi)
+
 - [ ] Buat `app/(dashboard)/reports/page.tsx`:
   - PageHeader: "Laporan & Analitik"
   - Global Date Filter: Bulan Ini / Kuartal Ini / Tahun Ini / Custom Range
@@ -54,6 +56,7 @@ Membangun satu halaman pusat untuk overview seluruh metrik bisnis, visualisasi g
   - `FleetUtilizationChart.tsx`
 
 ### 15.3 Export Laporan Center
+
 - [ ] Buat `app/(dashboard)/reports/exports/page.tsx`:
   - Daftar laporan yang bisa di-generate:
     1. Rekap Booking Mingguan (CSV)
@@ -63,15 +66,17 @@ Membangun satu halaman pusat untuk overview seluruh metrik bisnis, visualisasi g
     5. Laporan Performa Supir (PDF)
     6. Laporan Biaya Armada per Unit (PDF)
   - UI: Pilih Jenis Laporan → Pilih Periode → Tombol "Generate & Download"
-- [ ] Buat `lib/exports/pdf-generator.ts` — helper untuk report PDF menggunakan `@react-pdf/renderer`
-- [ ] Buat `lib/exports/csv-generator.ts` — helper export data tabel ke CSV menggunakan `papaparse` atau vanilla JS blob
+- [ ] Buat `lib/exports/pdf-generator.ts` - helper untuk report PDF menggunakan `@react-pdf/renderer`
+- [ ] Buat `lib/exports/csv-generator.ts` - helper export data tabel ke CSV menggunakan `papaparse` atau vanilla JS blob
 
 ### 15.4 Integrasi Laporan Otomatis (n8n update)
+
 - [ ] Extend Workflow 9 (PRD §10.11):
   - Tambahkan fitur generate PDF summary mingguan di n8n (kirim otomatis tiap Senin pagi ke WA owner)
   - Atau: buat Supabase Edge Function untuk generate PDF, dipanggil oleh n8n
 
 ### 15.5 Reports Sub-Navigation
+
 - [ ] Buat `app/(dashboard)/reports/layout.tsx`:
   - Sub-nav tabs:
     - Dashboard Analitik → `/reports`

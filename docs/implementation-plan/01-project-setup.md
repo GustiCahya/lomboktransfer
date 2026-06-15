@@ -1,6 +1,6 @@
-# Step 01 — Project Setup & Foundation
+# Step 01 - Project Setup & Foundation
 
-**Fase:** 1 — Fondasi  
+**Fase:** 1 - Fondasi  
 **Target:** Minggu 1 (Hari 1–2)  
 **Dependency:** Tidak ada  
 **Referensi PRD:** §3 Arsitektur & Tech Stack, Appendix C Struktur Folder
@@ -16,12 +16,14 @@ Menyiapkan project Next.js 14 dengan seluruh tooling, dependency, dan konfiguras
 ## Todo List
 
 ### 1.1 Inisialisasi Project Next.js 14
+
 - [ ] Buat project Next.js 14 dengan App Router (`npx create-next-app@14`)
 - [ ] Konfigurasi TypeScript strict mode
 - [ ] Setup `.env.local` dengan template variabel environment
 - [ ] Konfigurasi `next.config.js` (image domains, experimental features)
 
 ### 1.2 Setup Tailwind CSS
+
 - [ ] Install dan konfigurasi Tailwind CSS v3
 - [ ] Buat `tailwind.config.ts` dengan custom theme:
   - Color palette (brand colors Lombok Transfer)
@@ -31,6 +33,7 @@ Menyiapkan project Next.js 14 dengan seluruh tooling, dependency, dan konfiguras
 - [ ] Setup `globals.css` dengan base styles dan CSS variables
 
 ### 1.3 Setup shadcn/ui
+
 - [ ] Inisialisasi shadcn/ui (`npx shadcn-ui@latest init`)
 - [ ] Install komponen dasar yang pasti digunakan:
   - `button`, `input`, `label`, `select`, `textarea`
@@ -41,18 +44,21 @@ Menyiapkan project Next.js 14 dengan seluruh tooling, dependency, dan konfiguras
   - `avatar`, `separator`, `skeleton`, `tooltip`
 
 ### 1.4 Install Dependencies Tambahan
-- [ ] `@tanstack/react-query` — data fetching & caching
-- [ ] `@supabase/supabase-js` + `@supabase/ssr` — Supabase client
-- [ ] `react-hook-form` + `@hookform/resolvers` + `zod` — form management
-- [ ] `date-fns` — date utilities (format Indonesia)
-- [ ] `recharts` — grafik & chart
-- [ ] `lucide-react` — icon library (sudah include di shadcn)
-- [ ] `jspdf` + `@react-pdf/renderer` — generate invoice/slip PDF
-- [ ] `papaparse` — parsing CSV (untuk rekonsiliasi OTA)
-- [ ] `nuqs` — URL state management (untuk filter & search)
+
+- [ ] `@tanstack/react-query` - data fetching & caching
+- [ ] `@supabase/supabase-js` + `@supabase/ssr` - Supabase client
+- [ ] `react-hook-form` + `@hookform/resolvers` + `zod` - form management
+- [ ] `date-fns` - date utilities (format Indonesia)
+- [ ] `recharts` - grafik & chart
+- [ ] `lucide-react` - icon library (sudah include di shadcn)
+- [ ] `jspdf` + `@react-pdf/renderer` - generate invoice/slip PDF
+- [ ] `papaparse` - parsing CSV (untuk rekonsiliasi OTA)
+- [ ] `nuqs` - URL state management (untuk filter & search)
 
 ### 1.5 Setup Folder Structure
+
 - [ ] Buat struktur folder sesuai PRD Appendix C:
+
   ```
   app/
     (auth)/login/
@@ -88,13 +94,16 @@ Menyiapkan project Next.js 14 dengan seluruh tooling, dependency, dan konfiguras
   ```
 
 ### 1.6 Setup Code Quality Tools
+
 - [ ] ESLint konfigurasi (Next.js default + custom rules)
 - [ ] Prettier konfigurasi (`.prettierrc`)
 - [ ] Husky + lint-staged (pre-commit hooks)
 - [ ] `.editorconfig` untuk konsistensi coding style
 
 ### 1.7 Setup Environment Variables Template
+
 - [ ] Buat `.env.example` dengan semua variabel yang dibutuhkan:
+
   ```env
   # Supabase
   NEXT_PUBLIC_SUPABASE_URL=
@@ -114,6 +123,7 @@ Menyiapkan project Next.js 14 dengan seluruh tooling, dependency, dan konfiguras
   ```
 
 ### 1.8 Setup Git & Version Control
+
 - [ ] Inisialisasi Git repository
 - [ ] Buat `.gitignore` (node_modules, .env.local, .next, dll)
 - [ ] Buat branch strategy: `main` → `develop` → `feature/*`

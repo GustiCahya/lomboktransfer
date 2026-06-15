@@ -18,7 +18,7 @@ export default function LeaveRequestPage() {
     e.preventDefault();
     setIsLoading(true);
     try {
-      // Simulate API call delay — real implementation: insert into driver_leaves table
+      // Simulate API call delay - real implementation: insert into driver_leaves table
       await new Promise(r => setTimeout(r, 1000));
       setIsSuccess(true);
     } catch (error) {
@@ -65,19 +65,19 @@ export default function LeaveRequestPage() {
                 <Input id="end_date" name="end_date" type="date" required className="h-12" />
               </div>
             </div>
-            
+
             <div className="space-y-2">
               <Label htmlFor="reason">Alasan Cuti</Label>
-              <Textarea 
-                id="reason" 
-                name="reason" 
-                placeholder="Contoh: Acara keluarga, Sakit, dll." 
-                required 
+              <Textarea
+                id="reason"
+                name="reason"
+                placeholder="Contoh: Acara keluarga, Sakit, dll."
+                required
                 className="h-32 resize-none"
               />
             </div>
           </div>
-          
+
           <div className="bg-amber-50 dark:bg-amber-950/30 text-amber-800 dark:text-amber-400 p-3 rounded-md text-xs">
             <p className="font-semibold mb-1">Perhatian:</p>
             <ul className="list-disc pl-4 space-y-1">

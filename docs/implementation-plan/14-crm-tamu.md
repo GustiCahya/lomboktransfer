@@ -1,9 +1,9 @@
-# Step 14 — Modul CRM & Tamu
+# Step 14 - Modul CRM & Tamu
 
-**Fase:** 4 — CRM & Analytics  
+**Fase:** 4 - CRM & Analytics  
 **Target:** Minggu 8–9 (Hari 31–33)  
 **Dependency:** Step 05 (Booking), Step 10 (Automation)  
-**Referensi PRD:** §8 Modul 5 — CRM & Tamu
+**Referensi PRD:** §8 Modul 5 - CRM & Tamu
 
 ---
 
@@ -16,18 +16,20 @@ Membangun database tamu terpusat, riwayat interaksi, segmentasi pelanggan, dan s
 ## Todo List
 
 ### 14.1 Data Layer
+
 - [ ] Buat `hooks/useCRM.ts`:
-  - `useGuests(filters)` — list database tamu dengan filter segmentasi
-  - `useGuest(id)` — detail profil tamu
-  - `useGuestBookings(id)` — riwayat booking per tamu
-  - `useUpdateGuestTag()` — assign VIP/Regular tag
+  - `useGuests(filters)` - list database tamu dengan filter segmentasi
+  - `useGuest(id)` - detail profil tamu
+  - `useGuestBookings(id)` - riwayat booking per tamu
+  - `useUpdateGuestTag()` - assign VIP/Regular tag
 - [ ] Buat `hooks/useReviews.ts`:
-  - `useReviews(filters)` — list review dari semua platform
-  - `useReviewStats()` — rata-rata rating, jumlah per platform
-  - `useReplyReview()` — mutation balas review
-- [ ] Buat `lib/validations/crm.ts` — Zod schemas
+  - `useReviews(filters)` - list review dari semua platform
+  - `useReviewStats()` - rata-rata rating, jumlah per platform
+  - `useReplyReview()` - mutation balas review
+- [ ] Buat `lib/validations/crm.ts` - Zod schemas
 
 ### 14.2 Database Tamu
+
 - [ ] Buat `app/(dashboard)/crm/page.tsx`:
   - PageHeader: "Customer Relationship Management"
   - Sub-nav: Database Tamu | Review Tracker | Re-engagement
@@ -44,6 +46,7 @@ Membangun database tamu terpusat, riwayat interaksi, segmentasi pelanggan, dan s
 - [ ] Buat `components/crm/SegmentationFilters.tsx`
 
 ### 14.3 Profil Detail Tamu
+
 - [ ] Buat `app/(dashboard)/crm/guests/[id]/page.tsx`:
   - **Info Kontak & Demografi:** nama, kontak, bahasa, kebangsaan
   - **Metrics Lifetime:** total booking, total spend, sumber pertama kali
@@ -57,6 +60,7 @@ Membangun database tamu terpusat, riwayat interaksi, segmentasi pelanggan, dan s
 - [ ] Buat `components/crm/GuestTimeline.tsx`
 
 ### 14.4 Manajemen Review
+
 - [ ] Buat `app/(dashboard)/crm/reviews/page.tsx`:
   - Dashboard ringkasan:
     - Rata-rata rating bulan ini vs bulan lalu
@@ -74,6 +78,7 @@ Membangun database tamu terpusat, riwayat interaksi, segmentasi pelanggan, dan s
   - Tandai sebagai "Sudah Dibalas"
 
 ### 14.5 Follow-up & Re-engagement
+
 - [ ] Buat `app/(dashboard)/crm/re-engagement/page.tsx`:
   - Fokus pada tamu yang dormant (tidak booking > 6 bulan) namun pernah kasih rating bagus
   - List target tamu
@@ -85,11 +90,13 @@ Membangun database tamu terpusat, riwayat interaksi, segmentasi pelanggan, dan s
 - [ ] Buat `components/crm/PromoMessageDialog.tsx`
 
 ### 14.6 CRM Automation Tracker
+
 - [ ] Terhubung dengan Workflow n8n Step 10:
   - Monitor status pengiriman review request H+2 jam (Sent / Clicked / Submitted)
   - Link Supabase review tracking table dengan webhook responses
 
 ### 14.7 CRM Sub-Navigation
+
 - [ ] Buat `app/(dashboard)/crm/layout.tsx`:
   - Sub-nav tabs:
     - Database Tamu → `/crm`

@@ -1,6 +1,6 @@
-# Step 09 — Mobile Driver View
+# Step 09 - Mobile Driver View
 
-**Fase:** 1 — Fondasi  
+**Fase:** 1 - Fondasi  
 **Target:** Minggu 3 (Hari 12–13)  
 **Dependency:** Step 05 (Booking), Step 06 (HR)  
 **Referensi PRD:** §4.2.6 Status Trip (Supir Mobile View), §1.3 Prinsip Desain
@@ -9,7 +9,7 @@
 
 ## Tujuan
 
-Membangun tampilan mobile khusus supir — daftar trip hari ini, update status trip, navigasi, profil diri, dan request cuti. Interface ringan, jelas, optimasi untuk koneksi 3G Lombok.
+Membangun tampilan mobile khusus supir - daftar trip hari ini, update status trip, navigasi, profil diri, dan request cuti. Interface ringan, jelas, optimasi untuk koneksi 3G Lombok.
 
 ---
 
@@ -18,13 +18,13 @@ Membangun tampilan mobile khusus supir — daftar trip hari ini, update status t
 ### 9.1 Data Layer
 
 - [ ] Buat `hooks/useDriverTrips.ts`:
-  - `useMyTripsToday()` — trip hari ini milik supir yang login
-  - `useMyUpcomingTrips()` — trip mendatang
-  - `useUpdateTripStatus()` — mutation update status trip
+  - `useMyTripsToday()` - trip hari ini milik supir yang login
+  - `useMyUpcomingTrips()` - trip mendatang
+  - `useUpdateTripStatus()` - mutation update status trip
 - [ ] Buat `hooks/useDriverProfile.ts`:
-  - `useMyProfile()` — profil supir yang login
-  - `useMyDocuments()` — dokumen supir yang login
-  - `useMyPayroll()` — riwayat payroll sendiri
+  - `useMyProfile()` - profil supir yang login
+  - `useMyDocuments()` - dokumen supir yang login
+  - `useMyPayroll()` - riwayat payroll sendiri
 
 ### 9.2 Trip Hari Ini (Home Tab)
 
@@ -83,7 +83,7 @@ Membangun tampilan mobile khusus supir — daftar trip hari ini, update status t
 ### 9.4 Jadwal Mendatang (Schedule Tab)
 
 - [ ] Buat `app/(driver)/trips/schedule/page.tsx`:
-  - Kalender mini (bulan view) — highlight hari-hari dengan trip
+  - Kalender mini (bulan view) - highlight hari-hari dengan trip
   - Daftar trip untuk tanggal yang dipilih
   - 7 hari ke depan: list semua trip mendatang
   - Status per trip: Terkonfirmasi / Menunggu Konfirmasi
@@ -116,7 +116,7 @@ Membangun tampilan mobile khusus supir — daftar trip hari ini, update status t
   - **Dokumen saya:**
     - List dokumen + status expire
     - Alert jika ada yang mau expire
-    - (Baca saja, tidak bisa edit — admin yang update)
+    - (Baca saja, tidak bisa edit - admin yang update)
   - **Riwayat payroll:**
     - 3 bulan terakhir: total trip, komisi, status pembayaran
   - Tombol logout
@@ -141,7 +141,7 @@ Membangun tampilan mobile khusus supir — daftar trip hari ini, update status t
   - Request permission saat login supir
   - Notif saat di-assign trip baru
   - Notif reminder 3 jam sebelum trip
-  - (Implementasi detail di Step 10 — n8n)
+  - (Implementasi detail di Step 10 - n8n)
 - [ ] Buat `lib/notifications/push.ts`
 
 ---

@@ -1,8 +1,9 @@
-# PRD — Internal Dashboard Lombok Transfer
+# PRD - Internal Dashboard Lombok Transfer
+
 **Versi:** 1.0  
 **Tanggal:** Juni 2026  
 **Status:** Draft  
-**Penulis:** Internal — Lombok Transfer  
+**Penulis:** Internal - Lombok Transfer  
 
 ---
 
@@ -11,14 +12,14 @@
 1. [Overview & Tujuan](#1-overview--tujuan)
 2. [Pengguna & Peran](#2-pengguna--peran)
 3. [Arsitektur & Tech Stack](#3-arsitektur--tech-stack)
-4. [Modul 1 — Booking & Dispatch](#4-modul-1--booking--dispatch)
-5. [Modul 2 — Human Resource](#5-modul-2--human-resource)
-6. [Modul 3 — Fleet Management](#6-modul-3--fleet-management)
-7. [Modul 4 — Accounting & Keuangan](#7-modul-4--accounting--keuangan)
-8. [Modul 5 — CRM & Tamu](#8-modul-5--crm--tamu)
-9. [Modul 6 — Legal & Compliance](#9-modul-6--legal--compliance)
-10. [Modul 7 — Vendor & Procurement](#10-modul-7--vendor--procurement)
-11. [Modul 8 — Laporan & Analitik](#11-modul-8--laporan--analitik)
+4. [Modul 1 - Booking & Dispatch](#4-modul-1--booking--dispatch)
+5. [Modul 2 - Human Resource](#5-modul-2--human-resource)
+6. [Modul 3 - Fleet Management](#6-modul-3--fleet-management)
+7. [Modul 4 - Accounting & Keuangan](#7-modul-4--accounting--keuangan)
+8. [Modul 5 - CRM & Tamu](#8-modul-5--crm--tamu)
+9. [Modul 6 - Legal & Compliance](#9-modul-6--legal--compliance)
+10. [Modul 7 - Vendor & Procurement](#10-modul-7--vendor--procurement)
+11. [Modul 8 - Laporan & Analitik](#11-modul-8--laporan--analitik)
 12. [Schema Database (Supabase)](#12-schema-database-supabase)
 13. [Integrasi Eksternal](#13-integrasi-eksternal)
 14. [Keamanan & Akses](#14-keamanan--akses)
@@ -31,7 +32,7 @@
 
 ### 1.1 Konteks Bisnis
 
-Lombok Transfer adalah layanan transportasi wisata premium berbasis di Lombok yang menghubungkan wisatawan internasional dari Bandara Internasional Lombok (BIL) ke seluruh destinasi wisata utama — Gili Trawangan, Kuta Lombok, Senggigi, dan kawasan Mandalika — dengan armada supir profesional lokal.
+Lombok Transfer adalah layanan transportasi wisata premium berbasis di Lombok yang menghubungkan wisatawan internasional dari Bandara Internasional Lombok (BIL) ke seluruh destinasi wisata utama - Gili Trawangan, Kuta Lombok, Senggigi, dan kawasan Mandalika - dengan armada supir profesional lokal.
 
 Target market utama: wisatawan mancanegara berbahasa Inggris dan Mandarin, serta wisatawan domestik Indonesia.
 
@@ -48,7 +49,7 @@ Dashboard ini adalah **sistem operasional terpusat** (back-office) yang mengelol
 
 ### 1.3 Prinsip Desain
 
-- **Mobile-first untuk supir:** Supir mengakses dashboard via HP — antarmuka mereka harus ringan dan jelas
+- **Mobile-first untuk supir:** Supir mengakses dashboard via HP - antarmuka mereka harus ringan dan jelas
 - **Desktop untuk admin:** Admin dan owner menggunakan tampilan penuh dengan data padat
 - **Otomasi over manual:** Sebisa mungkin trigger otomatis, bukan input manual berulang
 - **Alert proaktif:** Sistem memperingatkan sebelum masalah terjadi (dokumen mau expire, armada mau servis)
@@ -133,7 +134,7 @@ Booking masuk (website / OTA / WA)
 
 ---
 
-## 4. Modul 1 — Booking & Dispatch
+## 4. Modul 1 - Booking & Dispatch
 
 ### 4.1 Deskripsi
 
@@ -154,6 +155,7 @@ Pusat kontrol semua pemesanan masuk dan penugasan supir. Ini adalah modul paling
 Untuk booking via telepon atau walk-in yang tidak melalui sistem online.
 
 Form fields:
+
 - Nama tamu (required)
 - Nomor HP / WhatsApp
 - Email (opsional)
@@ -169,6 +171,7 @@ Form fields:
 #### 4.2.3 Detail Booking
 
 Halaman detail satu booking mencakup:
+
 - Info tamu lengkap
 - Timeline status (booking → konfirmasi → supir berangkat → tamu dijemput → selesai)
 - Supir yang ditugaskan (dengan tombol ganti)
@@ -180,6 +183,7 @@ Halaman detail satu booking mencakup:
 #### 4.2.4 Kalender Dispatch
 
 Tampilan kalender (hari / minggu / bulan) yang menampilkan:
+
 - Semua trip terjadwal dalam timeline
 - Warna berbeda per supir
 - Slot kosong yang bisa diisi
@@ -198,6 +202,7 @@ Trigger otomatis via n8n ketika booking baru masuk:
 #### 4.2.6 Status Trip (Supir Mobile View)
 
 Tampilan sederhana untuk supir di HP:
+
 - Daftar trip hari ini
 - Per trip: nama tamu, rute, jam, nomor HP tamu (tombol langsung telpon/WA)
 - Tombol update status: "Sedang Menuju Tamu" / "Tamu Sudah Dijemput" / "Selesai"
@@ -217,7 +222,7 @@ Tampilan sederhana untuk supir di HP:
 
 ---
 
-## 5. Modul 2 — Human Resource
+## 5. Modul 2 - Human Resource
 
 ### 5.1 Deskripsi
 
@@ -230,6 +235,7 @@ Manajemen data supir dan staf, jadwal kerja, performa, dan penggajian.
 Data master per supir:
 
 **Informasi Pribadi:**
+
 - Nama lengkap, foto profil
 - NIK (Nomor Induk Kependudukan)
 - Tanggal lahir
@@ -239,13 +245,15 @@ Data master per supir:
 - Kontak darurat (nama + nomor)
 
 **Dokumen (upload + tracking expiry):**
-- KTP (scan) — tidak expire
-- SIM A (scan) — expire date, alert H-60 dan H-30
+
+- KTP (scan) - tidak expire
+- SIM A (scan) - expire date, alert H-60 dan H-30
 - SIM B1 (jika berlaku)
-- SKCK — expire date, alert H-30
-- Surat sehat dokter — expire date, alert H-30
+- SKCK - expire date, alert H-30
+- Surat sehat dokter - expire date, alert H-30
 
 **Status Kerja:**
+
 - Status aktif / non-aktif / cuti
 - Tanggal bergabung
 - Tipe mitra: karyawan tetap / mitra lepas
@@ -261,6 +269,7 @@ Data master per supir:
 #### 5.2.3 Riwayat Trip
 
 Per supir, tampilkan:
+
 - Total trip bulan ini / bulan lalu / all time
 - Breakdown per rute
 - Rating rata-rata dari tamu (jika ada review)
@@ -270,6 +279,7 @@ Per supir, tampilkan:
 #### 5.2.4 Penilaian Performa
 
 Metrik performa per supir:
+
 - Rating rata-rata tamu (1–5 bintang)
 - On-time rate (% trip tidak terlambat)
 - Completion rate (% trip selesai tanpa insiden)
@@ -281,17 +291,20 @@ Tampilan: scorecard individual + ranking seluruh supir
 #### 5.2.5 Payroll & Komisi
 
 **Skema komisi:**
+
 - Persentase komisi per trip (configurable per supir, default misal 60% dari tarif)
 - Bonus high season (configurable)
 - Potongan jika ada insiden / komplain
 
 **Proses payroll bulanan:**
+
 1. Auto-kalkulasi komisi berdasarkan trip yang selesai di bulan berjalan
 2. Admin review dan approve
 3. Generate slip gaji PDF per supir
 4. Tandai sebagai "Sudah Dibayar" setelah transfer
 
 **Fields per record payroll:**
+
 - Periode (bulan/tahun)
 - Total trip
 - Total pendapatan kotor
@@ -313,11 +326,11 @@ Tampilan: scorecard individual + ranking seluruh supir
 
 ---
 
-## 6. Modul 3 — Fleet Management
+## 6. Modul 3 - Fleet Management
 
 ### 6.1 Deskripsi
 
-Manajemen armada kendaraan — dokumen, jadwal perawatan, kondisi, dan biaya operasional per unit.
+Manajemen armada kendaraan - dokumen, jadwal perawatan, kondisi, dan biaya operasional per unit.
 
 ### 6.2 Fitur
 
@@ -326,6 +339,7 @@ Manajemen armada kendaraan — dokumen, jadwal perawatan, kondisi, dan biaya ope
 Data master per kendaraan:
 
 **Identitas Kendaraan:**
+
 - Nama/kode unit (misal: LT-01, LT-02)
 - Merek & model (misal: Toyota Innova Reborn)
 - Tahun pembuatan
@@ -337,12 +351,14 @@ Data master per kendaraan:
 - Foto kendaraan (eksterior + interior)
 
 **Dokumen Kendaraan (upload + tracking expiry):**
-- STNK — expire date, alert H-60 dan H-30
-- KIR (Uji Kelayakan) — expire date, alert H-30
-- Asuransi kendaraan — expire date, tipe (TLO/All Risk), nama asuransi, nomor polis
-- Asuransi penumpang — expire date
+
+- STNK - expire date, alert H-60 dan H-30
+- KIR (Uji Kelayakan) - expire date, alert H-30
+- Asuransi kendaraan - expire date, tipe (TLO/All Risk), nama asuransi, nomor polis
+- Asuransi penumpang - expire date
 
 **Status:**
+
 - Aktif / Perawatan / Tidak Aktif / Dijual
 
 #### 6.2.2 Jadwal Servis & Perawatan
@@ -359,6 +375,7 @@ Per kendaraan, tracking:
 | KIR | 6 bulan sekali | H-30 hari |
 
 **Per record servis:**
+
 - Tanggal servis
 - Kendaraan
 - Jenis servis
@@ -378,6 +395,7 @@ Per kendaraan, tracking:
 #### 6.2.4 Insiden & Kerusakan
 
 Per insiden:
+
 - Tanggal
 - Kendaraan & supir
 - Deskripsi kejadian
@@ -389,6 +407,7 @@ Per insiden:
 #### 6.2.5 Biaya Operasional per Unit
 
 Dashboard per kendaraan menampilkan:
+
 - Total biaya servis YTD (year-to-date)
 - Biaya BBM estimasi (berdasarkan km × konsumsi BBM rata-rata)
 - Total pendapatan yang dihasilkan unit tersebut
@@ -397,7 +416,7 @@ Dashboard per kendaraan menampilkan:
 
 ---
 
-## 7. Modul 4 — Accounting & Keuangan
+## 7. Modul 4 - Accounting & Keuangan
 
 ### 7.1 Deskripsi
 
@@ -408,6 +427,7 @@ Sistem keuangan internal: pendapatan, pengeluaran, invoice, komisi, rekonsiliasi
 #### 7.2.1 Pendapatan
 
 **Per transaksi:**
+
 - Tanggal
 - ID booking (linked)
 - Nama tamu
@@ -420,6 +440,7 @@ Sistem keuangan internal: pendapatan, pengeluaran, invoice, komisi, rekonsiliasi
 - Status: Menunggu / Lunas / Refunded
 
 **Rekonsiliasi OTA:**
+
 - Upload settlement report dari Klook/Viator/Traveloka (CSV/Excel)
 - Auto-matching dengan booking di sistem
 - Flag transaksi yang tidak cocok (perlu review manual)
@@ -428,6 +449,7 @@ Sistem keuangan internal: pendapatan, pengeluaran, invoice, komisi, rekonsiliasi
 #### 7.2.2 Pengeluaran
 
 Kategori pengeluaran:
+
 - BBM
 - Servis & perawatan kendaraan (linked ke Fleet)
 - Asuransi
@@ -439,6 +461,7 @@ Kategori pengeluaran:
 - Lain-lain
 
 Per record pengeluaran:
+
 - Tanggal
 - Kategori
 - Deskripsi
@@ -450,6 +473,7 @@ Per record pengeluaran:
 #### 7.2.3 Invoice Tamu
 
 **Generate invoice otomatis** setelah trip selesai:
+
 - Nomor invoice (auto-increment)
 - Tanggal
 - Data tamu (nama, email)
@@ -468,14 +492,15 @@ Dashboard keuangan ringkas:
 | Metric | Periode |
 |---|---|
 | Total pendapatan gross | Bulan ini / bulan lalu / YTD |
-| Total komisi OTA dipotong | — |
-| Total pendapatan nett | — |
-| Total pengeluaran operasional | — |
-| Total komisi supir dibayarkan | — |
-| EBITDA sederhana | — |
-| Margin keuntungan (%) | — |
+| Total komisi OTA dipotong | - |
+| Total pendapatan nett | - |
+| Total pengeluaran operasional | - |
+| Total komisi supir dibayarkan | - |
+| EBITDA sederhana | - |
+| Margin keuntungan (%) | - |
 
 Grafik:
+
 - Pendapatan vs pengeluaran per bulan (bar chart, 12 bulan)
 - Breakdown pendapatan per sumber (pie chart)
 - Breakdown pengeluaran per kategori
@@ -488,7 +513,7 @@ Grafik:
 
 ---
 
-## 8. Modul 5 — CRM & Tamu
+## 8. Modul 5 - CRM & Tamu
 
 ### 8.1 Deskripsi
 
@@ -499,6 +524,7 @@ Database tamu, riwayat interaksi, manajemen review, dan strategi repeat business
 #### 8.2.1 Database Tamu
 
 Per tamu:
+
 - Nama lengkap
 - Email
 - Nomor HP / WhatsApp
@@ -513,6 +539,7 @@ Per tamu:
 #### 8.2.2 Riwayat Booking per Tamu
 
 Timeline semua booking tamu tersebut:
+
 - Tanggal, rute, supir, nilai transaksi
 - Review yang diberikan (jika ada)
 - Catatan khusus dari supir atau admin
@@ -520,11 +547,13 @@ Timeline semua booking tamu tersebut:
 #### 8.2.3 Manajemen Review
 
 **Review request workflow:**
+
 1. Trip selesai → n8n trigger → WA ke tamu berisi link review (Google / Klook / Viator)
 2. Admin monitor status: Sent / Clicked / Submitted
 3. Dashboard: total review terkumpul per platform, rata-rata rating
 
 **Review tracker:**
+
 - Sumber review (Google / Klook / Viator / TripAdvisor)
 - Nama reviewer
 - Rating (1–5)
@@ -536,6 +565,7 @@ Timeline semua booking tamu tersebut:
 #### 8.2.4 Segmentasi & Tag
 
 Filter tamu berdasarkan:
+
 - Kebangsaan / bahasa
 - Sumber booking
 - Nilai transaksi (High Value / Medium / Low)
@@ -550,7 +580,7 @@ Filter tamu berdasarkan:
 
 ---
 
-## 9. Modul 6 — Legal & Compliance
+## 9. Modul 6 - Legal & Compliance
 
 ### 9.1 Deskripsi
 
@@ -561,6 +591,7 @@ Tracker dokumen legal perusahaan dan kepatuhan operasional yang memastikan bisni
 #### 9.2.1 Dokumen Perusahaan
 
 Per dokumen:
+
 - Nama dokumen
 - Nomor dokumen
 - Instansi penerbit
@@ -571,6 +602,7 @@ Per dokumen:
 - PIC yang bertanggung jawab perpanjangan
 
 **Daftar dokumen wajib:**
+
 - SIUP (Surat Izin Usaha Perdagangan)
 - NPWP perusahaan
 - Akta pendirian perusahaan
@@ -584,6 +616,7 @@ Per dokumen:
 #### 9.2.2 Dokumen Supir (Linked ke HR)
 
 Tabel konsolidasi semua dokumen supir yang akan expire:
+
 - Nama supir, jenis dokumen, tanggal expire, sisa hari
 - Filter: "Expire dalam 30 hari" / "Sudah expire"
 - Satu klik ke profil supir untuk update
@@ -591,6 +624,7 @@ Tabel konsolidasi semua dokumen supir yang akan expire:
 #### 9.2.3 Dokumen Kendaraan (Linked ke Fleet)
 
 Tabel konsolidasi semua dokumen kendaraan yang akan expire:
+
 - Unit kendaraan, jenis dokumen (STNK/KIR/asuransi), tanggal expire, sisa hari
 - Filter sama seperti dokumen supir
 
@@ -607,12 +641,14 @@ Tabel konsolidasi semua dokumen kendaraan yang akan expire:
 | SIUP / izin perusahaan | H-90, H-30 |
 
 Alert dikirim via:
+
 - Notifikasi di dashboard
 - WA ke admin/owner
 
 #### 9.2.5 Kontrak Mitra
 
 Per kontrak:
+
 - Pihak (supir mitra / hotel partner / travel agent)
 - Jenis kontrak
 - Tanggal mulai dan berakhir
@@ -630,7 +666,7 @@ Per kontrak:
 
 ---
 
-## 10. Modul 7 — Vendor & Procurement
+## 10. Modul 7 - Vendor & Procurement
 
 ### 10.1 Deskripsi
 
@@ -641,6 +677,7 @@ Direktori vendor, manajemen hubungan supplier, dan kontrol pengeluaran pengadaan
 #### 10.2.1 Direktori Vendor
 
 Per vendor:
+
 - Nama
 - Kategori: Bengkel / BBM / Asuransi / WA Gateway / Hotel Partner / Travel Agent / Lainnya
 - Nama PIC
@@ -676,6 +713,7 @@ Per vendor:
 Sub-modul khusus untuk partnership bisnis:
 
 Per partner:
+
 - Nama hotel/agen
 - PIC reservasi (nama + kontak)
 - Skema komisi / referral fee yang disepakati
@@ -686,13 +724,14 @@ Per partner:
 #### 10.2.4 Purchase Order Sederhana
 
 Untuk pengeluaran di atas threshold tertentu (misal Rp 500.000):
+
 - Buat PO dengan detail barang/jasa, jumlah, vendor, harga
 - Approval dari owner sebelum pembayaran
 - Link ke bukti transaksi setelah selesai
 
 ---
 
-## 11. Modul 8 — Laporan & Analitik
+## 11. Modul 8 - Laporan & Analitik
 
 ### 11.1 Deskripsi
 
@@ -703,6 +742,7 @@ Satu halaman overview metrics bisnis dan laporan yang bisa di-export.
 Widget yang tampil di halaman utama:
 
 **Operasional Hari Ini:**
+
 - Total booking hari ini
 - Trip berlangsung sekarang (live)
 - Supir aktif / total supir
@@ -710,12 +750,14 @@ Widget yang tampil di halaman utama:
 - Booking menunggu assign
 
 **Keuangan Bulan Ini:**
+
 - Pendapatan gross (progress vs bulan lalu)
 - Pendapatan nett (setelah komisi OTA)
 - Pengeluaran bulan ini
 - Estimasi profit bulan ini
 
 **Alert Prioritas:**
+
 - Dokumen akan expire dalam 14 hari
 - Kendaraan melebihi km servis
 - Booking konflik jadwal (jika ada)
@@ -1017,10 +1059,12 @@ CREATE INDEX idx_bookings_guest_id ON bookings(guest_id);
 ### 13.1 WhatsApp (via Fonnte)
 
 **Endpoints yang digunakan:**
+
 - Send message: `POST https://api.fonnte.com/send`
 - Webhook incoming message (untuk chatbot)
 
 **n8n workflow terhubung:**
+
 - Konfirmasi booking ke tamu
 - Notif trip ke supir
 - Alert dokumen akan expire ke admin
@@ -1049,6 +1093,7 @@ Mode awal: upload CSV manual bulanan untuk rekonsiliasi. API integrasi sebagai f
 ### 13.4 Claude API
 
 Chatbot AI untuk tamu via WhatsApp:
+
 - Model: `claude-sonnet-4-20250514`
 - Sistem prompt dalam EN dan CN
 - Kemampuan: jawab pertanyaan harga, ketersediaan, rute; collect data booking; eskalasi ke admin untuk kasus kompleks
@@ -1057,6 +1102,7 @@ Chatbot AI untuk tamu via WhatsApp:
 ### 13.5 Supabase Realtime
 
 Fitur yang menggunakan realtime subscription:
+
 - Status trip live di dashboard dispatcher
 - Alert baru masuk
 - Update status supir (available/on-trip)
@@ -1097,6 +1143,7 @@ CREATE POLICY "accounting_access" ON expenses
 ### 14.3 Audit Log
 
 Setiap perubahan data penting dicatat:
+
 - Siapa yang mengubah
 - Kapan
 - Data sebelum vs sesudah
@@ -1151,7 +1198,7 @@ Tabel yang di-audit: bookings (status change), payroll, expenses di atas thresho
 
 ## 16. Roadmap Implementasi
 
-### Fase 1 — Fondasi (Minggu 1–3)
+### Fase 1 - Fondasi (Minggu 1–3)
 
 **Prioritas absolut sebelum operasional berjalan.**
 
@@ -1163,7 +1210,7 @@ Tabel yang di-audit: bookings (status change), payroll, expenses di atas thresho
 - [ ] Dashboard overview sederhana (booking hari ini, supir aktif)
 - [ ] Mobile view supir: daftar trip hari ini + update status
 
-### Fase 2 — Otomasi (Minggu 4–5)
+### Fase 2 - Otomasi (Minggu 4–5)
 
 - [ ] Setup n8n + Fonnte WA Gateway
 - [ ] Workflow auto-assign supir
@@ -1173,7 +1220,7 @@ Tabel yang di-audit: bookings (status change), payroll, expenses di atas thresho
 - [ ] Alert dokumen akan expire (ke admin via WA)
 - [ ] Laporan harian otomatis ke owner via WA
 
-### Fase 3 — Keuangan & Compliance (Minggu 6–7)
+### Fase 3 - Keuangan & Compliance (Minggu 6–7)
 
 - [ ] Modul Accounting: input pendapatan + pengeluaran + laporan P&L
 - [ ] Generate invoice PDF otomatis
@@ -1182,7 +1229,7 @@ Tabel yang di-audit: bookings (status change), payroll, expenses di atas thresho
 - [ ] Rekonsiliasi OTA: upload CSV + matching
 - [ ] Modul Vendor: direktori vendor
 
-### Fase 4 — CRM & Analytics (Minggu 8–9)
+### Fase 4 - CRM & Analytics (Minggu 8–9)
 
 - [ ] Modul CRM: database tamu + segmentasi
 - [ ] Review tracker + management respons
@@ -1190,7 +1237,7 @@ Tabel yang di-audit: bookings (status change), payroll, expenses di atas thresho
 - [ ] Kalender dispatch dengan drag-and-drop
 - [ ] Hotel partner sub-modul
 
-### Fase 5 — AI & Peningkatan (Minggu 10–12)
+### Fase 5 - AI & Peningkatan (Minggu 10–12)
 
 - [ ] Claude API chatbot untuk tamu via WA
 - [ ] Auto-dispatch berbasis lokasi supir (jika GPS tracking diimplementasikan)
@@ -1269,4 +1316,4 @@ lombok-transfer/
 
 ---
 
-*Dokumen ini adalah living document — diperbarui seiring perkembangan produk dan operasional Lombok Transfer.*
+*Dokumen ini adalah living document - diperbarui seiring perkembangan produk dan operasional Lombok Transfer.*
