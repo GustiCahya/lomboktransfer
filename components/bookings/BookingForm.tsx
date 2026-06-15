@@ -10,6 +10,13 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { id } from "date-fns/locale";
@@ -90,18 +97,32 @@ export default function BookingForm({ onSubmit }: { onSubmit: (data: BookingForm
         <div className="space-y-4">
           <h3 className="text-lg font-medium border-b pb-2">Detail Perjalanan</h3>
 
-          <div className="space-y-2">
+          <div className="space-y-2 flex flex-col">
             <Label htmlFor="route_id">Pilih Rute <span className="text-destructive">*</span></Label>
-            <select
-              id="route_id"
-              {...register("route_id")}
-              className="flex h-9 w-full items-center justify-between whitespace-nowrap rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              <option value="">-- Pilih Rute --</option>
-              {routes.map(r => (
-                <option key={r.id} value={r.id}>{r.name} (Rp {r.base_price.toLocaleString("id-ID")})</option>
-              ))}
-            </select>
+            <Controller
+              control={control}
+              name="route_id"
+              render={({ field }) => (
+                <Select
+                  value={field.value || ""}
+                  onValueChange={field.onChange}
+                >
+                  <SelectTrigger
+                    id="route_id"
+                    className="w-full text-left justify-between bg-card text-foreground h-8"
+                  >
+                    <SelectValue placeholder="-- Pilih Rute --" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {routes.map((r) => (
+                      <SelectItem key={r.id} value={r.id}>
+                        {r.name} (Rp {r.base_price.toLocaleString("id-ID")})
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              )}
+            />
             {errors.route_id && <p className="text-xs text-destructive">{errors.route_id.message}</p>}
           </div>
 
