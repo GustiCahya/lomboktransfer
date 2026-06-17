@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "install:ci": "npm ci --legacy-peer-deps",
+    "install:ci": "npm ci --include=dev --legacy-peer-deps",
     "cloudflare-build": "opennextjs-cloudflare build --dangerouslyUseUnsupportedNextVersion",
     "preview": "npm run cloudflare-build && opennextjs-cloudflare preview",
     "deploy": "npm run cloudflare-build && opennextjs-cloudflare deploy",
@@ -17,6 +17,7 @@
     "@hookform/resolvers": "^5.4.0",
     "@supabase/ssr": "^0.10.3",
     "@supabase/supabase-js": "^2.107.0",
+    "autoprefixer": "^10.5.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "date-fns": "^4.4.0",
