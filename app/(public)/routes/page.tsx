@@ -48,7 +48,7 @@ export default async function RoutesPage() {
 
         <div className="mt-12 text-center">
           <p className="text-muted-foreground mb-6">Don&apos;t see your destination? We cover the whole island!</p>
-          <Link href="https://wa.me/62817777480" target="_blank" rel="noopener noreferrer" className={cn(buttonVariants({ variant: "outline", size: "lg" }), "rounded-full gap-2")}>
+          <Link href="https://wa.me/6285102633994" target="_blank" rel="noopener noreferrer" className={cn(buttonVariants({ variant: "outline", size: "lg" }), "rounded-full gap-2")}>
             Chat with us on WhatsApp <ArrowRight className="h-4 w-4" />
           </Link>
         </div>

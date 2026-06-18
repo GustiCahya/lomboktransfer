@@ -103,7 +103,7 @@ export default function ToursPageClient({ tours }: ToursPageClientProps) {
                     {tour.description || "No description available."}
                   </p>
                   <Link
-                    href={`https://wa.me/62817777480?text=Hi! I'm interested in booking the ${encodeURIComponent(tour.title)} tour.`}
+                    href={`https://wa.me/6285102633994?text=Hi! I'm interested in booking the ${encodeURIComponent(tour.title)} tour.`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className={cn(
@@ -136,7 +136,7 @@ export default function ToursPageClient({ tours }: ToursPageClientProps) {
             for you. Contact us to plan your perfect day in Lombok.
           </p>
           <Link
-            href="https://wa.me/62817777480"
+            href="https://wa.me/6285102633994"
             target="_blank"
             rel="noopener noreferrer"
             className={cn(buttonVariants({ size: "lg" }), "rounded-full")}

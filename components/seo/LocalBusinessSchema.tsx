@@ -23,7 +23,7 @@ const LOCAL_BUSINESS_SCHEMA = {
   url: "https://lomboktransfer.com",
   logo: "https://lomboktransfer.com/logo.png",
   image: "https://lomboktransfer.com/og-image.jpg",
-  telephone: "+62817777480",
+  telephone: "+6285102633994",
   email: "hello@lomboktransfer.com",
   address: {
     "@type": "PostalAddress",
@@ -60,7 +60,7 @@ const LOCAL_BUSINESS_SCHEMA = {
     geoRadius: "150000",
   },
   sameAs: [
-    "https://wa.me/62817777480",
+    "https://wa.me/6285102633994",
   ],
 };
 
