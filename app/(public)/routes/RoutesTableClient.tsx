@@ -58,8 +58,51 @@ export default function RoutesTableClient({ routes }: { routes: RouteItem[] }) {
         </div>
       </div>
 
-      {/* Pricing Table */}
-      <div className="bg-card rounded-2xl border border-border overflow-hidden shadow-sm">
+      {/* Mobile Pricing Cards */}
+      <div className="grid grid-cols-1 gap-4 md:hidden">
+        {routes.map((route) => (
+          <div key={route.id} className="bg-card border border-border rounded-2xl p-5 shadow-sm flex flex-col gap-4">
+            <div className="flex items-center gap-2 font-semibold text-lg text-foreground leading-tight">
+              <MapPin className="h-5 w-5 text-primary shrink-0" />
+              <span>{route.origin} &rarr; {route.destination}</span>
+            </div>
+            
+            <div className="flex flex-col gap-1 text-sm bg-muted/30 p-3 rounded-lg border border-border/50">
+              <div className="flex justify-between items-center">
+                <span className="text-muted-foreground">Vehicle:</span>
+                <span className="font-medium text-foreground">{route.notes || "Standard (1-4 pax)"}</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-muted-foreground">Est. Time:</span>
+                <span className="font-medium text-foreground">{formatDuration(route.estimated_duration_min)}</span>
+              </div>
+            </div>
+
+            <div className="flex justify-between items-end mt-1">
+              <div className="flex flex-col">
+                <span className="text-xs text-muted-foreground mb-1">Price starting from</span>
+                <span className="text-xl font-bold text-foreground leading-none">
+                  {new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR", maximumFractionDigits: 0 }).format(route.base_price)}
+                </span>
+                {currency !== "IDR" && (
+                  <span className="font-semibold text-primary/90 mt-1">
+                    {formatPrice(route.base_price)}
+                  </span>
+                )}
+              </div>
+              <Link
+                href={`/book?origin=${encodeURIComponent(route.origin)}&destination=${encodeURIComponent(route.destination)}`}
+                className={cn(buttonVariants({ size: "default" }), "rounded-full px-6")}
+              >
+                Book
+              </Link>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Desktop Pricing Table */}
+      <div className="hidden md:block bg-card rounded-2xl border border-border overflow-hidden shadow-sm">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
