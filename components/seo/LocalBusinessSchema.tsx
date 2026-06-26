@@ -21,7 +21,7 @@ const LOCAL_BUSINESS_SCHEMA = {
   description:
     "Private airport transfer, inter-city taxi, and day tour services across Lombok Island, Indonesia. Transparent pricing, local drivers, instant WhatsApp confirmation.",
   url: "https://lomboktransfer.com",
-  logo: "https://lomboktransfer.com/logo.png",
+  logo: "https://lomboktransfer.com/logo.svg",
   image: "https://lomboktransfer.com/og-image.jpg",
   telephone: "+6285102633994",
   email: "hello@lomboktransfer.com",

@@ -66,7 +66,7 @@ export default function Sidebar() {
           <Link href="/admin" className="flex items-center gap-2.5 font-bold text-base text-foreground truncate">
             <div className="relative w-8 h-8 shrink-0 rounded-lg overflow-hidden border border-border shadow-sm">
               <Image
-                src="/logo_without_text.png"
+                src="/logo.svg"
                 alt="Lombok Transfer Logo"
                 fill
                 className="object-cover"
@@ -78,7 +78,7 @@ export default function Sidebar() {
           <Link href="/admin" className="flex items-center justify-center w-full">
             <div className="relative w-8 h-8 shrink-0 rounded-lg overflow-hidden border border-border shadow-sm">
               <Image
-                src="/logo_without_text.png"
+                src="/logo.svg"
                 alt="Lombok Transfer Logo"
                 fill
                 className="object-cover"

@@ -33,6 +33,6 @@ VALUES (
   'hello@lomboktransfer.com',
   '+62 851-0263-3994',
   'Jl. Langko 70, Mataram, Lombok, NTB, Indonesia',
-  '/logo.png'
+  '/logo.svg'
 )
 ON CONFLICT (id) DO NOTHING;

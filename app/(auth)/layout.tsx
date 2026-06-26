@@ -17,7 +17,7 @@ export default function AuthLayout({
         <div className="text-center flex flex-col items-center">
           <div className="w-24 h-24 relative mb-4 rounded-2xl overflow-hidden shadow-lg border border-gray-200 dark:border-gray-800">
             <Image 
-              src="/logo.png" 
+              src="/logo.svg" 
               alt="Lombok Transfer Logo" 
               fill
               className="object-cover"

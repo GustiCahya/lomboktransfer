@@ -24,7 +24,7 @@ export default function SettingsProfilePage() {
     email: "",
     phone_wa: "",
     address: "",
-    logo_url: "/logo.png"
+    logo_url: "/logo.svg"
   });
 
   useEffect(() => {
@@ -88,7 +88,7 @@ export default function SettingsProfilePage() {
                   <span className="text-xs text-white font-medium">Ubah Logo</span>
                 </div>
                 <Image 
-                  src={formData.logo_url || "/logo.png"} 
+                  src={formData.logo_url || "/logo.svg"} 
                   alt="Logo Lombok Transfer" 
                   fill
                   className="object-cover"

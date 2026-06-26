@@ -1,0 +1,8 @@
+<svg viewBox="0 0 60 64" width="52" height="56" xmlns="http://www.w3.org/2000/svg">
+    <defs><clipPath id="b1"><rect x="0" y="2" width="58" height="58" rx="12"></rect></clipPath></defs>
+    <rect x="0" y="2" width="58" height="58" rx="12" fill="#0B2545"></rect>
+    <path d="M -2,42 Q 14,36 29,40 Q 44,44 62,38 L 62,64 L -2,64 Z" fill="#0D7377" opacity="0.6" clip-path="url(#b1)"></path>
+    <path d="M 18,62 L 27,14 L 34,14 L 24,62 Z" fill="rgba(255,255,255,0.92)" clip-path="url(#b1)"></path>
+    <circle cx="30" cy="10" r="5" fill="#D4A843"></circle>
+    <circle cx="30" cy="10" r="2.2" fill="#0B2545"></circle>
+</svg>

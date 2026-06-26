@@ -57,7 +57,7 @@ export default function Header() {
         <Link href="/" className="flex items-center gap-2 z-50">
           <div className="relative w-8 h-8 rounded-lg overflow-hidden bg-primary/10 flex items-center justify-center">
             <Image
-              src="/logo_without_text.png"
+              src="/logo.svg"
               alt="Lombok Transfer"
               fill
               className="object-cover"
@@ -105,7 +105,7 @@ export default function Header() {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          
+
           <Link href="/book" className={cn(buttonVariants({ size: "default" }), "rounded-full px-6 shadow-md hover:shadow-lg transition-all")}>
             {t["header.book"]}
           </Link>
