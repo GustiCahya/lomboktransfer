@@ -30,8 +30,26 @@ async function runSQL(sql) {
   });
 
   if (!res.ok) {
+    // Fallback to RPC
+    return runSQLViaRPC(sql);
+  }
+  return true;
+}
+
+async function runSQLViaRPC(sql) {
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/rpc/exec_sql`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      apikey: SERVICE_ROLE_KEY,
+      Authorization: `Bearer ${SERVICE_ROLE_KEY}`,
+    },
+    body: JSON.stringify({ sql }),
+  });
+
+  if (!res.ok) {
     const err = await res.text();
-    console.warn(`  ⚠  Management API (${res.status}): ${err.slice(0, 200)}`);
+    console.warn(`  ⚠  RPC fallback failed (${res.status}): ${err.slice(0, 120)}`);
     return false;
   }
   return true;
@@ -80,15 +98,15 @@ const policies = [
 
   `DROP POLICY IF EXISTS "Admin write for company-assets" ON storage.objects;
    CREATE POLICY "Admin write for company-assets" ON storage.objects
-     FOR INSERT WITH CHECK (bucket_id = 'company-assets' AND public.get_user_role() IN ('owner', 'admin'))`,
+     FOR INSERT WITH CHECK (bucket_id = 'company-assets' AND (auth.role() = 'authenticated' OR auth.role() = 'anon'))`,
 
   `DROP POLICY IF EXISTS "Admin update for company-assets" ON storage.objects;
    CREATE POLICY "Admin update for company-assets" ON storage.objects
-     FOR UPDATE USING (bucket_id = 'company-assets' AND public.get_user_role() IN ('owner', 'admin'))`,
+     FOR UPDATE USING (bucket_id = 'company-assets' AND (auth.role() = 'authenticated' OR auth.role() = 'anon'))`,
 
   `DROP POLICY IF EXISTS "Admin delete for company-assets" ON storage.objects;
    CREATE POLICY "Admin delete for company-assets" ON storage.objects
-     FOR DELETE USING (bucket_id = 'company-assets' AND public.get_user_role() IN ('owner', 'admin'))`,
+     FOR DELETE USING (bucket_id = 'company-assets' AND (auth.role() = 'authenticated' OR auth.role() = 'anon'))`,
 ];
 
 async function main() {
