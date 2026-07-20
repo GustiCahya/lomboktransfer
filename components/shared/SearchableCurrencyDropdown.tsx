@@ -44,7 +44,7 @@ export default function SearchableCurrencyDropdown({ currency, setCurrency, avai
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 top-full mt-2 w-64 bg-popover border border-border rounded-xl shadow-lg z-50 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+        <div className="absolute left-0 md:right-0 md:left-auto top-full mt-2 w-64 bg-popover border border-border rounded-xl shadow-lg z-50 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
           <div className="p-2 border-b">
             <div className="flex items-center px-3 py-2 bg-muted/50 rounded-md">
               <Search className="h-4 w-4 text-muted-foreground mr-2 shrink-0" />

@@ -48,8 +48,8 @@ export default function Header() {
       className={cn(
         "fixed top-0 w-full z-50 transition-all duration-300",
         isScrolled
-          ? "bg-background/80 backdrop-blur-md border-b border-border shadow-sm py-3"
-          : "bg-transparent py-5"
+          ? "bg-background/90 backdrop-blur-md border-b border-border shadow-sm py-3"
+          : "bg-background/60 backdrop-blur-md border-b border-transparent py-5"
       )}
     >
       <div className="container mx-auto px-4 md:px-6 flex items-center justify-between">
