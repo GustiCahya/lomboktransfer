@@ -46,8 +46,11 @@ export default function Header() {
   return (
     <header
       className={cn(
-        "fixed top-0 w-full z-50 transition-all duration-300",
-        isScrolled
+        "fixed top-0 w-full z-50",
+        mobileMenuOpen ? "transition-none" : "transition-all duration-300",
+        mobileMenuOpen
+          ? "bg-background border-b border-border py-3"
+          : isScrolled
           ? "bg-background/90 backdrop-blur-md border-b border-border shadow-sm py-3"
           : "bg-background/60 backdrop-blur-md border-b border-transparent py-5"
       )}
@@ -122,7 +125,7 @@ export default function Header() {
         {/* Mobile Menu Overlay */}
         <div
           className={cn(
-            "fixed inset-0 bg-background z-40 flex flex-col pt-24 px-6 transition-transform duration-300 ease-in-out md:hidden",
+            "fixed inset-0 bg-background z-40 flex flex-col pt-24 px-6 md:hidden",
             mobileMenuOpen ? "translate-x-0" : "translate-x-full"
           )}
         >
