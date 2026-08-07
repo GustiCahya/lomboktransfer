@@ -53,18 +53,40 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   const [isDetected, setIsDetected] = useState(false);
 
   useEffect(() => {
-    // 1. Respect an explicit user preference stored in localStorage
-    const saved = localStorage.getItem("app_lang") as Language | null;
-    if (saved && (["en", "zh", "id"] as Language[]).includes(saved)) {
-      setLanguage(saved);
-    } else {
-      // 2. Auto-detect from browser (no permission needed)
-      const detected = detectLanguage();
-      setLanguage(detected);
-      // Note: we do NOT persist the auto-detected value so the user can
-      // still override it and the override is what gets saved.
-    }
-    setIsDetected(true);
+    const initLang = async () => {
+      // 1. Respect an explicit user preference stored in localStorage
+      const saved = localStorage.getItem("app_lang") as Language | null;
+      if (saved && (["en", "zh", "id"] as Language[]).includes(saved)) {
+        setLanguage(saved);
+        setIsDetected(true);
+        return;
+      }
+
+      // 2. Auto-detect from IP address
+      try {
+        const res = await fetch("https://get.geojs.io/v1/ip/country.json");
+        if (!res.ok) throw new Error("Failed to fetch IP country");
+        
+        const data = await res.json();
+        const country = data.country;
+        
+        if (country === "ID") {
+          setLanguage("id");
+        } else if (country === "CN") {
+          setLanguage("zh");
+        } else {
+          setLanguage("en");
+        }
+      } catch (error) {
+        // Fallback to browser language if IP fetch fails
+        const detected = detectLanguage();
+        setLanguage(detected);
+      }
+      
+      setIsDetected(true);
+    };
+
+    initLang();
   }, []);
 
   const handleSetLanguage = (lang: Language) => {
