@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { toast } from "sonner";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -196,6 +197,7 @@ export default function ToursManagementPage() {
   const [tours, setTours] = useState<Tour[]>([]);
   const [filtered, setFiltered] = useState<Tour[]>([]);
   const [search, setSearch] = useState("");
+  const [sortBy, setSortBy] = useState("price_asc");
   const [isLoading, setIsLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -223,12 +225,22 @@ export default function ToursManagementPage() {
 
   useEffect(() => {
     const q = search.toLowerCase();
-    setFiltered(tours.filter((t) =>
+    const result = tours.filter((t) =>
       t.title.toLowerCase().includes(q) ||
       (t.description && t.description.toLowerCase().includes(q)) ||
       t.duration.toLowerCase().includes(q)
-    ));
-  }, [search, tours]);
+    );
+    
+    result.sort((a, b) => {
+      if (sortBy === "price_asc") return a.base_price - b.base_price;
+      if (sortBy === "price_desc") return b.base_price - a.base_price;
+      if (sortBy === "title_asc") return a.title.localeCompare(b.title);
+      if (sortBy === "title_desc") return b.title.localeCompare(a.title);
+      return 0;
+    });
+
+    setFiltered(result);
+  }, [search, tours, sortBy]);
 
   const openCreate = () => {
     setEditingId(null);
@@ -418,11 +430,24 @@ export default function ToursManagementPage() {
 
       {/* Tour List */}
       <Card className="border-border/60">
-        <CardHeader className="pb-3 flex flex-row items-center justify-between">
+        <CardHeader className="pb-3 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <CardTitle className="text-base">Daftar Paket Tour ({filtered.length})</CardTitle>
-          <div className="relative w-64">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground" />
-            <Input className="pl-8 h-8 text-sm" placeholder="Cari tour..." value={search} onChange={(e) => setSearch(e.target.value)} />
+          <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+            <Select value={sortBy} onValueChange={setSortBy}>
+              <SelectTrigger className="w-full sm:w-[180px] h-8 text-sm">
+                <SelectValue placeholder="Urutkan..." />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="price_asc">Harga (Termurah)</SelectItem>
+                <SelectItem value="price_desc">Harga (Termahal)</SelectItem>
+                <SelectItem value="title_asc">Judul (A-Z)</SelectItem>
+                <SelectItem value="title_desc">Judul (Z-A)</SelectItem>
+              </SelectContent>
+            </Select>
+            <div className="relative w-full sm:w-64">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground" />
+              <Input className="pl-8 h-8 text-sm" placeholder="Cari tour..." value={search} onChange={(e) => setSearch(e.target.value)} />
+            </div>
           </div>
         </CardHeader>
         <CardContent>

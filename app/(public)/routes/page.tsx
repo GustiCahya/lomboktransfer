@@ -29,7 +29,7 @@ export default async function RoutesPage() {
     .from("routes")
     .select("*")
     .eq("is_active", true)
-    .order("name", { ascending: true });
+    .order("base_price", { ascending: true });
 
   const routesList = dbRoutes || [];
   return (

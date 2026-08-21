@@ -25,7 +25,7 @@ export default async function ToursPage() {
     .from("tours")
     .select("*")
     .eq("is_active", true)
-    .order("created_at", { ascending: true });
+    .order("base_price", { ascending: true });
 
   const toursList = dbTours || [];
 
