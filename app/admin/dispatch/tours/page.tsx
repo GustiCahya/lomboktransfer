@@ -433,7 +433,7 @@ export default function ToursManagementPage() {
         <CardHeader className="pb-3 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <CardTitle className="text-base">Daftar Paket Tour ({filtered.length})</CardTitle>
           <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
-            <Select value={sortBy} onValueChange={setSortBy}>
+            <Select value={sortBy} onValueChange={(v) => v && setSortBy(v)}>
               <SelectTrigger className="w-full sm:w-[180px] h-8 text-sm">
                 <SelectValue placeholder="Urutkan..." />
               </SelectTrigger>
