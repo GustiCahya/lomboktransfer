@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/shared/ThemeProvider";
@@ -80,6 +81,22 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="id" className={cn("font-sans", inter.variable)} suppressHydrationWarning>
+      <head>
+        <Script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-GKM3VF0V1G"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-GKM3VF0V1G');
+          `}
+        </Script>
+      </head>
       <body className="antialiased bg-background text-foreground">
         <ThemeProvider
           attribute="class"
