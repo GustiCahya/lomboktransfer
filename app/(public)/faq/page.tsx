@@ -77,7 +77,7 @@ export default function FAQPage() {
           <div className="mt-16 text-center p-8 bg-primary/5 border border-primary/10 rounded-2xl">
             <p className="text-muted-foreground mb-4 text-lg">Still have questions?</p>
             <a
-              href="https://wa.me/6285102633994"
+              href="https://wa.me/6281907397667"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-8 py-3 rounded-full font-semibold hover:opacity-90 transition-opacity"

@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS public.company_settings (
   npwp text,
   nib text,
   email text NOT NULL DEFAULT 'hello@lomboktransfer.com',
-  phone_wa text NOT NULL DEFAULT '+62 851-0263-3994',
+  phone_wa text NOT NULL DEFAULT '+62 819-0739-7667',
   address text,
   logo_url text,
   updated_at timestamptz DEFAULT now()
@@ -31,7 +31,7 @@ VALUES (
   '12.345.678.9-000.000',
   '1234567890123',
   'hello@lomboktransfer.com',
-  '+62 851-0263-3994',
+  '+62 819-0739-7667',
   'Jl. Langko 70, Mataram, Lombok, NTB, Indonesia',
   '/logo.svg'
 )

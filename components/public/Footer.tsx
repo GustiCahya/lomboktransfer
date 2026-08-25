@@ -14,7 +14,7 @@ export default async function Footer() {
 
   const brandName = settings?.brand_name || "Lombok Transfer";
   const email = settings?.email || "hello@lomboktransfer.com";
-  const phoneWa = settings?.phone_wa || "+62 851-0263-3994";
+  const phoneWa = settings?.phone_wa || "+62 819-0739-7667";
   const address = settings?.address || "Jl. Langko 70, Mataram, Lombok, NTB, Indonesia";
   const logoUrl = settings?.logo_url || "/logo.svg";
   const companyName = settings?.company_name || "Lombok Transfer Pariwisata";
