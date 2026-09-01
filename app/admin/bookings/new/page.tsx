@@ -23,16 +23,22 @@ export default function NewBookingPage() {
       const email = data.email?.trim() || null;
       const phone = data.phone_wa?.trim() || null;
 
-      // 1. Cek guest yang sudah ada
-      if (email || phone) {
-        const query = supabase.from("guests").select("id");
-        if (email) query.eq("email", email);
-        else if (phone) query.eq("phone_wa", phone);
-        
-        const { data: existingGuests } = await query.limit(1);
-        if (existingGuests && existingGuests.length > 0) {
-          guestId = existingGuests[0].id;
-        }
+      // 1. Cek guest yang sudah ada berdasarkan email atau phone
+      if (email) {
+        const { data: existingGuests } = await supabase
+          .from("guests")
+          .select("id")
+          .eq("email", email)
+          .limit(1);
+        if (existingGuests && existingGuests.length > 0) guestId = existingGuests[0].id;
+      }
+      if (!guestId && phone) {
+        const { data: existingGuests } = await supabase
+          .from("guests")
+          .select("id")
+          .eq("phone_wa", phone)
+          .limit(1);
+        if (existingGuests && existingGuests.length > 0) guestId = existingGuests[0].id;
       }
 
       // 2. Buat guest baru jika belum ada
@@ -67,15 +73,12 @@ export default function NewBookingPage() {
   };
 
   return (
-    <div className="space-y-6 max-w-4xl mx-auto">
+    <div className="space-y-6 max-w-5xl mx-auto">
       <PageHeader 
         title="Buat Booking Baru" 
         subtitle="Masukkan detail pesanan manual dari tamu atau partner (Klook, Traveloka, WhatsApp, dll)."
       />
-
-      <div className="bg-card border shadow-sm rounded-lg p-6">
-        <BookingForm onSubmit={handleSubmit} />
-      </div>
+      <BookingForm onSubmit={handleSubmit} />
     </div>
   );
 }
