@@ -8,6 +8,21 @@ export default function ReceiptVerifyPage({
 }) {
   const bookingId = params.bookingId;
 
+  if (bookingId !== 'LT-2026-0038') {
+    return (
+      <div className="min-h-screen bg-[#EEF2F7] py-16 px-4 flex items-center justify-center font-sans text-center">
+        <div className="bg-white p-8 rounded shadow-[0_2px_16px_rgba(11,37,69,0.10)] max-w-md w-full relative overflow-hidden">
+          <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-[#0D7377] to-[#D4A843]" />
+          <h1 className="text-[20px] font-semibold text-[#0B2545] mb-2 mt-2">Booking Not Found</h1>
+          <p className="text-[#556070] text-[13px] leading-relaxed">
+            We could not find a booking with the reference <strong className="text-[#0B2545]">{bookingId}</strong>.<br />
+            Please check the code and try again.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-[#EEF2F7] py-8 px-4 text-[#1a2332] text-[13px] leading-relaxed font-sans">
       <div className="max-w-[680px] mx-auto bg-white rounded overflow-hidden shadow-[0_2px_16px_rgba(11,37,69,0.10)]">
