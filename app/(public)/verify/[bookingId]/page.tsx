@@ -6,7 +6,7 @@ export default function ReceiptVerifyPage({
 }: {
   params: { bookingId: string };
 }) {
-  const bookingId = params.bookingId || 'LT-2026-0038';
+  const bookingId = params.bookingId;
 
   return (
     <div className="min-h-screen bg-[#EEF2F7] py-8 px-4 text-[#1a2332] text-[13px] leading-relaxed font-sans">
@@ -32,9 +32,11 @@ export default function ReceiptVerifyPage({
           <div className="text-right">
             <div className="text-[21px] font-light text-white leading-[1.1] mb-[5px]">Receipt</div>
             <div className="text-[10.5px] text-[#D4A843] font-medium tracking-[0.06em] mb-[6px]">#REC-2026-0038</div>
-            <div className="inline-block text-[9px] font-bold tracking-[0.1em] uppercase py-[3px] px-[10px] rounded-sm bg-[#D4A843] text-[#0B2545]">
-              Deposit Received
-            </div>
+            {bookingId === 'LT-2026-0038' && (
+              <div className="inline-block text-[9px] font-bold tracking-[0.1em] uppercase py-[3px] px-[10px] rounded-sm bg-[#D4A843] text-[#0B2545]">
+                Deposit Received
+              </div>
+            )}
           </div>
         </div>
 
