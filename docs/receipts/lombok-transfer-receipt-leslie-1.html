@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lombok Transfer — Receipt #REC-2026-0038</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+    background: #EEF2F7;
+    padding: 2rem 1rem;
+    color: #1a2332;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .doc-wrap {
+    max-width: 680px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 2px 16px rgba(11,37,69,0.10);
+  }
+  .accent-line { height: 3px; background: linear-gradient(90deg, #0D7377 0%, #D4A843 100%); }
+
+  /* HEADER */
+  .doc-header {
+    background: #0B2545;
+    padding: 1.8rem 2.2rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  .brand { display: flex; align-items: center; gap: 13px; }
+  .brand-name { font-size: 17px; font-weight: 600; color: #fff; letter-spacing: 0.02em; line-height: 1.2; margin-bottom: 3px; }
+  .brand-sub  { font-size: 9.5px; color: #14A0A5; letter-spacing: 0.12em; text-transform: uppercase; }
+  .doc-label-wrap { text-align: right; }
+  .doc-type { font-size: 21px; font-weight: 300; color: #fff; line-height: 1.1; margin-bottom: 5px; }
+  .doc-num  { font-size: 10.5px; color: #D4A843; font-weight: 500; letter-spacing: 0.06em; margin-bottom: 6px; }
+  .doc-status {
+    display: inline-block;
+    font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 3px 10px; border-radius: 2px;
+    background: #D4A843; color: #0B2545;
+  }
+
+  /* META */
+  .meta-row {
+    background: #F7F9FC; border-bottom: 1px solid #E8EEF5;
+    padding: 0.85rem 2.2rem; display: flex; gap: 2rem; flex-wrap: wrap;
+  }
+  .meta-item { display: flex; flex-direction: column; gap: 2px; }
+  .meta-label { font-size: 9px; font-weight: 600; color: #8a9ab0; letter-spacing: 0.1em; text-transform: uppercase; }
+  .meta-val   { font-size: 12px; font-weight: 500; color: #1a2332; }
+
+  /* PARTIES */
+  .parties { display: grid; grid-template-columns: 1fr 1fr; border-bottom: 1px solid #E8EEF5; }
+  .party { padding: 1.1rem 2.2rem; }
+  .party:first-child { border-right: 1px solid #E8EEF5; }
+  .party-label { font-size: 9px; font-weight: 600; color: #8a9ab0; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 6px; }
+  .party-name  { font-size: 13px; font-weight: 600; color: #0B2545; margin-bottom: 4px; }
+  .party-line  { font-size: 11px; color: #556070; line-height: 1.65; }
+
+  /* SECTION HEAD */
+  .section-head {
+    padding: 0.75rem 2.2rem 0.4rem;
+    font-size: 9px; font-weight: 600; color: #8a9ab0;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    border-bottom: 1px solid #E8EEF5;
+  }
+
+  /* TABLE */
+  .items-table { width: 100%; border-collapse: collapse; }
+  .items-table thead tr { background: #F7F9FC; border-bottom: 1px solid #E8EEF5; }
+  .items-table th {
+    padding: 0.55rem 2.2rem;
+    font-size: 9px; font-weight: 600; color: #8a9ab0;
+    letter-spacing: 0.1em; text-transform: uppercase; text-align: left;
+  }
+  .items-table th:last-child { text-align: right; }
+  .items-table td {
+    padding: 0.85rem 2.2rem;
+    font-size: 12px; color: #1a2332;
+    border-bottom: 1px solid #F0F4F8; vertical-align: top;
+    line-height: 1.5;
+  }
+  .items-table td:last-child { text-align: right; font-weight: 500; white-space: nowrap; }
+  .item-main { font-weight: 500; margin-bottom: 3px; }
+  .item-desc { font-size: 10.5px; color: #8a9ab0; line-height: 1.55; }
+
+  /* TOTALS */
+  .totals { padding: 0.9rem 2.2rem; display: flex; justify-content: flex-end; border-bottom: 1px solid #E8EEF5; }
+  .totals-block { min-width: 240px; }
+  .total-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 3.5px 0; font-size: 12px;
+  }
+  .total-row .t-label { color: #556070; }
+  .total-row .t-val   { font-weight: 500; color: #1a2332; }
+  .total-row.sub-paid .t-label { color: #16a34a; font-weight: 500; }
+  .total-row.sub-paid .t-val   { color: #16a34a; font-weight: 600; }
+  .total-row.sub-remaining .t-label { color: #c27a00; font-weight: 600; }
+  .total-row.sub-remaining .t-val   { color: #c27a00; font-weight: 700; }
+  .total-row.grand { border-top: 1.5px solid #0B2545; margin-top: 6px; padding-top: 9px; }
+  .total-row.grand .t-label { font-weight: 600; color: #0B2545; font-size: 12.5px; }
+  .total-row.grand .t-val   { font-weight: 700; color: #0B2545; font-size: 15px; }
+  .usd-hint { font-size: 10px; color: #aab4c0; text-align: right; margin-top: 3px; }
+  .divider-dashed { border-top: 1px dashed #e2e8f0; margin: 8px 0; }
+
+  /* BANNER */
+  .deposit-banner {
+    margin: 0;
+    background: #f0fdf4;
+    border: 1px solid #86efac;
+    border-radius: 4px;
+    padding: 9px 14px;
+    font-size: 11.5px;
+    color: #166534;
+    line-height: 1.55;
+  }
+
+  /* GRID BLOCK */
+  .grid-block {
+    padding: 1rem 2.2rem;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 0.75rem 2rem; border-bottom: 1px solid #E8EEF5;
+  }
+  .grid-item { display: flex; flex-direction: column; gap: 2px; }
+  .grid-label { font-size: 9px; font-weight: 600; color: #8a9ab0; letter-spacing: 0.1em; text-transform: uppercase; }
+  .grid-val   { font-size: 12px; color: #1a2332; font-weight: 500; line-height: 1.4; }
+
+  /* BOOKING REF / QR SECTION */
+  .ref-block {
+    padding: 1.2rem 2.2rem;
+    display: flex; gap: 1.5rem; align-items: center;
+    border-bottom: 1px solid #E8EEF5;
+    background: #F7F9FC;
+  }
+  .ref-left { flex: 1; }
+  .ref-label { font-size: 9px; font-weight: 600; color: #8a9ab0; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 8px; }
+  .ref-code {
+    font-size: 22px; font-weight: 700; color: #0B2545;
+    letter-spacing: 0.12em; font-family: 'Courier New', monospace;
+    margin-bottom: 6px;
+  }
+  .ref-sub { font-size: 10.5px; color: #556070; line-height: 1.6; }
+  .ref-sub strong { color: #0B2545; }
+  .barcode-wrap {
+    display: flex; flex-direction: column; align-items: center; gap: 5px;
+  }
+  .barcode-wrap img { width: 90px; height: 90px; display: block; }
+  .barcode-label { font-size: 8.5px; color: #8a9ab0; letter-spacing: 0.05em; text-align: center; }
+
+  /* INCLUSIONS */
+  .incl-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 5px 1.5rem;
+  }
+  .incl-item {
+    display: flex; gap: 7px; align-items: flex-start;
+    font-size: 11px; color: #374151; padding: 2px 0; line-height: 1.45;
+  }
+  .incl-check { color: #16a34a; font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+
+  /* NOTES */
+  .notes-block { padding: 1rem 2.2rem; background: #F7F9FC; border-bottom: 1px solid #E8EEF5; }
+  .notes-label { font-size: 9px; font-weight: 600; color: #8a9ab0; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 5px; }
+  .notes-text  { font-size: 11px; color: #556070; line-height: 1.7; }
+
+  /* FOOTER */
+  .doc-footer {
+    background: #0B2545; padding: 0.9rem 2.2rem;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-contact { font-size: 10px; color: #8a9ab0; line-height: 1.6; }
+  .footer-thanks  { font-size: 10.5px; color: #D4A843; font-style: italic; }
+
+  @media print {
+    body { background: #fff; padding: 0; }
+    .doc-wrap { box-shadow: none; }
+  }
+</style>
+</head>
+<body>
+<div class="doc-wrap">
+  <div class="accent-line"></div>
+
+  <!-- HEADER -->
+  <div class="doc-header">
+    <div class="brand">
+      <svg width="42" height="46" viewBox="0 0 44 48" xmlns="http://www.w3.org/2000/svg">
+        <defs><clipPath id="ic"><rect x="0" y="1" width="44" height="44" rx="9"/></clipPath></defs>
+        <rect x="0" y="1" width="44" height="44" rx="9" fill="rgba(255,255,255,0.12)"/>
+        <path d="M -2,32 Q 10,27 22,30 Q 34,33 46,28 L 46,48 L -2,48 Z" fill="#0D7377" opacity="0.7" clip-path="url(#ic)"/>
+        <path d="M 13,47 L 20,11 L 26,11 L 19,47 Z" fill="rgba(255,255,255,0.90)" clip-path="url(#ic)"/>
+        <circle cx="23" cy="8" r="4" fill="#D4A843"/>
+        <circle cx="23" cy="8" r="1.8" fill="#0B2545"/>
+      </svg>
+      <div>
+        <div class="brand-name">LOMBOK TRANSFER</div>
+        <div class="brand-sub">Lombok's Premier Travel Experience</div>
+      </div>
+    </div>
+    <div class="doc-label-wrap">
+      <div class="doc-type">Receipt</div>
+      <div class="doc-num">#REC-2026-0038</div>
+      <div class="doc-status">Deposit Received</div>
+    </div>
+  </div>
+
+  <!-- META -->
+  <div class="meta-row">
+    <div class="meta-item">
+      <span class="meta-label">Date Issued</span>
+      <span class="meta-val">1 September 2026</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Trip Dates</span>
+      <span class="meta-val">16 · 22 · 27 September 2026</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Payment via</span>
+      <span class="meta-val">Wise</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Booking Ref</span>
+      <span class="meta-val" style="color:#0B2545;font-weight:700;letter-spacing:0.06em;">LT-2026-0038</span>
+    </div>
+  </div>
+
+  <!-- PARTIES -->
+  <div class="parties">
+    <div class="party">
+      <div class="party-label">Received by</div>
+      <div class="party-name">Lombok Transfer</div>
+      <div class="party-line">Lombok, Nusa Tenggara Barat, Indonesia</div>
+      <div class="party-line">hello@lomboktransfer.com</div>
+      <div class="party-line">WA: +62 819-0739-7667</div>
+      <div class="party-line">lomboktransfer.com</div>
+    </div>
+    <div class="party">
+      <div class="party-label">Paid by</div>
+      <div class="party-name">Leslie LENORMAND</div>
+      <div class="party-line">1 passenger · 1 large suitcase</div>
+      <div class="party-line">lenormand.leslie@laposte.net</div>
+      <div class="party-line">+33 6 58 36 36 43</div>
+    </div>
+  </div>
+
+  <!-- SERVICES -->
+  <div class="section-head">Services Booked</div>
+  <table class="items-table">
+    <thead>
+      <tr>
+        <th style="width:54%">Service</th>
+        <th>Date</th>
+        <th style="text-align:right;">Amount</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <div class="item-main">Airport Transfer — LOP &rarr; El Tropico Hotel, Kuta Lombok</div>
+          <div class="item-desc">
+            Flight: Super Air Jet IU762 &middot; Arrival 10:00 AM<br>
+            Driver with name sign &middot; Private car &middot; All-inclusive
+          </div>
+        </td>
+        <td style="white-space:nowrap;">16 Sep</td>
+        <td>IDR 450.000</td>
+      </tr>
+      <tr>
+        <td>
+          <div class="item-main">Private Transfer — El Tropico Hotel &rarr; Gili Air</div>
+          <div class="item-desc">
+            Pickup: 09:30 AM &middot; Private car to Teluk Nare + private speedboat &rarr; Gili Air<br>
+            Arrival at main harbour &middot; Short cidomo/walk to PinkCoco
+          </div>
+        </td>
+        <td style="white-space:nowrap;">22 Sep</td>
+        <td>IDR 1.050.000</td>
+      </tr>
+      <tr>
+        <td>
+          <div class="item-main">Private Transfer — Gili Air &rarr; LOP Airport</div>
+          <div class="item-desc">
+            Depart PinkCoco: 13:30 &middot; Speedboat &rarr; Teluk Nare + private car to LOP<br>
+            Est. airport arrival 16:00&ndash;16:15 &middot; Flight departs 18:00
+          </div>
+        </td>
+        <td style="white-space:nowrap;">27 Sep</td>
+        <td>IDR 900.000</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- TOTALS -->
+  <div class="totals">
+    <div class="totals-block">
+      <div class="total-row grand">
+        <span class="t-label">Total Package</span>
+        <span class="t-val">IDR 2.400.000</span>
+      </div>
+      <div class="usd-hint">&asymp; USD 135 &middot; for reference only, final price in IDR</div>
+      <div class="divider-dashed"></div>
+      <div class="total-row sub-paid">
+        <span class="t-label">&#10003; Deposit paid (50%)</span>
+        <span class="t-val">IDR 1.200.000</span>
+      </div>
+      <div class="total-row sub-remaining">
+        <span class="t-label">Balance due at pickup &middot; 16 Sep</span>
+        <span class="t-val">IDR 1.200.000</span>
+      </div>
+      <div class="usd-hint">Balance to be paid in cash (IDR) upon first pickup</div>
+    </div>
+  </div>
+
+  <!-- DEPOSIT BANNER -->
+  <div style="padding: 0.75rem 2.2rem; border-bottom: 1px solid #E8EEF5;">
+    <div class="deposit-banner">
+      <strong>Deposit of IDR 1.200.000 received via Wise.</strong> Booking is confirmed. Driver and boat contact details will be sent separately via WhatsApp.
+    </div>
+  </div>
+
+  <!-- PAYMENT DETAILS -->
+  <div class="section-head">Payment Details</div>
+  <div class="grid-block">
+    <div class="grid-item">
+      <span class="grid-label">Deposit Amount</span>
+      <span class="grid-val">IDR 1.200.000 (50%)</span>
+    </div>
+    <div class="grid-item">
+      <span class="grid-label">Payment Method</span>
+      <span class="grid-val">Wise</span>
+    </div>
+    <div class="grid-item">
+      <span class="grid-label">Recipient Name</span>
+      <span class="grid-val">Gusti Bagus Cahya Utama</span>
+    </div>
+    <div class="grid-item">
+      <span class="grid-label">Bank Account</span>
+      <span class="grid-val">BCA &middot; 0561802016</span>
+    </div>
+    <div class="grid-item">
+      <span class="grid-label">Payment Date</span>
+      <span class="grid-val">1 September 2026</span>
+    </div>
+    <div class="grid-item">
+      <span class="grid-label">Balance Due</span>
+      <span class="grid-val">Cash (IDR) &middot; 16 Sep pickup</span>
+    </div>
+  </div>
+
+  <!-- CONFIRMED INCLUSIONS -->
+  <div class="section-head">Confirmed Inclusions</div>
+  <div style="padding: 0.9rem 2.2rem; border-bottom: 1px solid #E8EEF5;">
+    <div class="incl-grid">
+      <div class="incl-item"><span class="incl-check">&#10003;</span><span>Private car (AC) for all land transfers</span></div>
+      <div class="incl-item"><span class="incl-check">&#10003;</span><span>Private speedboat (Teluk Nare &harr; Gili Air)</span></div>
+      <div class="incl-item"><span class="incl-check">&#10003;</span><span>Driver with name sign at LOP arrivals</span></div>
+      <div class="incl-item"><span class="incl-check">&#10003;</span><span>Fuel &amp; parking &mdash; fully included</span></div>
+      <div class="incl-item"><span class="incl-check">&#10003;</span><span>Luggage assistance (1 large suitcase)</span></div>
+      <div class="incl-item"><span class="incl-check">&#10003;</span><span>Harbour &harr; PinkCoco coordination (both ways)</span></div>
+      <div class="incl-item"><span class="incl-check">&#10003;</span><span>WhatsApp contact throughout the trip</span></div>
+      <div class="incl-item"><span class="incl-check">&#10003;</span><span>No additional or hidden fees</span></div>
+    </div>
+  </div>
+
+  <!-- BOOKING REFERENCE + QR -->
+  <div class="section-head">Booking Verification</div>
+  <div class="ref-block">
+    <div class="ref-left">
+      <div class="ref-label">Booking Reference (PNR)</div>
+      <div class="ref-code">LT-2026-0038</div>
+      <div class="ref-sub">
+        Scan the QR code or visit<br>
+        <strong>lomboktransfer.com/verify/LT-2026-0038</strong><br>
+        to verify the authenticity of this receipt.<br>
+        Show this code to your driver upon pickup.
+      </div>
+    </div>
+    <div class="barcode-wrap">
+      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAIAAADdBSngAAAE7UlEQVR4nO3dS44bNxRAUdvwMOvwUrzoLCXr8FyZp4yEIPi5Us4ZGt2SrL4g8FQl8uvr9foCPd9uvwD4PWkSJU2ipEmUNImSJlHSJEqaREmTKGkSJU2ivo/80B8/fu5+Hf/i119//uNfnq/n+TNPI/+Lkcc5ad9rrv1Nn6yaREmTKGkSJU2ipEnU0IT+tG+S3Tc5jkz6c+bm6LnPGfa987W/qVWTKGkSJU2ipEmUNImanNCf5qawk1PhqucaeeTnz4y8P3Pv4cn/6YhVz27VJEqaREmTKGkSJU2ilk3oJ81dj141yZ680j036X8GqyZR0iRKmkRJkyhpEvWWE/qqWXturn/a91t3P4u4y6pJlDSJkiZR0iRKmkQtm9BPzoD7JuJ919lX3cE+9zNz7s71Vk2ipEmUNImSJlHSJGpyQr97r/Wqa99PtWvWq17PiNr981ZNoqRJlDSJkiZR0iRqaEKv3SN9ch6fe5wR/fPO7rJqEiVNoqRJlDSJkiZRX1+v13/+0L7zx/c5+Y3yVU7uwT73Fzz5mYZVkyhpEiVNoqRJlDSJmryGfvIE8P7nA/teT21fuFWz/wirJlHSJEqaREmTKGkSNfk99FW7rp2c9EceeZW71+v7c71r6LwxaRIlTaKkSZQ0iVq2U9y+q+FP++4G3zel3j2RbdUjP+3bD9+qSZQ0iZImUdIkSppEDX0PfZVV14jvnn7et2pmn2NC58NJkyhpEiVNoqRJ1OROcU8np+ZV3/u+uzPbqkn2HafvEVZNoqRJlDSJkiZR0iRq4zX02l5tc/bdVb7q2ed+6+6nCiOsmkRJkyhpEiVNoqRJ1LIJ/e63qmvP9VQ7AW3f/vOr5nqrJlHSJEqaREmTKGkSNTmh75vd5h5nRP9K98jr6X9T3mlrfDhpEiVNoqRJlDSJyu0Ud/IU9ZM7193dJe9p1Q4A+z5jsWoSJU2ipEmUNImSJlHLTltb5eRZ3ncn6307xc3N0Se/vT7CqkmUNImSJlHSJEqaRA1N6Cfvaa/d1z3yeu6+P7VPJ5y2xoeTJlHSJEqaREmTqMlr6Kvutb67W/jJ6/Ujz77qcT7jr2PVJEqaREmTKGkSJU2iJif0fVZNhXM/s++q8cnvfe+b/U+yahIlTaKkSZQ0iZImUcsm9H37mc89V//a99OqTxVOnlhnpzj+d6RJlDSJkiZR0iRq4zX02gngJ09sr30+sOp9Pvn5gFWTKGkSJU2ipEmUNIkaOm3t5FXjkxPo3COf/ORhzt2/l/PQ+XDSJEqaREmTKGkSNXQNfd9uYHPPte+72Cf3Ra+9q0/2coffkCZR0iRKmkRJk6iNp62tsmpqPrnH2oh994evevY5rqHz4aRJlDSJkiZR0iTq8mlrT7UzyFY9zsm75edez4h93/d/smoSJU2ipEmUNImSJlEb93IfcfKb13dPWl/1WyfvV1/17HOsmkRJkyhpEiVNoqRJVO489JNqd3rvO/l93/l0+x7ZqkmUNImSJlHSJEqaRL3lhH5yR/ERd3dlf8c7AUZYNYmSJlHSJEqaREmTqGUT+smJeNWzr7pqvErtzLh9jzPCqkmUNImSJlHSJEqaRF0+D31E7Yr5090r3U93P0NYxapJlDSJkiZR0iRKmkQNTehwnlWTKGkSJU2ipEmUNImSJlHSJEqaREmTKGkSJU2i/gb/7MFHgWhFBgAAAABJRU5ErkJggg==" alt="QR Code Booking LT-2026-0038">
+      <div class="barcode-label">Scan to verify</div>
+    </div>
+  </div>
+
+  <!-- NOTES -->
+  <div class="notes-block">
+    <div class="notes-label">Terms &amp; Notes</div>
+    <div class="notes-text">
+      This receipt confirms the deposit payment and booking of private transfer services as detailed above. The remaining balance of IDR 1.200.000 is to be paid in cash (IDR) upon first pickup on 16 September 2026. All services are all-inclusive with no additional fees. Free cancellation up to 48 hours before the first trip date. This document serves as official proof of your deposit and confirmed booking with Lombok Transfer.
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="doc-footer">
+    <div class="footer-contact">
+      hello@lomboktransfer.com &nbsp;&middot;&nbsp; lomboktransfer.com &nbsp;&middot;&nbsp;
+      <span style="color:#14A0A5;">WA: +62 819-0739-7667</span>
+    </div>
+    <div class="footer-thanks">Safe travels, Leslie!</div>
+  </div>
+  <div class="accent-line"></div>
+</div>
+</body>
+</html>
