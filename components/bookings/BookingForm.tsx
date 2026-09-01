@@ -133,7 +133,7 @@ export default function BookingForm({ onSubmit }: { onSubmit: (data: BookingForm
               name="pickup_datetime"
               render={({ field }) => (
                 <Popover>
-                  <PopoverTrigger>
+                  <PopoverTrigger asChild>
                     <Button
                       variant={"outline"}
                       className={cn("w-full pl-3 text-left font-normal", !field.value && "text-muted-foreground")}
