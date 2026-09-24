@@ -16,7 +16,7 @@ import StatusBadge from "@/components/shared/StatusBadge";
 import { format } from "date-fns";
 import { id } from "date-fns/locale";
 import { Button } from "@/components/ui/button";
-import { Eye } from "lucide-react";
+import { Eye, Trash2 } from "lucide-react";
 
 interface BookingTableProps {
   search?: string;
@@ -26,8 +26,9 @@ interface BookingTableProps {
 }
 
 export default function BookingTable({ search, status, routeId, date }: BookingTableProps = {}) {
-  const { fetchBookings, isLoading } = useBookings();
+  const { fetchBookings, deleteBooking, isLoading } = useBookings();
   const [bookings, setBookings] = useState<Record<string, any>[]>([]);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
 
   useEffect(() => {
     fetchBookings().then((data) => {
@@ -118,12 +119,38 @@ export default function BookingTable({ search, status, routeId, date }: BookingT
                 Rp {booking.gross_price.toLocaleString("id-ID")}
               </TableCell>
               <TableCell className="text-center">
-                <Link href={`/admin/bookings/${booking.id}`}>
-                  <Button variant="outline" size="sm" className="h-8 gap-1">
-                    <Eye className="w-3.5 h-3.5" />
-                    <span className="hidden sm:inline">Detail</span>
+                <div className="flex items-center justify-center gap-1">
+                  <Link href={`/admin/bookings/${booking.id}`}>
+                    <Button variant="outline" size="sm" className="h-8 gap-1">
+                      <Eye className="w-3.5 h-3.5" />
+                      <span className="hidden sm:inline">Detail</span>
+                    </Button>
+                  </Link>
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    className="h-8 gap-1 text-destructive hover:bg-destructive/10 hover:text-destructive border-destructive/20"
+                    disabled={deletingId === booking.id}
+                    onClick={async () => {
+                      if (window.confirm(`Apakah Anda yakin ingin menghapus booking ${booking.booking_code || ""}?`)) {
+                        setDeletingId(booking.id);
+                        try {
+                          await deleteBooking(booking.id);
+                          setBookings((prev) => prev.filter((b) => b.id !== booking.id));
+                        } catch (err) {
+                          console.error(err);
+                          alert("Gagal menghapus booking.");
+                        } finally {
+                          setDeletingId(null);
+                        }
+                      }
+                    }}
+                    title="Hapus Booking"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                    <span className="hidden sm:inline">Hapus</span>
                   </Button>
-                </Link>
+                </div>
               </TableCell>
             </TableRow>
           ))}
