@@ -4,6 +4,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useBookings } from "@/hooks/useBookings";
+import { createClient } from "@/lib/supabase/client";
 import PageHeader from "@/components/shared/PageHeader";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -78,6 +79,23 @@ export default function BookingDetailPage() {
     setIsUpdatingStatus(true);
     try {
       await updateBooking(id as string, { status: next.next });
+      
+      // Auto-insert driver fee expense if booking is completed
+      if (next.next === "completed" && booking?.driver_id) {
+        const commissionPct = (booking.drivers as any)?.commission_pct || 60;
+        const driverFee = (booking.gross_price as number || 0) * (commissionPct / 100);
+        
+        const supabase = createClient();
+        await supabase.from("expenses").insert({
+          expense_date: new Date().toISOString().split("T")[0],
+          category: "commission",
+          description: `Fee Supir (${(booking.drivers as any)?.full_name || "Tanpa Nama"}) - Booking ${booking.booking_code}`,
+          amount: driverFee,
+          payment_method: "cash",
+          notes: "Otomatis digenerate saat booking diselesaikan."
+        });
+      }
+      
       handleRefresh();
     } catch (err) {
       console.error(err);
@@ -114,7 +132,7 @@ export default function BookingDetailPage() {
   const trips = (booking.booking_trips as any[]) || [];
   const waNumber = (booking.guests as any)?.phone_wa;
   const waMessage = waNumber
-    ? `https://wa.me/${waNumber.replace(/^0/, "62").replace(/[^0-9]/g, "")}?text=${encodeURIComponent(`Halo, konfirmasi booking ${booking.booking_code} Anda telah kami terima. Terima kasih!`)}`
+    ? `https://wa.me/${waNumber.replace(/^0/, "62").replace(/[^0-9]/g, "")}?text=${encodeURIComponent(`Hello, we have received the confirmation for your booking ${booking.booking_code}. Thank you!`)}`
     : null;
 
   return (
