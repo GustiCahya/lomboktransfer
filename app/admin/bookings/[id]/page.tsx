@@ -17,7 +17,7 @@ import { id as localeId } from "date-fns/locale";
 import {
   MapPin, User, Car, Banknote, Printer, MessageCircle,
   ChevronRight, Clock, ListOrdered, CheckCircle, XCircle,
-  Edit, AlertTriangle,
+  Edit, AlertTriangle, RotateCcw
 } from "lucide-react";
 import AssignDriverModal from "@/components/bookings/AssignDriverModal";
 import Link from "next/link";
@@ -30,6 +30,17 @@ const STATUS_FLOW: Record<string, { next: string; label: string } | null> = {
   in_progress:    { next: "completed",    label: "Selesaikan Booking" },
   completed:      null,
   cancelled:      null,
+};
+
+const getRevertAction = (status: string, hasDriver: boolean) => {
+  switch (status) {
+    case "confirmed": return { prev: "pending", label: "Kembali ke Pending" };
+    case "driver_assigned": return { prev: "confirmed", label: "Batal Penugasan" };
+    case "in_progress": return { prev: hasDriver ? "driver_assigned" : "confirmed", label: "Batal Mulai" };
+    case "completed": return { prev: "in_progress", label: "Batal Selesai" };
+    case "cancelled": return { prev: "pending", label: "Pulihkan Booking" };
+    default: return null;
+  }
 };
 
 const PAYMENT_STATUS_NEXT: Record<string, { next: string; label: string } | null> = {
@@ -105,6 +116,24 @@ export default function BookingDetailPage() {
     }
   };
 
+  const handleRevertStatus = async () => {
+    const currentStatus = booking?.status as string;
+    const revert = getRevertAction(currentStatus, !!booking?.driver_id);
+    if (!revert) return;
+    
+    if (!window.confirm(`Anda yakin ingin ${revert.label.toLowerCase()} dan mengembalikan status ke "${revert.prev}"?`)) return;
+    setIsUpdatingStatus(true);
+    try {
+      await updateBooking(id as string, { status: revert.prev });
+      handleRefresh();
+    } catch (err) {
+      console.error(err);
+      alert("Gagal membalikkan status.");
+    } finally {
+      setIsUpdatingStatus(false);
+    }
+  };
+
   const handleAdvancePayment = async () => {
     const currentPay = (booking?.payment_status as string) || "unpaid";
     const next = PAYMENT_STATUS_NEXT[currentPay];
@@ -127,6 +156,7 @@ export default function BookingDetailPage() {
 
   const currentStatus = booking.status as string;
   const nextStatusAction = STATUS_FLOW[currentStatus];
+  const revertAction = getRevertAction(currentStatus, !!booking.driver_id);
   const currentPayStatus = (booking.payment_status as string) || "unpaid";
   const nextPayAction = PAYMENT_STATUS_NEXT[currentPayStatus];
   const trips = (booking.booking_trips as any[]) || [];
@@ -190,30 +220,77 @@ export default function BookingDetailPage() {
           <BookingTimeline status={booking.status as string} />
         </CardContent>
         {/* Advance status banner */}
-        {nextStatusAction && (
+        {(nextStatusAction || revertAction) && currentStatus !== "completed" && currentStatus !== "cancelled" && (
           <div className="border-t px-6 py-3 bg-muted/30 flex items-center justify-between gap-4">
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <Clock className="w-4 h-4" />
-              <span>Langkah berikutnya: <span className="font-medium text-foreground">{nextStatusAction.label}</span></span>
+              <span>
+                {nextStatusAction ? (
+                  <>Langkah berikutnya: <span className="font-medium text-foreground">{nextStatusAction.label}</span></>
+                ) : (
+                  <>Status saat ini: <span className="font-medium text-foreground">{currentStatus}</span></>
+                )}
+              </span>
             </div>
-            <Button
-              size="sm"
-              className="gap-1.5 shrink-0"
-              onClick={handleAdvanceStatus}
-              disabled={isUpdatingStatus}
-            >
-              {nextStatusAction.label} <ChevronRight className="w-3.5 h-3.5" />
-            </Button>
+            <div className="flex items-center gap-2 shrink-0">
+              {revertAction && (
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="gap-1.5"
+                  onClick={handleRevertStatus}
+                  disabled={isUpdatingStatus}
+                >
+                  <RotateCcw className="w-3.5 h-3.5" /> {revertAction.label}
+                </Button>
+              )}
+              {nextStatusAction && (
+                <Button
+                  size="sm"
+                  className="gap-1.5"
+                  onClick={handleAdvanceStatus}
+                  disabled={isUpdatingStatus}
+                >
+                  {nextStatusAction.label} <ChevronRight className="w-3.5 h-3.5" />
+                </Button>
+              )}
+            </div>
           </div>
         )}
         {currentStatus === "completed" && (
-          <div className="border-t px-6 py-3 bg-green-50 dark:bg-green-950/30 flex items-center gap-2 text-green-700 dark:text-green-400 text-sm">
-            <CheckCircle className="w-4 h-4" /> Booking telah selesai
+          <div className="border-t px-6 py-3 bg-green-50 dark:bg-green-950/30 flex items-center justify-between gap-4">
+            <div className="flex items-center gap-2 text-green-700 dark:text-green-400 text-sm">
+              <CheckCircle className="w-4 h-4" /> Booking telah selesai
+            </div>
+            {revertAction && (
+              <Button
+                size="sm"
+                variant="outline"
+                className="gap-1.5 border-green-200 text-green-700 hover:bg-green-100 dark:border-green-800 dark:text-green-400 dark:hover:bg-green-900/50"
+                onClick={handleRevertStatus}
+                disabled={isUpdatingStatus}
+              >
+                <RotateCcw className="w-3.5 h-3.5" /> {revertAction.label}
+              </Button>
+            )}
           </div>
         )}
         {currentStatus === "cancelled" && (
-          <div className="border-t px-6 py-3 bg-destructive/10 flex items-center gap-2 text-destructive text-sm">
-            <AlertTriangle className="w-4 h-4" /> Booking telah dibatalkan
+          <div className="border-t px-6 py-3 bg-destructive/10 flex items-center justify-between gap-4">
+            <div className="flex items-center gap-2 text-destructive text-sm">
+              <AlertTriangle className="w-4 h-4" /> Booking telah dibatalkan
+            </div>
+            {revertAction && (
+              <Button
+                size="sm"
+                variant="outline"
+                className="gap-1.5 border-red-200 text-red-700 hover:bg-red-100 dark:border-red-800 dark:text-red-400 dark:hover:bg-red-900/50"
+                onClick={handleRevertStatus}
+                disabled={isUpdatingStatus}
+              >
+                <RotateCcw className="w-3.5 h-3.5" /> {revertAction.label}
+              </Button>
+            )}
           </div>
         )}
       </Card>
