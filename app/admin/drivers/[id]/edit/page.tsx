@@ -177,7 +177,7 @@ export default function EditDriverPage() {
                   <option value="percentage">Persentase Per Trip (%)</option>
                   <option value="fixed">Nominal Tetap Per Trip (Fixed Fee)</option>
                   <option value="daily">Gaji Harian (Per Hari Trip)</option>
-                </select>
+                </select> 
               </Field>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
