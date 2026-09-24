@@ -215,7 +215,7 @@ export default function AIAssistantFAB({ formType, onFill, className }: AIAssist
               <div className="text-xs text-muted-foreground bg-muted/50 rounded-xl p-3 space-y-1">
                 <p className="font-medium">💡 Tips:</p>
                 <ul className="space-y-0.5 ml-2">
-                  <li>• Paste langsung screenshot teks, chat WA, atau email</li>
+                  <li>• Paste langsung teks, chat WA, atau email</li>
                   <li>• AI akan mengekstrak field yang relevan saja</li>
                   <li>• Preview tampil sebelum diaplikasikan ke form</li>
                 </ul>
