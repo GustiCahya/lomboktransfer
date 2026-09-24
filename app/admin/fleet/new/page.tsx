@@ -22,7 +22,7 @@ export default function NewVehiclePage() {
   const { drivers } = useDrivers({ status: "active" });
 
   const { register, handleSubmit, setValue, formState: { errors } } = useForm<VehicleFormValues>({
-    resolver: zodResolver(vehicleSchema),
+    resolver: zodResolver(vehicleSchema) as any,
     defaultValues: {
       capacity: 7,
       status: "active",
@@ -30,6 +30,7 @@ export default function NewVehiclePage() {
     },
   });
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = async (data: VehicleFormValues) => {
     try {
       const newVehicle = await createVehicle(data);

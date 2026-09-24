@@ -19,7 +19,7 @@ export default function NewDriverPage() {
   const { createDriver, isLoading } = useCreateDriver();
 
   const { register, handleSubmit, setValue, formState: { errors } } = useForm<DriverFormValues>({
-    resolver: zodResolver(driverSchema),
+    resolver: zodResolver(driverSchema) as any,
     defaultValues: {
       employment_type: "karyawan",
       status: "active",
@@ -27,6 +27,7 @@ export default function NewDriverPage() {
     },
   });
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = async (data: DriverFormValues) => {
     try {
       const newDriver = await createDriver(data);
