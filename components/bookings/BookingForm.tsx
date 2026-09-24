@@ -25,9 +25,10 @@ import { CalendarIcon, Loader2, PlusCircle, Trash2 } from "lucide-react";
 interface BookingFormProps {
   onSubmit: (data: BookingFormValues) => Promise<void>;
   aiPrefill?: Record<string, unknown>;
+  initialData?: Partial<BookingFormValues>;
 }
 
-export default function BookingForm({ onSubmit, aiPrefill }: BookingFormProps) {
+export default function BookingForm({ onSubmit, aiPrefill, initialData }: BookingFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const {
@@ -39,7 +40,18 @@ export default function BookingForm({ onSubmit, aiPrefill }: BookingFormProps) {
     formState: { errors },
   } = useForm<BookingFormValues>({
     resolver: zodResolver(bookingSchema) as any,
-    defaultValues: {
+    defaultValues: initialData ? {
+      ...initialData,
+      total_passengers: initialData.total_passengers ?? 1,
+      total_luggage: initialData.total_luggage ?? 0,
+      payment_method: initialData.payment_method ?? "cash",
+      source: initialData.source ?? "whatsapp",
+      gross_price: initialData.gross_price ?? 0,
+      deposit_amount: initialData.deposit_amount ?? 0,
+      balance_due: initialData.balance_due ?? 0,
+      receipt_status: initialData.receipt_status ?? "pending",
+      trips: initialData.trips ?? [],
+    } : {
       total_passengers: 1,
       total_luggage: 0,
       payment_method: "cash",

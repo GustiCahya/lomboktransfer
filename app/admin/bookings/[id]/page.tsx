@@ -2,7 +2,7 @@
 "use client";
 
 import React, { useEffect, useState, useCallback } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useBookings } from "@/hooks/useBookings";
 import PageHeader from "@/components/shared/PageHeader";
 import { Button } from "@/components/ui/button";
@@ -17,9 +17,11 @@ import AssignDriverModal from "@/components/bookings/AssignDriverModal";
 
 export default function BookingDetailPage() {
   const { id } = useParams();
-  const { fetchBooking, isLoading } = useBookings();
+  const { fetchBooking, updateBooking, isLoading } = useBookings();
   const [booking, setBooking] = useState<Record<string, unknown> | null>(null);
   const [isAssignModalOpen, setIsAssignModalOpen] = useState(false);
+  const [isCancelling, setIsCancelling] = useState(false);
+  const router = useRouter();
 
   const handleRefresh = useCallback(() => {
     if (id) {
@@ -30,6 +32,20 @@ export default function BookingDetailPage() {
   useEffect(() => {
     handleRefresh();
   }, [handleRefresh]);
+
+  const handleCancel = async () => {
+    if (!window.confirm("Apakah Anda yakin ingin membatalkan booking ini?")) return;
+    setIsCancelling(true);
+    try {
+      await updateBooking(id as string, { status: "cancelled" });
+      handleRefresh();
+    } catch (err) {
+      console.error(err);
+      alert("Gagal membatalkan booking.");
+    } finally {
+      setIsCancelling(false);
+    }
+  };
 
   if (isLoading || !booking) {
     return <div className="p-12 text-center text-muted-foreground">Memuat detail booking...</div>;
@@ -42,10 +58,20 @@ export default function BookingDetailPage() {
         subtitle="Detail perjalanan, informasi tamu, dan status penugasan supir."
         actions={
           <>
-            <Button variant="outline" className="gap-2 text-destructive hover:bg-destructive hover:text-white border-destructive">
-              Batalkan
+            <Button
+              variant="outline"
+              className="gap-2 text-destructive hover:bg-destructive hover:text-white border-destructive"
+              onClick={handleCancel}
+              disabled={isCancelling || booking.status === "cancelled"}
+            >
+              {isCancelling ? "Membatalkan..." : "Batalkan"}
             </Button>
-            <Button className="gap-2">Edit Booking</Button>
+            <Button
+              className="gap-2"
+              onClick={() => router.push(`/admin/bookings/${id}/edit`)}
+            >
+              Edit Booking
+            </Button>
           </>
         }
       />

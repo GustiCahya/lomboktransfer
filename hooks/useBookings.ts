@@ -40,7 +40,8 @@ export function useBookings() {
           guests(*),
           routes(*),
           drivers(*),
-          vehicles(*)
+          vehicles(*),
+          booking_trips(*)
         `)
         .eq("id", id)
         .single();
