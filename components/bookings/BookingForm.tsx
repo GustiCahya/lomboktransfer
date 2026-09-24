@@ -21,6 +21,7 @@ import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { id } from "date-fns/locale";
 import { CalendarIcon, Loader2, PlusCircle, Trash2 } from "lucide-react";
+import { useDrivers } from "@/hooks/useDrivers";
 
 interface BookingFormProps {
   onSubmit: (data: BookingFormValues) => Promise<void>;
@@ -30,6 +31,7 @@ interface BookingFormProps {
 
 export default function BookingForm({ onSubmit, aiPrefill, initialData }: BookingFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { drivers } = useDrivers({ status: "active" });
 
   const {
     register,
@@ -206,6 +208,7 @@ export default function BookingForm({ onSubmit, aiPrefill, initialData }: Bookin
                 pickup_address: "",
                 dropoff_address: "",
                 price: 0,
+                driver_id: null,
               })
             }
           >
@@ -334,6 +337,31 @@ export default function BookingForm({ onSubmit, aiPrefill, initialData }: Bookin
                     {...register(`trips.${index}.price`, { valueAsNumber: true })}
                     placeholder="0"
                   />
+                </div>
+
+                {/* Driver per Trip */}
+                <div className="space-y-2">
+                  <Label htmlFor={`trips.${index}.driver_id`}>Supir Trip Ini</Label>
+                  <Controller
+                    control={control}
+                    name={`trips.${index}.driver_id`}
+                    render={({ field }) => (
+                      <select
+                        id={`trips.${index}.driver_id`}
+                        value={field.value ?? ""}
+                        onChange={(e) => field.onChange(e.target.value || null)}
+                        className="flex h-9 w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-ring"
+                      >
+                        <option value="">-- Belum ditentukan --</option>
+                        {drivers.map((d) => (
+                          <option key={d.id} value={d.id}>
+                            {d.full_name}
+                          </option>
+                        ))}
+                      </select>
+                    )}
+                  />
+                  <p className="text-xs text-muted-foreground">Opsional. Fee supir dihitung otomatis saat booking selesai.</p>
                 </div>
               </div>
             </div>

@@ -8,6 +8,7 @@ export const tripSchema = z.object({
   pickup_address: z.string().optional(),
   dropoff_address: z.string().optional(),
   price: z.number().min(0).default(0),
+  driver_id: z.string().uuid().optional().nullable().or(z.literal("")).transform(v => (!v ? null : v)),
 });
 
 export const bookingSchema = z.object({

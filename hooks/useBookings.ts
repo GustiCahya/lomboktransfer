@@ -41,7 +41,10 @@ export function useBookings() {
           routes(*),
           drivers(*),
           vehicles(*),
-          booking_trips(*)
+          booking_trips(
+            *,
+            drivers(id, full_name, fee_type, commission_pct, fixed_fee, daily_fee, phone_wa)
+          )
         `)
         .eq("id", id)
         .single();
@@ -114,6 +117,7 @@ export function useBookings() {
           service_description: trip.service_description || null,
           pickup_address: trip.pickup_address || null,
           dropoff_address: trip.dropoff_address || null,
+          driver_id: trip.driver_id || null,
           price: trip.price
         }));
 

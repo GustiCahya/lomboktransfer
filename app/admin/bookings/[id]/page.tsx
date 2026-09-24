@@ -17,19 +17,20 @@ import { id as localeId } from "date-fns/locale";
 import {
   MapPin, User, Car, Banknote, Printer, MessageCircle,
   ChevronRight, Clock, ListOrdered, CheckCircle, XCircle,
-  Edit, AlertTriangle, RotateCcw, Trash2
+  Edit, AlertTriangle, RotateCcw, Trash2, UserCheck
 } from "lucide-react";
 import AssignDriverModal from "@/components/bookings/AssignDriverModal";
+import AssignTripDriverModal from "@/components/bookings/AssignTripDriverModal";
 import Link from "next/link";
 
 // Status flow: pending → confirmed → in_progress → completed
 const STATUS_FLOW: Record<string, { next: string; label: string } | null> = {
-  pending:        { next: "confirmed",    label: "Konfirmasi Booking" },
-  confirmed:      { next: "in_progress",  label: "Mulai Perjalanan" },
-  driver_assigned:{ next: "in_progress",  label: "Mulai Perjalanan" },
-  in_progress:    { next: "completed",    label: "Selesaikan Booking" },
-  completed:      null,
-  cancelled:      null,
+  pending: { next: "confirmed", label: "Konfirmasi Booking" },
+  confirmed: { next: "in_progress", label: "Mulai Perjalanan" },
+  driver_assigned: { next: "in_progress", label: "Mulai Perjalanan" },
+  in_progress: { next: "completed", label: "Selesaikan Booking" },
+  completed: null,
+  cancelled: null,
 };
 
 const getRevertAction = (status: string, hasDriver: boolean) => {
@@ -44,9 +45,9 @@ const getRevertAction = (status: string, hasDriver: boolean) => {
 };
 
 const PAYMENT_STATUS_NEXT: Record<string, { next: string; label: string } | null> = {
-  unpaid:           { next: "deposit_received", label: "Tandai Deposit Diterima" },
-  deposit_received: { next: "paid",              label: "Tandai Lunas" },
-  paid:             null,
+  unpaid: { next: "deposit_received", label: "Tandai Deposit Diterima" },
+  deposit_received: { next: "paid", label: "Tandai Lunas" },
+  paid: null,
 };
 
 export default function BookingDetailPage() {
@@ -56,6 +57,7 @@ export default function BookingDetailPage() {
   const [isAssignModalOpen, setIsAssignModalOpen] = useState(false);
   const [isCancelling, setIsCancelling] = useState(false);
   const [isUpdatingStatus, setIsUpdatingStatus] = useState(false);
+  const [assignTripId, setAssignTripId] = useState<string | null>(null);
   const router = useRouter();
 
   const handleRefresh = useCallback(() => {
@@ -99,12 +101,12 @@ export default function BookingDetailPage() {
     const currentStatus = booking?.status as string;
     const next = STATUS_FLOW[currentStatus];
     if (!next) return;
-    
+
     let confirmMessage = `Ubah status ke "${next.label}"?`;
     if (next.next === "completed") {
       confirmMessage = `Menyelesaikan booking ini juga akan otomatis menandai tagihan sebagai "Lunas" (Paid). Anda yakin ingin melanjutkan?`;
     }
-    
+
     if (!window.confirm(confirmMessage)) return;
     setIsUpdatingStatus(true);
     try {
@@ -113,57 +115,104 @@ export default function BookingDetailPage() {
         updates.payment_status = "paid";
       }
       await updateBooking(id as string, updates);
-      
-      // Auto-insert driver fee expense if booking is completed
-      if (next.next === "completed" && booking?.driver_id) {
-        const feeType = (booking.drivers as any)?.fee_type || "percentage";
-        let driverFee = 0;
-        
-        if (feeType === "fixed") {
-          const trips = (booking.booking_trips as any[]) || [];
-          const tripsCount = trips.length > 0 ? trips.length : 1;
-          driverFee = ((booking.drivers as any)?.fixed_fee || 0) * tripsCount;
-        } else if (feeType === "daily") {
-          const dailyFee = (booking.drivers as any)?.daily_fee || 0;
-          const trips = (booking.booking_trips as any[]) || [];
-          let uniqueDays = 1;
-          
-          if (trips.length > 0) {
-            uniqueDays = new Set(trips.map(t => {
-              const d = new Date(t.trip_date || t.pickup_time);
-              return !isNaN(d.getTime()) ? d.toISOString().split('T')[0] : null;
-            }).filter(Boolean)).size || 1;
-          }
-          
-          driverFee = dailyFee * uniqueDays;
-        } else {
-          const commissionPct = (booking.drivers as any)?.commission_pct || 60;
-          driverFee = (booking.gross_price as number || 0) * (commissionPct / 100);
-        }
-        
-        const descriptionMatch = `Fee Supir%Booking ${booking.booking_code}`;
-        
+
+      // Auto-insert driver fee expense per-driver when booking is completed
+      if (next.next === "completed" && booking) {
+        const currentBooking = booking as Record<string, any>;
+        const trips = (currentBooking.booking_trips as any[]) || [];
         const supabase = createClient();
-        
-        // Cek duplicate
-        const { data: existing } = await supabase
-          .from("expenses")
-          .select("id")
-          .ilike("description", descriptionMatch)
-          .maybeSingle();
-          
-        if (!existing) {
-          await supabase.from("expenses").insert({
-            expense_date: new Date().toISOString().split("T")[0],
-            category: "commission",
-            description: `Fee Supir (${(booking.drivers as any)?.full_name || "Tanpa Nama"}) - Booking ${booking.booking_code}`,
-            amount: driverFee,
-            payment_method: "cash",
-            notes: "Otomatis digenerate saat booking diselesaikan."
-          });
+        const bookingDriverId = currentBooking.driver_id as string | null;
+        const bookingDriverData = currentBooking.drivers as any | null;
+
+        // Resolve effective driver for each trip:
+        // - Use trip's own driver_id if set
+        // - Else fall back to booking-level driver
+        // Group resolved trips by driver_id
+        const driverTripMap = new Map<string, { trips: any[]; driverData: any }>();
+
+        const addToMap = (driverId: string, driverData: any, trip: any) => {
+          if (!driverTripMap.has(driverId)) {
+            driverTripMap.set(driverId, { trips: [], driverData });
+          }
+          driverTripMap.get(driverId)!.trips.push(trip);
+        };
+
+        if (trips.length > 0) {
+          for (const trip of trips) {
+            const tripDriverId: string | null = trip.driver_id || null;
+            const tripDriverData = (trip as any).drivers || null;
+
+            if (tripDriverId && tripDriverData) {
+              // Trip has its own driver
+              addToMap(tripDriverId, tripDriverData, trip);
+            } else if (bookingDriverId && bookingDriverData) {
+              // No trip-level driver → fallback to booking driver
+              addToMap(bookingDriverId, bookingDriverData, trip);
+            }
+            // If neither → no expense for this trip
+          }
+        } else if (bookingDriverId && bookingDriverData) {
+          // No trips at all, but booking has a driver — still record fee
+          addToMap(bookingDriverId, bookingDriverData, {});
+        }
+
+        for (const [, { trips: driverTrips, driverData }] of Array.from(driverTripMap)) {
+          const feeType = driverData.fee_type || "percentage";
+          let driverFee = 0;
+
+          if (feeType === "fixed") {
+            driverFee = (driverData.fixed_fee || 0) * driverTrips.length;
+          } else if (feeType === "daily") {
+            const dailyFee = driverData.daily_fee || 0;
+            // Count unique calendar days for this driver — prevents double-pay
+            const uniqueDays = new Set(
+              driverTrips.map((t: any) => {
+                const d = new Date(t.trip_date || t.pickup_time);
+                return !isNaN(d.getTime()) ? d.toISOString().split("T")[0] : null;
+              }).filter(Boolean)
+            ).size || 1;
+            driverFee = dailyFee * uniqueDays;
+          } else {
+            // percentage: based on total booking gross price
+            const commissionPct = driverData.commission_pct || 60;
+            driverFee = (currentBooking.gross_price as number || 0) * (commissionPct / 100);
+          }
+
+          if (driverFee <= 0) continue;
+
+          // Unique check: one expense per driver per booking (exact match)
+          const expenseDescription = `Fee Supir (${driverData.full_name}) - Booking ${currentBooking.booking_code}`;
+          const { data: existing } = await supabase
+            .from("expenses")
+            .select("id")
+            .eq("description", expenseDescription)
+            .maybeSingle();
+
+          if (!existing) {
+            const uniqueDaysForNote = feeType === "daily"
+              ? new Set(
+                  driverTrips.map((t: any) => {
+                    const d = new Date(t.trip_date || t.pickup_time);
+                    return !isNaN(d.getTime()) ? d.toISOString().split("T")[0] : null;
+                  }).filter(Boolean)
+                ).size
+              : 0;
+
+            await supabase.from("expenses").insert({
+              expense_date: new Date().toISOString().split("T")[0],
+              category: "commission",
+              description: expenseDescription,
+              amount: driverFee,
+              payment_method: "cash",
+              notes: `Otomatis digenerate saat booking diselesaikan. [${feeType}${
+                feeType === "fixed" ? ` × ${driverTrips.length} trip` :
+                feeType === "daily" ? ` × ${uniqueDaysForNote} hari unik` : ``
+              }]`,
+            });
+          }
         }
       }
-      
+
       handleRefresh();
     } catch (err) {
       console.error(err);
@@ -177,7 +226,7 @@ export default function BookingDetailPage() {
     const currentStatus = booking?.status as string;
     const revert = getRevertAction(currentStatus, !!booking?.driver_id);
     if (!revert) return;
-    
+
     if (!window.confirm(`Anda yakin ingin ${revert.label.toLowerCase()} dan mengembalikan status ke "${revert.prev}"?`)) return;
     setIsUpdatingStatus(true);
     try {
@@ -473,6 +522,32 @@ export default function BookingDetailPage() {
                           </div>
                         )}
                       </div>
+                      {/* Driver per trip */}
+                      <div className="border-t pt-2 flex items-center justify-between gap-2">
+                        <div className="flex items-center gap-1.5 text-sm">
+                          <UserCheck className="w-3.5 h-3.5 text-muted-foreground" />
+                          {trip.drivers?.full_name ? (
+                            <span className="font-medium">{trip.drivers.full_name}</span>
+                          ) : (booking.drivers as any)?.full_name ? (
+                            <span className="font-medium">
+                              {(booking.drivers as any).full_name}
+                              <span className="ml-1 text-xs text-muted-foreground font-normal">(default)</span>
+                            </span>
+                          ) : (
+                            <span className="text-muted-foreground italic">Supir belum ditugaskan</span>
+                          )}
+                        </div>
+                        {currentStatus !== "cancelled" && currentStatus !== "completed" && (
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            className="h-6 px-2 text-xs"
+                            onClick={() => setAssignTripId(trip.id)}
+                          >
+                            {trip.drivers?.full_name ? "Ganti" : "Override"}
+                          </Button>
+                        )}
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -607,6 +682,19 @@ export default function BookingDetailPage() {
         onClose={() => setIsAssignModalOpen(false)}
         onSuccess={handleRefresh}
       />
+
+      {/* Modal assign driver per trip */}
+      {assignTripId && (
+        <AssignTripDriverModal
+          tripId={assignTripId}
+          isOpen={!!assignTripId}
+          onClose={() => setAssignTripId(null)}
+          onSuccess={() => {
+            setAssignTripId(null);
+            handleRefresh();
+          }}
+        />
+      )}
     </div>
   );
 }
