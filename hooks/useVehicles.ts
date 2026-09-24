@@ -20,6 +20,46 @@ export interface Vehicle {
   created_at: string;
 }
 
+function normalizeVehicle(item: any): Vehicle {
+  if (!item) return item;
+  return {
+    ...item,
+    capacity: item.capacity ?? item.passenger_cap ?? 7,
+  };
+}
+
+async function executeVehicleMutation(
+  mutationFn: (payload: Record<string, any>) => Promise<{ data: any; error: any }>,
+  values: Partial<VehicleFormValues>
+) {
+  const payload: Record<string, any> = { ...values };
+
+  // Sync capacity with passenger_cap for schema compatibility
+  if (payload.capacity !== undefined) {
+    payload.passenger_cap = payload.capacity;
+  }
+
+  let { data, error } = await mutationFn(payload);
+
+  // If Supabase errors due to missing column in DB schema cache, drop the missing key and retry
+  let attempts = 0;
+  while (error && error.message && error.message.includes("Could not find the '") && error.message.includes("column of 'vehicles'") && attempts < 5) {
+    attempts++;
+    const match = error.message.match(/Could not find the '([^']+)' column/);
+    if (match && match[1] && match[1] in payload) {
+      delete payload[match[1]];
+      const retry = await mutationFn(payload);
+      data = retry.data;
+      error = retry.error;
+    } else {
+      break;
+    }
+  }
+
+  if (error) throw error;
+  return normalizeVehicle(data);
+}
+
 export function useVehicles(filters?: { status?: string; search?: string }) {
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -38,7 +78,7 @@ export function useVehicles(filters?: { status?: string; search?: string }) {
 
       const { data, error: err } = await query;
       if (err) throw err;
-      setVehicles(data || []);
+      setVehicles((data || []).map(normalizeVehicle));
     } catch (err: unknown) {
       setError(err instanceof Error ? err : new Error("Unknown error"));
     } finally {
@@ -65,7 +105,7 @@ export function useVehicle(id: string | null) {
       .eq("id", id)
       .single()
       .then(({ data }) => {
-        setVehicle(data);
+        setVehicle(data ? { ...normalizeVehicle(data), drivers: data.drivers } : null);
         setIsLoading(false);
       });
   }, [id, supabase]);
@@ -80,9 +120,10 @@ export function useCreateVehicle() {
   const createVehicle = useCallback(async (values: VehicleFormValues) => {
     setIsLoading(true);
     try {
-      const { data, error } = await supabase.from("vehicles").insert(values).select().single();
-      if (error) throw error;
-      return data;
+      return await executeVehicleMutation(
+        async (payload) => await supabase.from("vehicles").insert(payload).select().single(),
+        values
+      );
     } finally {
       setIsLoading(false);
     }
@@ -99,14 +140,10 @@ export function useUpdateVehicle(id: string) {
   const updateVehicle = useCallback(async (values: Partial<VehicleFormValues>) => {
     setIsLoading(true);
     try {
-      const { data, error: err } = await supabase
-        .from("vehicles")
-        .update(values)
-        .eq("id", id)
-        .select()
-        .single();
-      if (err) throw err;
-      return data;
+      return await executeVehicleMutation(
+        async (payload) => await supabase.from("vehicles").update(payload).eq("id", id).select().single(),
+        values
+      );
     } catch (err: unknown) {
       const e = err instanceof Error ? err : new Error("Unknown error");
       setError(e);
