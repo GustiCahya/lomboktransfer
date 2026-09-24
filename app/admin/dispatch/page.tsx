@@ -16,6 +16,8 @@ import {
   User,
   Car,
   Loader2,
+  ExternalLink,
+  Download,
 } from "lucide-react";
 import {
   format,
@@ -364,7 +366,7 @@ function MonthView({
 
 export default function DispatchPage() {
   const [currentDate, setCurrentDate] = useState(new Date());
-  const [viewMode, setViewMode] = useState<ViewMode>("day");
+  const [viewMode, setViewMode] = useState<ViewMode>("month");
   const [events, setEvents] = useState<any[]>([]);
 
   const { fetchDispatchEvents, isLoading } = useDispatch();
@@ -427,23 +429,75 @@ export default function DispatchPage() {
 
   const weekStart = startOfWeek(currentDate, { weekStartsOn: 1 });
 
+  // ── Google Calendar export ──
+  const handleExportGoogleCalendar = () => {
+    if (events.length === 0) {
+      alert("Tidak ada jadwal untuk diekspor ke Google Calendar.");
+      return;
+    }
+    // Open a new tab for each event (up to 5 to avoid popup blocker)
+    const toExport = events.slice(0, 10);
+    toExport.forEach((ev, idx) => {
+      const date = new Date(ev.pickup_datetime);
+      const endDate = new Date(date.getTime() + 2 * 60 * 60 * 1000); // +2 hours
+      const guestName = ev.guests?.full_name ?? "Tamu";
+      const routeName = ev.routes?.name ?? ev.service_name ?? "Transfer";
+      const driverName = ev.drivers?.full_name ?? "Supir Belum Ditugaskan";
+      const vehicleInfo = ev.vehicles ? `${ev.vehicles.brand} (${ev.vehicles.plate_number})` : "";
+      const tripLabel = ev.trip_order ? ` - Trip #${ev.trip_order}` : "";
+
+      const fmt = (d: Date) =>
+        d.toISOString().replace(/[-:]/g, "").replace(".000", "");
+
+      const title = encodeURIComponent(`[${ev.booking_code}${tripLabel}] ${guestName} - ${routeName}`);
+      const details = encodeURIComponent(
+        `Booking: ${ev.booking_code}\nTamu: ${guestName}\nRute: ${routeName}\nSupir: ${driverName}\nKendaraan: ${vehicleInfo}\nStatus: ${ev.status}`
+      );
+      const location = encodeURIComponent(ev.pickup_address || "");
+      const dates = `${fmt(date)}/${fmt(endDate)}`;
+
+      const url = `https://www.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${dates}&details=${details}&location=${location}`;
+      setTimeout(() => window.open(url, "_blank"), idx * 300);
+    });
+
+    if (events.length > 10) {
+      alert(`Hanya 10 dari ${events.length} jadwal yang diekspor (batas popup browser). Saring tampilan atau gunakan view Harian/Mingguan untuk hasil lebih sedikit.`);
+    }
+  };
+
   return (
     <div className="space-y-6 h-[calc(100vh-100px)] flex flex-col">
       <PageHeader
         title="Kalender Dispatch"
         subtitle="Pusat kontrol operasional harian. Pantau jadwal, tugaskan supir, dan hindari konflik waktu."
         actions={
-          <div className="flex items-center gap-2 bg-background border rounded-lg p-1">
-            {(["day", "week", "month"] as ViewMode[]).map((m) => (
-              <Button
-                key={m}
-                variant={viewMode === m ? "secondary" : "ghost"}
-                size="sm"
-                onClick={() => setViewMode(m)}
-              >
-                {{ day: "Harian", week: "Mingguan", month: "Bulanan" }[m]}
-              </Button>
-            ))}
+          <div className="flex items-center gap-2 flex-wrap">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleExportGoogleCalendar}
+              className="gap-2 text-xs border-blue-500/40 text-blue-600 dark:text-blue-400 hover:bg-blue-500/10"
+              title={`Ekspor ${events.length} jadwal tampilan ini ke Google Calendar`}
+            >
+              <ExternalLink className="h-3.5 w-3.5" />
+              <Download className="h-3.5 w-3.5" />
+              Google Calendar
+              {events.length > 0 && (
+                <span className="ml-1 bg-blue-500/20 text-blue-700 dark:text-blue-300 rounded-full px-1.5 py-0.5 text-[10px] font-bold">{events.length}</span>
+              )}
+            </Button>
+            <div className="flex items-center gap-2 bg-background border rounded-lg p-1">
+              {(["day", "week", "month"] as ViewMode[]).map((m) => (
+                <Button
+                  key={m}
+                  variant={viewMode === m ? "secondary" : "ghost"}
+                  size="sm"
+                  onClick={() => setViewMode(m)}
+                >
+                  {{ day: "Harian", week: "Mingguan", month: "Bulanan" }[m]}
+                </Button>
+              ))}
+            </div>
           </div>
         }
       />

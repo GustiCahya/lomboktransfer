@@ -1,6 +1,7 @@
 import React from "react";
 import PageHeader from "@/components/shared/PageHeader";
 import ReportsNav from "@/components/reports/ReportsNav";
+import MaintenanceBanner from "@/components/shared/MaintenanceBanner";
 
 export default function ReportsLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -10,7 +11,9 @@ export default function ReportsLayout({ children }: { children: React.ReactNode 
         subtitle="Visualisasi data bisnis secara menyeluruh, analisis performa, dan ekspor laporan manajemen."
       />
       <ReportsNav />
+      <MaintenanceBanner />
       <div className="pb-8">{children}</div>
     </div>
   );
 }
+

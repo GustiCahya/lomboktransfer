@@ -16,8 +16,8 @@ import { User, FileText, Car, BarChart2, Banknote, Edit, Wrench } from "lucide-r
 
 const TABS = [
   { id: "info", label: "Informasi Pribadi", icon: User },
-  { id: "documents", label: "Dokumen", icon: FileText },
   { id: "trips", label: "Riwayat Trip", icon: Car },
+  { id: "documents", label: "Dokumen", icon: FileText },
   { id: "performance", label: "Performa", icon: BarChart2 },
   { id: "payroll", label: "Payroll", icon: Banknote },
 ];
