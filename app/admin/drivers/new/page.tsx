@@ -138,7 +138,7 @@ export default function NewDriverPage() {
               </Field>
               <Field id="fee_type" label="Jenis Fee Supir" required>
                 <select id="fee_type" {...register("fee_type")} className="flex h-9 w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-ring">
-                  <option value="percentage">Persentase dari Booking (%)</option>
+                  <option value="percentage">Persentase Per Trip (%)</option>
                   <option value="fixed">Nominal Tetap Per Trip (Fixed Fee)</option>
                   <option value="daily">Gaji Harian (Per Hari Trip)</option>
                 </select>

@@ -50,6 +50,14 @@ const PAYMENT_STATUS_NEXT: Record<string, { next: string; label: string } | null
   paid: null,
 };
 
+const getRevertPaymentAction = (status: string) => {
+  switch (status) {
+    case "paid": return { prev: "deposit_received", label: "Batal Lunas" };
+    case "deposit_received": return { prev: "unpaid", label: "Batal Deposit" };
+    default: return null;
+  }
+};
+
 export default function BookingDetailPage() {
   const { id } = useParams();
   const { fetchBooking, updateBooking, deleteBooking, isLoading } = useBookings();
@@ -262,6 +270,24 @@ export default function BookingDetailPage() {
     }
   };
 
+  const handleRevertPayment = async () => {
+    const currentPay = (booking?.payment_status as string) || "unpaid";
+    const revert = getRevertPaymentAction(currentPay);
+    if (!revert) return;
+    
+    if (!window.confirm(`Anda yakin ingin membatalkan status pembayaran dan mengembalikannya ke "${revert.prev}"?`)) return;
+    setIsUpdatingStatus(true);
+    try {
+      await updateBooking(id as string, { payment_status: revert.prev });
+      handleRefresh();
+    } catch (err) {
+      console.error(err);
+      alert("Gagal membalikkan status pembayaran.");
+    } finally {
+      setIsUpdatingStatus(false);
+    }
+  };
+
   if (isLoading || !booking) {
     return <div className="p-12 text-center text-muted-foreground">Memuat detail booking...</div>;
   }
@@ -271,6 +297,7 @@ export default function BookingDetailPage() {
   const revertAction = getRevertAction(currentStatus, !!booking.driver_id);
   const currentPayStatus = (booking.payment_status as string) || "unpaid";
   const nextPayAction = PAYMENT_STATUS_NEXT[currentPayStatus];
+  const revertPayAction = getRevertPaymentAction(currentPayStatus);
   const trips = (booking.booking_trips as any[]) || [];
   const waNumber = (booking.guests as any)?.phone_wa;
   const waMessage = waNumber
@@ -634,16 +661,31 @@ export default function BookingDetailPage() {
                 <span>Rp {(booking.gross_price as number)?.toLocaleString("id-ID")}</span>
               </div>
               {/* Update payment status */}
-              {nextPayAction && currentStatus !== "cancelled" && (
-                <Button
-                  size="sm"
-                  variant="outline"
-                  className="w-full mt-2"
-                  onClick={handleAdvancePayment}
-                  disabled={isUpdatingStatus}
-                >
-                  {nextPayAction.label}
-                </Button>
+              {(nextPayAction || revertPayAction) && currentStatus !== "cancelled" && (
+                <div className="flex flex-col gap-2 mt-2">
+                  {nextPayAction && (
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="w-full"
+                      onClick={handleAdvancePayment}
+                      disabled={isUpdatingStatus}
+                    >
+                      {nextPayAction.label}
+                    </Button>
+                  )}
+                  {revertPayAction && (
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      className="w-full text-muted-foreground hover:text-foreground"
+                      onClick={handleRevertPayment}
+                      disabled={isUpdatingStatus}
+                    >
+                      <RotateCcw className="w-3.5 h-3.5 mr-1.5" /> {revertPayAction.label}
+                    </Button>
+                  )}
+                </div>
               )}
               {/* Link kwitansi */}
               <Link

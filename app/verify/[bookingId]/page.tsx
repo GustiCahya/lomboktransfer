@@ -12,7 +12,7 @@ function formatIDR(amount: number): string {
 function formatDepositMethod(method: string | null): string {
   if (!method) return '-';
   const map: Record<string, string> = {
-    wise: 'Wise', bank_transfer: 'Bank Transfer', cash: 'Cash', ota: 'OTA Settlement',
+    wise: 'Wise', bank_transfer: 'Bank Transfer', cash: 'Cash', crypto: 'Crypto', ota: 'OTA (Online Travel Agent)', ota_settlement: 'OTA (Online Travel Agent) Settlement',
   };
   return map[method] || method;
 }

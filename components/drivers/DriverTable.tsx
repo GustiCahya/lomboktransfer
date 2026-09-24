@@ -57,7 +57,7 @@ export default function DriverTable({ drivers, expiringDriverIds = new Set(), on
         </TableHeader>
         <TableBody>
           {drivers.map((driver) => {
-            let feeDisplay = `${driver.commission_pct ?? 0}%`;
+            let feeDisplay = `${driver.commission_pct ?? 0}%  / trip`;
             if (driver.fee_type === "fixed") {
               feeDisplay = `Rp ${Number(driver.fixed_fee || 0).toLocaleString("id-ID")} / trip`;
             } else if (driver.fee_type === "daily") {

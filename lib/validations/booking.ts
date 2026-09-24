@@ -29,7 +29,7 @@ export const bookingSchema = z.object({
   total_passengers: z.number().min(1).max(20).default(1),
   total_luggage: z.number().min(0).default(0),
   gross_price: z.number().min(0).default(0),
-  payment_method: z.enum(["cash", "transfer", "ota_settlement", "wise"]),
+  payment_method: z.enum(["cash", "transfer", "ota_settlement", "wise", "crypto"]),
   source: z.enum(["direct", "klook", "viator", "traveloka", "getyourguide", "trip_com", "whatsapp", "manual"]),
   
   // Receipt & Deposit fields

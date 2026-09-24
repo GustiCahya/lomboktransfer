@@ -401,7 +401,8 @@ export default function BookingForm({ onSubmit, aiPrefill, initialData }: Bookin
                     <SelectItem value="cash">Cash</SelectItem>
                     <SelectItem value="transfer">Bank Transfer</SelectItem>
                     <SelectItem value="wise">Wise</SelectItem>
-                    <SelectItem value="ota_settlement">OTA Settlement</SelectItem>
+                    <SelectItem value="crypto">Crypto</SelectItem>
+                    <SelectItem value="ota_settlement">OTA (Online Travel Agent) Settlement</SelectItem>
                   </SelectContent>
                 </Select>
               )}
@@ -463,7 +464,8 @@ export default function BookingForm({ onSubmit, aiPrefill, initialData }: Bookin
                     <SelectItem value="wise">Wise</SelectItem>
                     <SelectItem value="bank_transfer">Bank Transfer</SelectItem>
                     <SelectItem value="cash">Cash</SelectItem>
-                    <SelectItem value="ota">OTA</SelectItem>
+                    <SelectItem value="crypto">Crypto</SelectItem>
+                    <SelectItem value="ota">OTA (Online Travel Agent)</SelectItem>
                   </SelectContent>
                 </Select>
               )}
