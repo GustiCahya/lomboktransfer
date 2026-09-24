@@ -13,14 +13,25 @@ export default function MaintenanceBanner({
   className = "",
 }: MaintenanceBannerProps) {
   return (
-    <div
-      className={`rounded-xl border border-amber-500/30 bg-amber-500/10 p-4 text-amber-800 dark:text-amber-200 flex items-center gap-3 ${className}`}
-    >
-      <Wrench className="h-5 w-5 text-amber-500 shrink-0" />
-      <div>
-        <h4 className="font-semibold text-sm">{title}</h4>
-        <p className="text-xs opacity-90">{message}</p>
+    <>
+      <style>{`
+        .maintenance-banner-container ~ * {
+          filter: blur(5px);
+          pointer-events: none;
+          opacity: 0.7;
+          user-select: none;
+          transition: all 0.3s ease;
+        }
+      `}</style>
+      <div
+        className={`maintenance-banner-container rounded-xl border border-amber-500/30 bg-amber-500/10 p-4 text-amber-800 dark:text-amber-200 flex items-center gap-3 ${className}`}
+      >
+        <Wrench className="h-5 w-5 text-amber-500 shrink-0" />
+        <div>
+          <h4 className="font-semibold text-sm">{title}</h4>
+          <p className="text-xs opacity-90">{message}</p>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
