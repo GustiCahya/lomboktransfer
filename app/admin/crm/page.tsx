@@ -111,7 +111,7 @@ export default function CRMPage() {
                       </Badge>
                     </TableCell>
                     <TableCell className="text-right">
-                      <Link href={`/crm/guests/${g.id}`}>
+                      <Link href={`/admin/crm/guests/${g.id}`}>
                         <Button variant="ghost" size="sm">Profil</Button>
                       </Link>
                     </TableCell>

@@ -308,7 +308,7 @@ export default function BookingDetailPage() {
             {/* Batalkan */}
             <Button
               variant="outline"
-              className="gap-2 text-destructive hover:bg-destructive hover:text-destructive-foreground border-destructive"
+              className="gap-2"
               onClick={handleCancel}
               disabled={isCancelling || booking.status === "cancelled" || booking.status === "completed"}
             >

@@ -17,7 +17,7 @@ export default function DispatchLayout({ children }: { children: React.ReactNode
   const pathname = usePathname();
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-5 pb-20">
       {/* Sub navigation tabs */}
       <div className="flex gap-1 border-b border-border/60 overflow-x-auto">
         {TABS.map((tab) => {
