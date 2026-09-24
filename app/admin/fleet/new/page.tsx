@@ -35,9 +35,9 @@ export default function NewVehiclePage() {
     try {
       const newVehicle = await createVehicle(data);
       if (newVehicle) router.push(`/fleet/${newVehicle.id}`);
-    } catch (err) {
-      console.error(err);
-      alert("Gagal menyimpan data kendaraan. Pastikan Kode Unit dan Plat Nomor unik.");
+    } catch (err: any) {
+      console.error("Detailed create error:", err);
+      alert(`Gagal menyimpan data kendaraan. Error: ${err?.message || err?.details || JSON.stringify(err)}`);
     }
   };
 
