@@ -184,7 +184,7 @@ export default function EditDriverPage() {
               {feeType === "percentage" && (
                 <Field id="commission_pct" label="Komisi (%)" required error={errors.commission_pct?.message}>
                   <Input id="commission_pct" type="number" {...register("commission_pct", { valueAsNumber: true })} min={0} max={100} />
-                  <p className="text-xs text-muted-foreground">Persentase dari harga bruto booking yang diterima supir.</p>
+                  <p className="text-xs text-muted-foreground">Persentase dari harga bruto trip yang diterima supir.</p>
                 </Field>
               )}
               {feeType === "fixed" && (
