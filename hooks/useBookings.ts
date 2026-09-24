@@ -150,11 +150,30 @@ export function useBookings() {
     }
   }, [supabase]);
 
+  const deleteBooking = useCallback(async (id: string) => {
+    setIsLoading(true);
+    try {
+      const { error: err } = await supabase
+        .from("bookings")
+        .delete()
+        .eq("id", id);
+
+      if (err) throw err;
+      return true;
+    } catch (err: any) {
+      setError(err);
+      throw err;
+    } finally {
+      setIsLoading(false);
+    }
+  }, [supabase]);
+
   return {
     fetchBookings,
     fetchBooking,
     createBooking,
     updateBooking,
+    deleteBooking,
     isLoading,
     error
   };

@@ -17,7 +17,7 @@ import { id as localeId } from "date-fns/locale";
 import {
   MapPin, User, Car, Banknote, Printer, MessageCircle,
   ChevronRight, Clock, ListOrdered, CheckCircle, XCircle,
-  Edit, AlertTriangle, RotateCcw
+  Edit, AlertTriangle, RotateCcw, Trash2
 } from "lucide-react";
 import AssignDriverModal from "@/components/bookings/AssignDriverModal";
 import Link from "next/link";
@@ -51,7 +51,7 @@ const PAYMENT_STATUS_NEXT: Record<string, { next: string; label: string } | null
 
 export default function BookingDetailPage() {
   const { id } = useParams();
-  const { fetchBooking, updateBooking, isLoading } = useBookings();
+  const { fetchBooking, updateBooking, deleteBooking, isLoading } = useBookings();
   const [booking, setBooking] = useState<Record<string, unknown> | null>(null);
   const [isAssignModalOpen, setIsAssignModalOpen] = useState(false);
   const [isCancelling, setIsCancelling] = useState(false);
@@ -82,29 +82,63 @@ export default function BookingDetailPage() {
     }
   };
 
+  const handleDelete = async () => {
+    if (!window.confirm("Peringatan: Apakah Anda yakin ingin menghapus permanen data booking ini? Aksi ini tidak dapat dibatalkan!")) return;
+    setIsCancelling(true);
+    try {
+      await deleteBooking(id as string);
+      router.push("/admin/bookings");
+    } catch (err) {
+      console.error(err);
+      alert("Gagal menghapus booking.");
+      setIsCancelling(false);
+    }
+  };
+
   const handleAdvanceStatus = async () => {
     const currentStatus = booking?.status as string;
     const next = STATUS_FLOW[currentStatus];
     if (!next) return;
-    if (!window.confirm(`Ubah status ke "${next.label}"?`)) return;
+    
+    let confirmMessage = `Ubah status ke "${next.label}"?`;
+    if (next.next === "completed") {
+      confirmMessage = `Menyelesaikan booking ini juga akan otomatis menandai tagihan sebagai "Lunas" (Paid). Anda yakin ingin melanjutkan?`;
+    }
+    
+    if (!window.confirm(confirmMessage)) return;
     setIsUpdatingStatus(true);
     try {
-      await updateBooking(id as string, { status: next.next });
+      const updates: Record<string, any> = { status: next.next };
+      if (next.next === "completed") {
+        updates.payment_status = "paid";
+      }
+      await updateBooking(id as string, updates);
       
       // Auto-insert driver fee expense if booking is completed
       if (next.next === "completed" && booking?.driver_id) {
         const commissionPct = (booking.drivers as any)?.commission_pct || 60;
         const driverFee = (booking.gross_price as number || 0) * (commissionPct / 100);
+        const descriptionMatch = `Fee Supir%Booking ${booking.booking_code}`;
         
         const supabase = createClient();
-        await supabase.from("expenses").insert({
-          expense_date: new Date().toISOString().split("T")[0],
-          category: "commission",
-          description: `Fee Supir (${(booking.drivers as any)?.full_name || "Tanpa Nama"}) - Booking ${booking.booking_code}`,
-          amount: driverFee,
-          payment_method: "cash",
-          notes: "Otomatis digenerate saat booking diselesaikan."
-        });
+        
+        // Cek duplicate
+        const { data: existing } = await supabase
+          .from("expenses")
+          .select("id")
+          .ilike("description", descriptionMatch)
+          .maybeSingle();
+          
+        if (!existing) {
+          await supabase.from("expenses").insert({
+            expense_date: new Date().toISOString().split("T")[0],
+            category: "commission",
+            description: `Fee Supir (${(booking.drivers as any)?.full_name || "Tanpa Nama"}) - Booking ${booking.booking_code}`,
+            amount: driverFee,
+            payment_method: "cash",
+            notes: "Otomatis digenerate saat booking diselesaikan."
+          });
+        }
       }
       
       handleRefresh();
@@ -196,11 +230,20 @@ export default function BookingDetailPage() {
             {/* Batalkan */}
             <Button
               variant="outline"
-              className="gap-2 text-destructive hover:bg-destructive hover:text-white border-destructive"
+              className="gap-2 text-warning hover:bg-warning hover:text-white border-warning"
               onClick={handleCancel}
               disabled={isCancelling || booking.status === "cancelled" || booking.status === "completed"}
             >
               {isCancelling ? "Membatalkan..." : <><XCircle className="w-4 h-4" /> Batalkan</>}
+            </Button>
+            {/* Hapus */}
+            <Button
+              variant="outline"
+              className="gap-2 text-destructive hover:bg-destructive hover:text-white border-destructive"
+              onClick={handleDelete}
+              disabled={isCancelling}
+            >
+              <Trash2 className="w-4 h-4" /> Hapus
             </Button>
             {/* Edit */}
             <Button
