@@ -11,6 +11,9 @@
     "directory": ".open-next/assets",
     "binding": "ASSETS"
   },
+  "vars": {
+    "OPENROUTER_MODEL": "deepseek/deepseek-chat"
+  },
   "observability": {
     "logs": {
       "enabled": true,
