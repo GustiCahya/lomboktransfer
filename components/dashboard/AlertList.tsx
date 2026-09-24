@@ -41,7 +41,7 @@ export default function AlertList() {
             title: "Booking Menunggu Supir",
             description: `Kode: ${b.booking_code} atas nama ${(b.guests as any)?.full_name}`,
             severity: "high",
-            link: `/bookings/${b.id}`,
+            link: `/admin/bookings/${b.id}`,
           });
         });
       }
@@ -63,7 +63,7 @@ export default function AlertList() {
             title: "Dokumen Supir Akan Habis",
             description: `${d.doc_type.toUpperCase()} milik ${(d.drivers as any)?.full_name}`,
             severity: "medium",
-            link: `/drivers/${(d.drivers as any)?.id}`,
+            link: `/admin/drivers/${(d.drivers as any)?.id}`,
           });
         });
       }

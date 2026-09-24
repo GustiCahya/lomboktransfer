@@ -1,12 +1,13 @@
 "use client";
 
-import React from "react";
+import React, { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { driverSchema, DriverFormValues } from "@/lib/validations/driver";
 import { useCreateDriver } from "@/hooks/useDrivers";
 import { useRouter } from "next/navigation";
 import PageHeader from "@/components/shared/PageHeader";
+import AIAssistantFAB from "@/components/shared/AIAssistantFAB";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -17,7 +18,7 @@ export default function NewDriverPage() {
   const router = useRouter();
   const { createDriver, isLoading } = useCreateDriver();
 
-  const { register, handleSubmit, formState: { errors } } = useForm({
+  const { register, handleSubmit, setValue, formState: { errors } } = useForm<DriverFormValues>({
     resolver: zodResolver(driverSchema),
     defaultValues: {
       employment_type: "karyawan",
@@ -29,11 +30,53 @@ export default function NewDriverPage() {
   const onSubmit = async (data: DriverFormValues) => {
     try {
       const newDriver = await createDriver(data);
-      if (newDriver) router.push(`/drivers/${newDriver.id}`);
-    } catch {
-      alert("Gagal menyimpan data supir. Pastikan semua field terisi dengan benar.");
+      if (newDriver) router.push(`/admin/drivers/${newDriver.id}`);
+    } catch (err: unknown) {
+      console.error("Error creating driver:", err);
+      const errMsg = err instanceof Error ? err.message : "Pastikan semua field terisi dengan benar.";
+      alert(`Gagal menyimpan data supir. Error: ${errMsg}`);
     }
   };
+
+  // Handle AI auto-fill
+  const handleAIFill = useCallback((data: Record<string, unknown>) => {
+    const stringFields = [
+      "full_name", "nik", "phone_wa", "email", "address",
+      "bank_name", "bank_account", "bank_account_name",
+      "emergency_contact_name", "emergency_contact_phone", "notes",
+    ] as const;
+    const employmentTypes = ["karyawan", "mitra_lepas"] as const;
+    const statusValues = ["active", "inactive", "cuti"] as const;
+
+    stringFields.forEach((field) => {
+      if (data[field] !== undefined && data[field] !== null && data[field] !== "") {
+        setValue(field, String(data[field]), { shouldDirty: true });
+      }
+    });
+
+    if (data.commission_percentage !== undefined) {
+      const num = Number(data.commission_percentage);
+      if (!isNaN(num)) setValue("commission_percentage", num, { shouldDirty: true });
+    }
+
+    if (data.employment_type && employmentTypes.includes(data.employment_type as typeof employmentTypes[number])) {
+      setValue("employment_type", data.employment_type as DriverFormValues["employment_type"], { shouldDirty: true });
+    }
+
+    if (data.status && statusValues.includes(data.status as typeof statusValues[number])) {
+      setValue("status", data.status as DriverFormValues["status"], { shouldDirty: true });
+    }
+
+    if (data.date_of_birth && typeof data.date_of_birth === "string") {
+      const dob = new Date(data.date_of_birth);
+      if (!isNaN(dob.getTime())) setValue("date_of_birth", dob, { shouldDirty: true });
+    }
+
+    if (data.joined_at && typeof data.joined_at === "string") {
+      const joined = new Date(data.joined_at);
+      if (!isNaN(joined.getTime())) setValue("joined_at", joined, { shouldDirty: true });
+    }
+  }, [setValue]);
 
   const Field = ({ id, label, required, error, children }: { id: string; label: string; required?: boolean; error?: string; children: React.ReactNode }) => (
     <div className="space-y-2">
@@ -138,6 +181,9 @@ export default function NewDriverPage() {
           </Button>
         </div>
       </form>
+
+      {/* AI Assistant FAB */}
+      <AIAssistantFAB formType="driver" onFill={handleAIFill} />
     </div>
   );
 }

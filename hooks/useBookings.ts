@@ -129,10 +129,31 @@ export function useBookings() {
     }
   }, [supabase]);
 
+  const updateBooking = useCallback(async (id: string, updates: Record<string, any>) => {
+    setIsLoading(true);
+    try {
+      const { data, error: err } = await supabase
+        .from("bookings")
+        .update(updates)
+        .eq("id", id)
+        .select()
+        .single();
+
+      if (err) throw err;
+      return data;
+    } catch (err: any) {
+      setError(err);
+      throw err;
+    } finally {
+      setIsLoading(false);
+    }
+  }, [supabase]);
+
   return {
     fetchBookings,
     fetchBooking,
     createBooking,
+    updateBooking,
     isLoading,
     error
   };

@@ -55,7 +55,7 @@ export default function RevenueTable({ revenueList }: { revenueList: any[] }) {
                     {format(new Date(item.pickup_datetime), "dd MMM yyyy", { locale: id })}
                   </TableCell>
                   <TableCell className="font-medium">
-                    <Link href={`/bookings/${item.id}`} className="text-primary hover:underline">
+                    <Link href={`/admin/bookings/${item.id}`} className="text-primary hover:underline">
                       {item.booking_code}
                     </Link>
                   </TableCell>

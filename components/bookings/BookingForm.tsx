@@ -22,7 +22,12 @@ import { format } from "date-fns";
 import { id } from "date-fns/locale";
 import { CalendarIcon, Loader2, PlusCircle, Trash2 } from "lucide-react";
 
-export default function BookingForm({ onSubmit }: { onSubmit: (data: BookingFormValues) => Promise<void> }) {
+interface BookingFormProps {
+  onSubmit: (data: BookingFormValues) => Promise<void>;
+  aiPrefill?: Record<string, unknown>;
+}
+
+export default function BookingForm({ onSubmit, aiPrefill }: BookingFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const {
@@ -46,6 +51,27 @@ export default function BookingForm({ onSubmit }: { onSubmit: (data: BookingForm
       trips: [],
     },
   });
+
+  // Apply AI prefill values whenever they change
+  React.useEffect(() => {
+    if (!aiPrefill) return;
+    const dateFields = ["pickup_datetime", "deposit_paid_at"] as const;
+    (Object.entries(aiPrefill) as [string, unknown][]).forEach(([key, value]) => {
+      if (key === "trips" && Array.isArray(value)) {
+        // Convert trip_date strings to Date objects
+        const trips = value.map((t: Record<string, unknown>) => ({
+          ...t,
+          trip_date: t.trip_date ? new Date(t.trip_date as string) : new Date(),
+        }));
+        setValue("trips", trips as BookingFormValues["trips"], { shouldDirty: true });
+      } else if (dateFields.includes(key as typeof dateFields[number]) && typeof value === "string") {
+        setValue(key as keyof BookingFormValues, new Date(value) as never, { shouldDirty: true });
+      } else if (value !== undefined && value !== null && value !== "") {
+        setValue(key as keyof BookingFormValues, value as never, { shouldDirty: true });
+      }
+    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [aiPrefill]);
 
   const { fields: tripFields, append: appendTrip, remove: removeTrip } = useFieldArray({
     control,

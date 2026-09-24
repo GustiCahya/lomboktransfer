@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useParams } from "next/navigation";
 import { useBookings } from "@/hooks/useBookings";
 import PageHeader from "@/components/shared/PageHeader";
@@ -13,16 +13,23 @@ import { format } from "date-fns";
 import { id as localeId } from "date-fns/locale";
 import { MapPin, User, Car, Banknote } from "lucide-react";
 
+import AssignDriverModal from "@/components/bookings/AssignDriverModal";
+
 export default function BookingDetailPage() {
   const { id } = useParams();
   const { fetchBooking, isLoading } = useBookings();
   const [booking, setBooking] = useState<Record<string, unknown> | null>(null);
+  const [isAssignModalOpen, setIsAssignModalOpen] = useState(false);
 
-  useEffect(() => {
+  const handleRefresh = useCallback(() => {
     if (id) {
       fetchBooking(id as string).then(setBooking);
     }
   }, [id, fetchBooking]);
+
+  useEffect(() => {
+    handleRefresh();
+  }, [handleRefresh]);
 
   if (isLoading || !booking) {
     return <div className="p-12 text-center text-muted-foreground">Memuat detail booking...</div>;
@@ -119,15 +126,16 @@ export default function BookingDetailPage() {
                   <div className="w-12 h-12 bg-muted rounded-full flex items-center justify-center">
                     <User className="w-6 h-6 text-muted-foreground" />
                   </div>
-                  <div>
+                  <div className="flex-1">
                     <p className="font-medium">{(booking.drivers as any)?.full_name}</p>
                     <p className="text-sm text-muted-foreground">{(booking.drivers as any)?.phone_wa} • {(booking.vehicles as any)?.plate_number}</p>
                   </div>
+                  <Button size="sm" variant="outline" onClick={() => setIsAssignModalOpen(true)}>Ubah</Button>
                 </div>
               ) : (
                 <div className="text-center p-4 border border-dashed rounded-md bg-muted/50">
                   <p className="text-sm text-muted-foreground mb-2">Belum ada supir yang ditugaskan</p>
-                  <Button size="sm" className="w-full">Tugaskan Supir</Button>
+                  <Button size="sm" className="w-full" onClick={() => setIsAssignModalOpen(true)}>Tugaskan Supir</Button>
                 </div>
               )}
             </CardContent>
@@ -156,6 +164,13 @@ export default function BookingDetailPage() {
           </Card>
         </div>
       </div>
+      <AssignDriverModal
+        bookingId={booking.id as string}
+        bookingDetails={booking}
+        isOpen={isAssignModalOpen}
+        onClose={() => setIsAssignModalOpen(false)}
+        onSuccess={handleRefresh}
+      />
     </div>
   );
 }

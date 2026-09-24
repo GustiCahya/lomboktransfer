@@ -2,7 +2,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { useExpenses } from "@/hooks/useExpenses";
+import { useExpenses, useDeleteExpense } from "@/hooks/useExpenses";
 import ExpenseTable from "@/components/accounting/ExpenseTable";
 import ExpenseForm from "@/components/accounting/ExpenseForm";
 import { Button } from "@/components/ui/button";
@@ -29,8 +29,11 @@ export default function ExpensesPage() {
   const [endDate, setEndDate] = useState(`${currentYear}-${String(currentMonth).padStart(2, "0")}-${lastDay}`);
   const [category, setCategory] = useState("");
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [editingExpense, setEditingExpense] = useState<any>(null);
 
   const { expenses, isLoading, mutate } = useExpenses({ startDate, endDate, category: category || undefined });
+  const { deleteExpense } = useDeleteExpense();
 
   const totalExpenses = expenses.reduce((sum: number, e: any) => sum + (e.amount || 0), 0);
 
@@ -157,7 +160,38 @@ export default function ExpensesPage() {
           Memuat data pengeluaran...
         </div>
       ) : (
-        <ExpenseTable expenses={expenses} />
+        <>
+          <ExpenseTable 
+            expenses={expenses} 
+            onEdit={(expense) => {
+              setEditingExpense(expense);
+              setEditDialogOpen(true);
+            }}
+            onDelete={async (expense) => {
+              try {
+                await deleteExpense(expense.id);
+              } catch (error) {
+                console.error(error);
+                alert("Gagal menghapus pengeluaran.");
+              }
+            }}
+          />
+
+          <Dialog open={editDialogOpen} onOpenChange={setEditDialogOpen}>
+            <DialogContent className="max-w-md">
+              <DialogHeader>
+                <DialogTitle>Edit Pengeluaran</DialogTitle>
+              </DialogHeader>
+              {editingExpense && (
+                <ExpenseForm
+                  initialData={editingExpense}
+                  onSuccess={() => { setEditDialogOpen(false); mutate(); }}
+                  onCancel={() => setEditDialogOpen(false)}
+                />
+              )}
+            </DialogContent>
+          </Dialog>
+        </>
       )}
     </div>
   );

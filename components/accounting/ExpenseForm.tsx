@@ -5,7 +5,7 @@ import React from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { expenseSchema, ExpenseFormValues } from "@/lib/validations/expense";
-import { useCreateExpense } from "@/hooks/useExpenses";
+import { useCreateExpense, useUpdateExpense } from "@/hooks/useExpenses";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -29,17 +29,22 @@ const CATEGORIES = [
 ];
 
 interface ExpenseFormProps {
+  initialData?: any;
   onSuccess?: () => void;
   onCancel?: () => void;
 }
 
-export default function ExpenseForm({ onSuccess, onCancel }: ExpenseFormProps) {
+export default function ExpenseForm({ initialData, onSuccess, onCancel }: ExpenseFormProps) {
   const { createExpense } = useCreateExpense();
+  const { updateExpense } = useUpdateExpense(initialData?.id || "");
   const [isSubmitting, setIsSubmitting] = React.useState(false);
 
   const { register, handleSubmit, control, formState: { errors }, reset } = useForm({
     resolver: zodResolver(expenseSchema),
-    defaultValues: {
+    defaultValues: initialData ? {
+      ...initialData,
+      expense_date: new Date(initialData.expense_date),
+    } : {
       payment_method: "transfer",
     },
   });
@@ -47,16 +52,22 @@ export default function ExpenseForm({ onSuccess, onCancel }: ExpenseFormProps) {
   const onSubmit = async (data: ExpenseFormValues) => {
     setIsSubmitting(true);
     try {
-      await createExpense({
+      const payload = {
         ...data,
         expense_date: format(data.expense_date, "yyyy-MM-dd"),
         amount: Number(data.amount),
-      });
+      };
+      
+      if (initialData?.id) {
+        await updateExpense(payload);
+      } else {
+        await createExpense(payload);
+      }
       reset();
       onSuccess?.();
     } catch (error) {
       console.error(error);
-      alert("Gagal menyimpan pengeluaran.");
+      alert(`Gagal ${initialData ? 'memperbarui' : 'menyimpan'} pengeluaran.`);
     } finally {
       setIsSubmitting(false);
     }
@@ -92,7 +103,7 @@ export default function ExpenseForm({ onSuccess, onCancel }: ExpenseFormProps) {
             </Popover>
           )}
         />
-        {errors.expense_date && <p className="text-xs text-destructive">{errors.expense_date.message}</p>}
+        {errors.expense_date && <p className="text-xs text-destructive">{errors.expense_date.message as string}</p>}
       </div>
 
       {/* Category */}
@@ -107,14 +118,14 @@ export default function ExpenseForm({ onSuccess, onCancel }: ExpenseFormProps) {
             <option key={c.value} value={c.value}>{c.label}</option>
           ))}
         </select>
-        {errors.category && <p className="text-xs text-destructive">{errors.category.message}</p>}
+        {errors.category && <p className="text-xs text-destructive">{errors.category.message as string}</p>}
       </div>
 
       {/* Description */}
       <div className="space-y-2">
         <Label>Deskripsi <span className="text-destructive">*</span></Label>
         <Input {...register("description")} placeholder="Contoh: BBM Innova B 1234 CD" />
-        {errors.description && <p className="text-xs text-destructive">{errors.description.message}</p>}
+        {errors.description && <p className="text-xs text-destructive">{errors.description.message as string}</p>}
       </div>
 
       {/* Amount */}
@@ -125,7 +136,7 @@ export default function ExpenseForm({ onSuccess, onCancel }: ExpenseFormProps) {
           {...register("amount", { valueAsNumber: true })}
           placeholder="0"
         />
-        {errors.amount && <p className="text-xs text-destructive">{errors.amount.message}</p>}
+        {errors.amount && <p className="text-xs text-destructive">{errors.amount.message as string}</p>}
       </div>
 
       {/* Payment Method */}

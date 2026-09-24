@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import PageHeader from "@/components/shared/PageHeader";
 import BookingForm from "@/components/bookings/BookingForm";
+import AIAssistantFAB from "@/components/shared/AIAssistantFAB";
 import { BookingFormValues } from "@/lib/validations/booking";
 import { useBookings } from "@/hooks/useBookings";
 import { useRouter } from "next/navigation";
@@ -13,6 +14,7 @@ export default function NewBookingPage() {
   const router = useRouter();
 
   const [isCreating, setIsCreating] = useState(false);
+  const [aiPrefill, setAiPrefill] = useState<Record<string, unknown> | undefined>(undefined);
 
   const handleSubmit = async (data: BookingFormValues) => {
     setIsCreating(true);
@@ -78,7 +80,13 @@ export default function NewBookingPage() {
         title="Buat Booking Baru" 
         subtitle="Masukkan detail pesanan manual dari tamu atau partner (Klook, Traveloka, WhatsApp, dll)."
       />
-      <BookingForm onSubmit={handleSubmit} />
+      <BookingForm onSubmit={handleSubmit} aiPrefill={aiPrefill} />
+
+      {/* AI Assistant FAB */}
+      <AIAssistantFAB
+        formType="booking"
+        onFill={(data) => setAiPrefill({ ...data, _ts: Date.now() })}
+      />
     </div>
   );
 }

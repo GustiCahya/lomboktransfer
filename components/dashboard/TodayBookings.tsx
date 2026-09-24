@@ -87,7 +87,7 @@ export default function TodayBookings() {
               </TableCell>
               <TableCell><StatusBadge status={booking.status} /></TableCell>
               <TableCell className="text-right">
-                <Link href={`/bookings/${booking.id}`}>
+                <Link href={`/admin/bookings/${booking.id}`}>
                   <Button size="sm" variant="ghost">Detail</Button>
                 </Link>
               </TableCell>

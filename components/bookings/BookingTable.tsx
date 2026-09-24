@@ -15,6 +15,8 @@ import {
 import StatusBadge from "@/components/shared/StatusBadge";
 import { format } from "date-fns";
 import { id } from "date-fns/locale";
+import { Button } from "@/components/ui/button";
+import { Eye } from "lucide-react";
 
 export default function BookingTable() {
   const { fetchBookings, isLoading } = useBookings();
@@ -52,13 +54,14 @@ export default function BookingTable() {
             <TableHead>Sumber</TableHead>
             <TableHead>Status</TableHead>
             <TableHead className="text-right">Harga</TableHead>
+            <TableHead className="text-center">Aksi</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {bookings.map((booking: any) => (
             <TableRow key={booking.id}>
               <TableCell className="font-medium">
-                <Link href={`/bookings/${booking.id}`} className="text-primary hover:underline">
+                <Link href={`/admin/bookings/${booking.id}`} className="text-primary hover:underline">
                   {booking.booking_code}
                 </Link>
               </TableCell>
@@ -80,6 +83,14 @@ export default function BookingTable() {
               </TableCell>
               <TableCell className="text-right font-medium">
                 Rp {booking.gross_price.toLocaleString("id-ID")}
+              </TableCell>
+              <TableCell className="text-center">
+                <Link href={`/admin/bookings/${booking.id}`}>
+                  <Button variant="outline" size="sm" className="h-8 gap-1">
+                    <Eye className="w-3.5 h-3.5" />
+                    <span className="hidden sm:inline">Detail</span>
+                  </Button>
+                </Link>
               </TableCell>
             </TableRow>
           ))}

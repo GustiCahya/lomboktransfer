@@ -86,13 +86,17 @@ export function useCreateDriver() {
   const createDriver = useCallback(async (values: DriverFormValues) => {
     setIsLoading(true);
     try {
+      // Sanitize empty strings to null for unique constraints
+      const payload = {
+        ...values,
+        email: values.email === "" ? null : values.email,
+        date_of_birth: values.date_of_birth?.toISOString(),
+        joined_at: values.joined_at?.toISOString() ?? new Date().toISOString(),
+      };
+      
       const { data, error: err } = await supabase
         .from("drivers")
-        .insert({
-          ...values,
-          date_of_birth: values.date_of_birth?.toISOString(),
-          joined_at: values.joined_at?.toISOString() ?? new Date().toISOString(),
-        })
+        .insert(payload)
         .select()
         .single();
       if (err) throw err;

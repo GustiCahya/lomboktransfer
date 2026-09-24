@@ -121,7 +121,7 @@ export default function InvoicesPage() {
                       </TableCell>
                       <TableCell className="text-right">
                         <Link
-                          href={`/bookings/${item.id}`}
+                          href={`/admin/bookings/${item.id}`}
                           className="inline-flex items-center gap-1 text-xs text-primary hover:underline"
                         >
                           <Download className="h-3 w-3" />

@@ -53,3 +53,39 @@ export function useCreateExpense() {
 
   return { createExpense };
 }
+
+export function useUpdateExpense(id: string) {
+  const updateExpense = async (expenseData: any) => {
+    const supabase = createClient();
+    const { data, error } = await supabase
+      .from("expenses")
+      .update(expenseData)
+      .eq("id", id)
+      .select()
+      .single();
+
+    if (error) throw error;
+    
+    mutate((key: any) => Array.isArray(key) && key[0] === "expenses");
+    
+    return data;
+  };
+
+  return { updateExpense };
+}
+
+export function useDeleteExpense() {
+  const deleteExpense = async (id: string) => {
+    const supabase = createClient();
+    const { error } = await supabase
+      .from("expenses")
+      .delete()
+      .eq("id", id);
+
+    if (error) throw error;
+    
+    mutate((key: any) => Array.isArray(key) && key[0] === "expenses");
+  };
+
+  return { deleteExpense };
+}

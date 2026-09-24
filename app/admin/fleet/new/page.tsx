@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { vehicleSchema, VehicleFormValues } from "@/lib/validations/vehicle";
@@ -8,6 +8,7 @@ import { useCreateVehicle } from "@/hooks/useVehicles";
 import { useDrivers } from "@/hooks/useDrivers";
 import { useRouter } from "next/navigation";
 import PageHeader from "@/components/shared/PageHeader";
+import AIAssistantFAB from "@/components/shared/AIAssistantFAB";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -20,7 +21,7 @@ export default function NewVehiclePage() {
   const { createVehicle, isLoading } = useCreateVehicle();
   const { drivers } = useDrivers({ status: "active" });
 
-  const { register, handleSubmit, formState: { errors } } = useForm({
+  const { register, handleSubmit, setValue, formState: { errors } } = useForm<VehicleFormValues>({
     resolver: zodResolver(vehicleSchema),
     defaultValues: {
       capacity: 7,
@@ -38,6 +39,30 @@ export default function NewVehiclePage() {
       alert("Gagal menyimpan data kendaraan. Pastikan Kode Unit dan Plat Nomor unik.");
     }
   };
+
+  // Handle AI auto-fill
+  const handleAIFill = useCallback((data: Record<string, unknown>) => {
+    const numberFields = ["year", "capacity", "current_km", "last_service_km", "next_service_km"] as const;
+    const stringFields = ["unit_code", "plate_number", "brand", "model", "color", "vin", "engine_number", "notes"] as const;
+    const statusValues = ["active", "maintenance", "inactive", "sold"] as const;
+
+    stringFields.forEach((field) => {
+      if (data[field] !== undefined && data[field] !== null && data[field] !== "") {
+        setValue(field, String(data[field]), { shouldDirty: true });
+      }
+    });
+
+    numberFields.forEach((field) => {
+      if (data[field] !== undefined && data[field] !== null) {
+        const num = Number(data[field]);
+        if (!isNaN(num)) setValue(field, num as never, { shouldDirty: true });
+      }
+    });
+
+    if (data.status && statusValues.includes(data.status as typeof statusValues[number])) {
+      setValue("status", data.status as VehicleFormValues["status"], { shouldDirty: true });
+    }
+  }, [setValue]);
 
   const Field = ({ id, label, required, error, children }: { id: string; label: string; required?: boolean; error?: string; children: React.ReactNode }) => (
     <div className="space-y-2">
@@ -138,6 +163,9 @@ export default function NewVehiclePage() {
           </Button>
         </div>
       </form>
+
+      {/* AI Assistant FAB */}
+      <AIAssistantFAB formType="vehicle" onFill={handleAIFill} />
     </div>
   );
 }

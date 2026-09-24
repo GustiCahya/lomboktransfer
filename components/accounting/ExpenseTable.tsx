@@ -33,7 +33,18 @@ const CATEGORY_COLORS: Record<string, string> = {
   other: "bg-muted text-muted-foreground",
 };
 
-export default function ExpenseTable({ expenses }: { expenses: any[] }) {
+import { Button } from "@/components/ui/button";
+import { Edit, Trash2 } from "lucide-react";
+
+export default function ExpenseTable({ 
+  expenses,
+  onEdit,
+  onDelete
+}: { 
+  expenses: any[],
+  onEdit?: (expense: any) => void,
+  onDelete?: (expense: any) => void
+}) {
   return (
     <div className="rounded-md border bg-card">
       <Table>
@@ -45,12 +56,13 @@ export default function ExpenseTable({ expenses }: { expenses: any[] }) {
             <TableHead>Vendor</TableHead>
             <TableHead>Metode</TableHead>
             <TableHead className="text-right">Jumlah</TableHead>
+            <TableHead className="text-right">Aksi</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {expenses.length === 0 ? (
             <TableRow>
-              <TableCell colSpan={6} className="h-24 text-center text-muted-foreground">
+              <TableCell colSpan={7} className="h-24 text-center text-muted-foreground">
                 Tidak ada data pengeluaran
               </TableCell>
             </TableRow>
@@ -78,6 +90,30 @@ export default function ExpenseTable({ expenses }: { expenses: any[] }) {
                 </TableCell>
                 <TableCell className="text-right font-medium text-destructive">
                   Rp {expense.amount?.toLocaleString("id-ID") || 0}
+                </TableCell>
+                <TableCell className="text-right">
+                  <div className="flex justify-end gap-2">
+                    <Button 
+                      variant="ghost" 
+                      size="icon" 
+                      onClick={() => onEdit && onEdit(expense)}
+                      className="h-8 w-8 text-muted-foreground hover:text-primary"
+                    >
+                      <Edit className="h-4 w-4" />
+                    </Button>
+                    <Button 
+                      variant="ghost" 
+                      size="icon" 
+                      onClick={() => {
+                        if (confirm("Apakah Anda yakin ingin menghapus pengeluaran ini?")) {
+                          onDelete && onDelete(expense);
+                        }
+                      }}
+                      className="h-8 w-8 text-muted-foreground hover:text-destructive"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </div>
                 </TableCell>
               </TableRow>
             ))
