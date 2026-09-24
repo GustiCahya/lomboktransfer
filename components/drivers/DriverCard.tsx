@@ -48,15 +48,15 @@ export default function DriverCard({ driver, hasExpiringDocs }: DriverCardProps)
             </div>
           </div>
 
-          <div className="grid grid-cols-3 gap-2 mt-4 pt-4 border-t">
+          <div className="grid grid-cols-2 gap-2 mt-4 pt-4 border-t">
             <div className="text-center">
-              <p className="text-xs text-muted-foreground">Komisi</p>
-              <p className="font-semibold text-sm">{driver.commission_pct}%</p>
-            </div>
-            <div className="text-center">
-              <p className="text-xs text-muted-foreground">Rating</p>
-              <p className="font-semibold text-sm flex items-center justify-center gap-1">
-                <Star className="w-3 h-3 text-amber-400 fill-amber-400" /> 4.8
+              <p className="text-xs text-muted-foreground">Skema Fee</p>
+              <p className="font-semibold text-sm">
+                {driver.fee_type === "fixed"
+                  ? `Rp ${Number(driver.fixed_fee || 0).toLocaleString("id-ID")}/trip`
+                  : driver.fee_type === "daily"
+                  ? `Rp ${Number(driver.daily_fee || 0).toLocaleString("id-ID")}/hr`
+                  : `${driver.commission_pct ?? 0}%`}
               </p>
             </div>
             <div className="text-center">

@@ -2,7 +2,7 @@
 
 import React, { useEffect, useCallback } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { driverSchema, DriverFormValues } from "@/lib/validations/driver";
 import { useDriver, useUpdateDriver } from "@/hooks/useDrivers";
@@ -21,14 +21,19 @@ export default function EditDriverPage() {
   const { driver, isLoading: driverLoading } = useDriver(driverId);
   const { updateDriver, isLoading: updating } = useUpdateDriver(driverId);
 
-  const { register, handleSubmit, setValue, reset, formState: { errors } } = useForm<DriverFormValues>({
+  const { register, handleSubmit, setValue, reset, control, formState: { errors } } = useForm<DriverFormValues>({
     resolver: zodResolver(driverSchema) as any,
     defaultValues: {
       driver_type: "karyawan",
       status: "active",
       commission_pct: 20,
+      fee_type: "percentage",
+      fixed_fee: 0,
+      daily_fee: 0,
     },
   });
+
+  const feeType = useWatch({ control, name: "fee_type" });
 
   // Load existing driver data into form
   useEffect(() => {
@@ -46,6 +51,9 @@ export default function EditDriverPage() {
       driver_type: driver.driver_type,
       status: driver.status,
       commission_pct: driver.commission_pct,
+      fee_type: (driver as any).fee_type ?? "percentage",
+      fixed_fee: (driver as any).fixed_fee ?? 0,
+      daily_fee: (driver as any).daily_fee ?? 0,
       date_of_birth: driver.date_of_birth ? new Date(driver.date_of_birth) : undefined,
       join_date: driver.join_date ? new Date(driver.join_date) : undefined,
     });
@@ -164,9 +172,33 @@ export default function EditDriverPage() {
                   <option value="cuti">Cuti</option>
                 </select>
               </Field>
-              <Field id="commission_pct" label="Komisi (%)" required error={errors.commission_pct?.message}>
-                <Input id="commission_pct" type="number" {...register("commission_pct", { valueAsNumber: true })} min={0} max={100} />
+              <Field id="fee_type" label="Jenis Fee Supir" required>
+                <select id="fee_type" {...register("fee_type")} className="flex h-9 w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-ring">
+                  <option value="percentage">Persentase dari Booking (%)</option>
+                  <option value="fixed">Nominal Tetap Per Trip (Fixed Fee)</option>
+                  <option value="daily">Gaji Harian (Per Hari Trip)</option>
+                </select>
               </Field>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {feeType === "percentage" && (
+                <Field id="commission_pct" label="Komisi (%)" required error={errors.commission_pct?.message}>
+                  <Input id="commission_pct" type="number" {...register("commission_pct", { valueAsNumber: true })} min={0} max={100} />
+                  <p className="text-xs text-muted-foreground">Persentase dari harga bruto booking yang diterima supir.</p>
+                </Field>
+              )}
+              {feeType === "fixed" && (
+                <Field id="fixed_fee" label="Fee Tetap per Trip (IDR)" error={errors.fixed_fee?.message}>
+                  <Input id="fixed_fee" type="number" {...register("fixed_fee", { valueAsNumber: true })} min={0} step={1000} />
+                  <p className="text-xs text-muted-foreground">Nominal flat yang diterima supir setiap satu trip selesai.</p>
+                </Field>
+              )}
+              {feeType === "daily" && (
+                <Field id="daily_fee" label="Gaji Harian (IDR)" error={errors.daily_fee?.message}>
+                  <Input id="daily_fee" type="number" {...register("daily_fee", { valueAsNumber: true })} min={0} step={1000} />
+                  <p className="text-xs text-muted-foreground">Nominal gaji yang dikali jumlah hari kerja/trip unik dalam booking ini.</p>
+                </Field>
+              )}
             </div>
           </CardContent>
         </Card>

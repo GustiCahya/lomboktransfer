@@ -58,8 +58,14 @@ export default function DriverProfile({ driver }: DriverProfileProps) {
             <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">Info Cepat</h3>
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Komisi</span>
-                <span className="font-bold text-primary">{driver.commission_pct}%</span>
+                <span className="text-muted-foreground">Skema Fee</span>
+                <span className="font-bold text-primary">
+                  {driver.fee_type === "fixed"
+                    ? `Rp ${Number(driver.fixed_fee || 0).toLocaleString("id-ID")} (Flat/Trip)`
+                    : driver.fee_type === "daily"
+                    ? `Rp ${Number(driver.daily_fee || 0).toLocaleString("id-ID")} / Hari`
+                    : `${driver.commission_pct ?? 0}% (Persentase)`}
+                </span>
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Bergabung</span>

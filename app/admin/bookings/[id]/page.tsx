@@ -116,8 +116,31 @@ export default function BookingDetailPage() {
       
       // Auto-insert driver fee expense if booking is completed
       if (next.next === "completed" && booking?.driver_id) {
-        const commissionPct = (booking.drivers as any)?.commission_pct || 60;
-        const driverFee = (booking.gross_price as number || 0) * (commissionPct / 100);
+        const feeType = (booking.drivers as any)?.fee_type || "percentage";
+        let driverFee = 0;
+        
+        if (feeType === "fixed") {
+          const trips = (booking.booking_trips as any[]) || [];
+          const tripsCount = trips.length > 0 ? trips.length : 1;
+          driverFee = ((booking.drivers as any)?.fixed_fee || 0) * tripsCount;
+        } else if (feeType === "daily") {
+          const dailyFee = (booking.drivers as any)?.daily_fee || 0;
+          const trips = (booking.booking_trips as any[]) || [];
+          let uniqueDays = 1;
+          
+          if (trips.length > 0) {
+            uniqueDays = new Set(trips.map(t => {
+              const d = new Date(t.trip_date || t.pickup_time);
+              return !isNaN(d.getTime()) ? d.toISOString().split('T')[0] : null;
+            }).filter(Boolean)).size || 1;
+          }
+          
+          driverFee = dailyFee * uniqueDays;
+        } else {
+          const commissionPct = (booking.drivers as any)?.commission_pct || 60;
+          driverFee = (booking.gross_price as number || 0) * (commissionPct / 100);
+        }
+        
         const descriptionMatch = `Fee Supir%Booking ${booking.booking_code}`;
         
         const supabase = createClient();
@@ -235,15 +258,6 @@ export default function BookingDetailPage() {
               disabled={isCancelling || booking.status === "cancelled" || booking.status === "completed"}
             >
               {isCancelling ? "Membatalkan..." : <><XCircle className="w-4 h-4" /> Batalkan</>}
-            </Button>
-            {/* Hapus */}
-            <Button
-              variant="outline"
-              className="gap-2 text-destructive hover:bg-destructive hover:text-white border-destructive"
-              onClick={handleDelete}
-              disabled={isCancelling}
-            >
-              <Trash2 className="w-4 h-4" /> Hapus
             </Button>
             {/* Edit */}
             <Button

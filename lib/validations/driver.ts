@@ -15,6 +15,10 @@ export const driverSchema = z.object({
   status: z.enum(["active", "inactive", "cuti"]).default("active"),
   join_date: z.date().optional(),
   commission_pct: z.number().min(0).max(100).default(20),
+  fee_type: z.enum(["percentage", "fixed", "daily"]).default("percentage"),
+  fixed_fee: z.number().min(0).optional().default(0),
+  daily_fee: z.number().min(0).optional().default(0),
 });
 
 export type DriverFormValues = z.infer<typeof driverSchema>;
+

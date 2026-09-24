@@ -12,7 +12,19 @@ import VehicleTable from "@/components/fleet/VehicleTable";
 import { Plus, LayoutGrid, List, Search } from "lucide-react";
 
 export default function FleetPage() {
-  const [view, setView] = useState<"table" | "grid">("grid");
+  const [view, setView] = useState<"table" | "grid">("table");
+
+  React.useEffect(() => {
+    const savedView = localStorage.getItem("fleet_view_mode");
+    if (savedView === "table" || savedView === "grid") {
+      setView(savedView);
+    }
+  }, []);
+
+  const handleSetView = (newView: "table" | "grid") => {
+    setView(newView);
+    localStorage.setItem("fleet_view_mode", newView);
+  };
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
 
@@ -68,16 +80,18 @@ export default function FleetPage() {
             <Button
               variant={view === "grid" ? "default" : "ghost"}
               size="icon"
-              onClick={() => setView("grid")}
+              onClick={() => handleSetView("grid")}
               className="rounded-none h-9 w-9"
+              title="Tampilan Galeri"
             >
               <LayoutGrid className="h-4 w-4" />
             </Button>
             <Button
               variant={view === "table" ? "default" : "ghost"}
               size="icon"
-              onClick={() => setView("table")}
+              onClick={() => handleSetView("table")}
               className="rounded-none h-9 w-9"
+              title="Tampilan Daftar (Tabel)"
             >
               <List className="h-4 w-4" />
             </Button>

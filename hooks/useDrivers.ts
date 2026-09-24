@@ -10,6 +10,9 @@ export interface Driver {
   status: "active" | "inactive" | "cuti";
   driver_type: "karyawan" | "mitra_lepas";
   commission_pct: number;
+  fee_type: "percentage" | "fixed" | "daily";
+  fixed_fee: number | null;
+  daily_fee: number | null;
   join_date: string | null;
   date_of_birth: string | null;
   address: string | null;
