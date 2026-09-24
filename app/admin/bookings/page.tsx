@@ -52,6 +52,10 @@ export default function BookingsPage() {
       setExporting(false);
     }
   };
+  const [search, setSearch] = useState("");
+  const [statusFilter, setStatusFilter] = useState("");
+  const [routeFilter, setRouteFilter] = useState("");
+  const [dateFilter, setDateFilter] = useState("");
 
   return (
     <div className="space-y-6">
@@ -83,9 +87,19 @@ export default function BookingsPage() {
       />
 
       {/* Filters */}
-      <BookingFilters />
+      <BookingFilters 
+        search={search} onSearchChange={setSearch}
+        status={statusFilter} onStatusChange={setStatusFilter}
+        routeId={routeFilter} onRouteIdChange={setRouteFilter}
+        date={dateFilter} onDateChange={setDateFilter}
+      />
 
-      <BookingTable />
+      <BookingTable 
+        search={search}
+        status={statusFilter}
+        routeId={routeFilter}
+        date={dateFilter}
+      />
     </div>
   );
 }

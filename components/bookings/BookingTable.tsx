@@ -18,9 +18,16 @@ import { id } from "date-fns/locale";
 import { Button } from "@/components/ui/button";
 import { Eye } from "lucide-react";
 
-export default function BookingTable() {
+interface BookingTableProps {
+  search?: string;
+  status?: string;
+  routeId?: string;
+  date?: string;
+}
+
+export default function BookingTable({ search, status, routeId, date }: BookingTableProps = {}) {
   const { fetchBookings, isLoading } = useBookings();
-  const [bookings, setBookings] = useState<Record<string, unknown>[]>([]);
+  const [bookings, setBookings] = useState<Record<string, any>[]>([]);
 
   useEffect(() => {
     fetchBookings().then((data) => {
@@ -32,7 +39,33 @@ export default function BookingTable() {
     return <div className="p-8 text-center text-muted-foreground">Memuat data booking...</div>;
   }
 
-  if (bookings.length === 0) {
+  let filteredBookings = bookings;
+
+  if (search) {
+    const q = search.toLowerCase();
+    filteredBookings = filteredBookings.filter(b => 
+      b.booking_code?.toLowerCase().includes(q) ||
+      b.guests?.full_name?.toLowerCase().includes(q)
+    );
+  }
+  
+  if (status) {
+    filteredBookings = filteredBookings.filter(b => b.status === status);
+  }
+
+  if (routeId) {
+    filteredBookings = filteredBookings.filter(b => b.route_id === routeId);
+  }
+
+  if (date) {
+    filteredBookings = filteredBookings.filter(b => {
+      if (!b.pickup_datetime) return false;
+      const bDate = new Date(b.pickup_datetime).toISOString().split("T")[0];
+      return bDate === date;
+    });
+  }
+
+  if (filteredBookings.length === 0) {
     return (
       <div className="p-12 text-center border rounded-lg bg-card mt-4">
         <h3 className="text-lg font-medium text-card-foreground">Belum ada booking</h3>
@@ -58,7 +91,7 @@ export default function BookingTable() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {bookings.map((booking: any) => (
+          {filteredBookings.map((booking: any) => (
             <TableRow key={booking.id}>
               <TableCell className="font-medium">
                 <Link href={`/admin/bookings/${booking.id}`} className="text-primary hover:underline">

@@ -173,9 +173,14 @@ export default function BookingDetailPage() {
             ).size || 1;
             driverFee = dailyFee * uniqueDays;
           } else {
-            // percentage: based on total booking gross price
+            // percentage: based on assigned trips price, fallback to booking gross price
             const commissionPct = driverData.commission_pct || 60;
-            driverFee = (currentBooking.gross_price as number || 0) * (commissionPct / 100);
+            if (trips.length > 0) {
+              const tripsTotal = driverTrips.reduce((sum: number, t: any) => sum + (Number(t.price) || 0), 0);
+              driverFee = tripsTotal * (commissionPct / 100);
+            } else {
+              driverFee = (currentBooking.gross_price as number || 0) * (commissionPct / 100);
+            }
           }
 
           if (driverFee <= 0) continue;
@@ -206,7 +211,8 @@ export default function BookingDetailPage() {
               payment_method: "cash",
               notes: `Otomatis digenerate saat booking diselesaikan. [${feeType}${
                 feeType === "fixed" ? ` × ${driverTrips.length} trip` :
-                feeType === "daily" ? ` × ${uniqueDaysForNote} hari unik` : ``
+                feeType === "daily" ? ` × ${uniqueDaysForNote} hari unik` :
+                feeType === "percentage" ? ` (${driverData.commission_pct || 60}%)` : ``
               }]`,
             });
           }
@@ -302,7 +308,7 @@ export default function BookingDetailPage() {
             {/* Batalkan */}
             <Button
               variant="outline"
-              className="gap-2 text-warning hover:bg-warning hover:text-white border-warning"
+              className="gap-2 text-destructive hover:bg-destructive hover:text-destructive-foreground border-destructive"
               onClick={handleCancel}
               disabled={isCancelling || booking.status === "cancelled" || booking.status === "completed"}
             >

@@ -6,8 +6,31 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Search, Filter } from "lucide-react";
 
-export default function BookingFilters() {
+interface BookingFiltersProps {
+  search?: string;
+  onSearchChange?: (val: string) => void;
+  status?: string;
+  onStatusChange?: (val: string) => void;
+  routeId?: string;
+  onRouteIdChange?: (val: string) => void;
+  date?: string;
+  onDateChange?: (val: string) => void;
+}
+
+export default function BookingFilters({
+  search = "", onSearchChange,
+  status = "", onStatusChange,
+  routeId = "", onRouteIdChange,
+  date = "", onDateChange
+}: BookingFiltersProps) {
   const { routes } = useRoutes();
+
+  const handleReset = () => {
+    if (onSearchChange) onSearchChange("");
+    if (onStatusChange) onStatusChange("");
+    if (onRouteIdChange) onRouteIdChange("");
+    if (onDateChange) onDateChange("");
+  };
 
   return (
     <div className="flex flex-col md:flex-row items-center gap-4 bg-card p-4 rounded-md border shadow-sm">
@@ -15,7 +38,9 @@ export default function BookingFilters() {
         <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
         <Input
           type="text"
-          placeholder="Cari kode booking, nama tamu..."
+          value={search}
+          onChange={(e) => onSearchChange?.(e.target.value)}
+          placeholder="Cari kode booking..."
           className="pl-9 w-full bg-background"
         />
       </div>
@@ -24,12 +49,16 @@ export default function BookingFilters() {
         <div className="flex items-center space-x-2 w-full md:w-auto">
           <Input 
             type="date" 
+            value={date}
+            onChange={(e) => onDateChange?.(e.target.value)}
             className="w-full md:w-auto bg-background"
             title="Pilih tanggal jemput"
           />
         </div>
 
         <select
+          value={status}
+          onChange={(e) => onStatusChange?.(e.target.value)}
           className="flex h-9 w-full md:w-40 items-center justify-between whitespace-nowrap rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
         >
           <option value="">Semua Status</option>
@@ -41,6 +70,8 @@ export default function BookingFilters() {
         </select>
 
         <select
+          value={routeId}
+          onChange={(e) => onRouteIdChange?.(e.target.value)}
           className="flex h-9 w-full md:w-48 items-center justify-between whitespace-nowrap rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
         >
           <option value="">Semua Rute</option>
@@ -51,7 +82,7 @@ export default function BookingFilters() {
           ))}
         </select>
 
-        <Button variant="outline" size="icon" title="Reset Filters">
+        <Button variant="outline" size="icon" title="Reset Filters" onClick={handleReset}>
           <Filter className="h-4 w-4" />
         </Button>
       </div>

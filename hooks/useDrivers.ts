@@ -37,7 +37,9 @@ export function useDrivers(filters?: { status?: string; employment_type?: string
 
       if (filters?.status) query = query.eq("status", filters.status);
       if (filters?.employment_type) query = query.eq("driver_type", filters.employment_type);
-      if (filters?.search) query = query.ilike("full_name", `%${filters.search}%`);
+      if (filters?.search) {
+        query = query.or(`full_name.ilike.%${filters.search}%,phone_wa.ilike.%${filters.search}%`);
+      }
 
       const { data, error: err } = await query;
       if (err) throw err;
