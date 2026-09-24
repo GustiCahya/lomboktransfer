@@ -62,12 +62,16 @@ export function useDriver(id: string | null) {
     setIsLoading(true);
     supabase
       .from("drivers")
-      .select("*, vehicles(brand, model, plate_number)")
+      .select("*")
       .eq("id", id)
       .single()
       .then(({ data, error: err }) => {
-        if (err) setError(err);
-        else setDriver(data);
+        if (err) {
+          console.error("useDriver fetch error:", err);
+          setError(err);
+        } else {
+          setDriver(data);
+        }
         setIsLoading(false);
       });
   }, [id, supabase]);
@@ -138,6 +142,29 @@ export function useUpdateDriver(id: string) {
   }, [id, supabase]);
 
   return { updateDriver, isLoading, error };
+}
+
+export function useDeleteDriver() {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<Error | null>(null);
+  const supabase = createClient();
+
+  const deleteDriver = useCallback(async (id: string) => {
+    setIsLoading(true);
+    try {
+      const { error: err } = await supabase.from("drivers").delete().eq("id", id);
+      if (err) throw err;
+      return true;
+    } catch (err: unknown) {
+      const e = err instanceof Error ? err : new Error("Unknown error");
+      setError(e);
+      throw e;
+    } finally {
+      setIsLoading(false);
+    }
+  }, [supabase]);
+
+  return { deleteDriver, isLoading, error };
 }
 
 export function useDriverTrips(driverId: string | null, period?: { month: number; year: number }) {

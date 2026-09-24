@@ -16,7 +16,7 @@ export default function FleetPage() {
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
 
-  const { vehicles, isLoading } = useVehicles({
+  const { vehicles, isLoading, refetch } = useVehicles({
     status: statusFilter || undefined,
     search: search || undefined,
   });
@@ -100,7 +100,7 @@ export default function FleetPage() {
 
       {/* Table view */}
       {!isLoading && view === "table" && (
-        <VehicleTable vehicles={vehicles} />
+        <VehicleTable vehicles={vehicles} onRefetch={refetch} />
       )}
 
       {/* Grid view */}

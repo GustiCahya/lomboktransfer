@@ -118,3 +118,26 @@ export function useUpdateVehicle(id: string) {
 
   return { updateVehicle, isLoading, error };
 }
+
+export function useDeleteVehicle() {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<Error | null>(null);
+  const supabase = createClient();
+
+  const deleteVehicle = useCallback(async (id: string) => {
+    setIsLoading(true);
+    try {
+      const { error: err } = await supabase.from("vehicles").delete().eq("id", id);
+      if (err) throw err;
+      return true;
+    } catch (err: unknown) {
+      const e = err instanceof Error ? err : new Error("Unknown error");
+      setError(e);
+      throw e;
+    } finally {
+      setIsLoading(false);
+    }
+  }, [supabase]);
+
+  return { deleteVehicle, isLoading, error };
+}

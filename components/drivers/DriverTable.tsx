@@ -3,18 +3,36 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Driver } from "@/hooks/useDrivers";
+import { Driver, useDeleteDriver } from "@/hooks/useDrivers";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import StatusBadge from "@/components/shared/StatusBadge";
 import { StatusType } from "@/components/shared/StatusBadge";
-import { Star, AlertTriangle } from "lucide-react";
+import { Star, AlertTriangle, Trash2, Loader2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 interface DriverTableProps {
   drivers: Driver[];
   expiringDriverIds?: Set<string>;
+  onRefetch?: () => void;
 }
 
-export default function DriverTable({ drivers, expiringDriverIds = new Set() }: DriverTableProps) {
+export default function DriverTable({ drivers, expiringDriverIds = new Set(), onRefetch }: DriverTableProps) {
+  const { deleteDriver } = useDeleteDriver();
+  const [deletingId, setDeletingId] = React.useState<string | null>(null);
+
+  const handleDelete = async (id: string, name: string) => {
+    if (!window.confirm(`Yakin ingin menghapus supir ${name}?`)) return;
+    setDeletingId(id);
+    try {
+      await deleteDriver(id);
+      if (onRefetch) onRefetch();
+    } catch (e) {
+      alert("Gagal menghapus supir");
+    } finally {
+      setDeletingId(null);
+    }
+  };
+
   if (drivers.length === 0) {
     return (
       <div className="p-12 text-center border rounded-lg bg-card">
@@ -35,6 +53,7 @@ export default function DriverTable({ drivers, expiringDriverIds = new Set() }: 
             <TableHead className="text-center">Rating</TableHead>
             <TableHead className="text-center">Komisi</TableHead>
             <TableHead className="text-center">Dokumen</TableHead>
+            <TableHead className="text-right">Aksi</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -71,6 +90,22 @@ export default function DriverTable({ drivers, expiringDriverIds = new Set() }: 
                 ) : (
                   <span className="text-xs text-green-500 font-medium">✓ OK</span>
                 )}
+              </TableCell>
+              <TableCell className="text-right">
+                <div className="flex items-center justify-end gap-3">
+                  <Link href={`/admin/drivers/${driver.id}/edit`} className="text-primary hover:underline text-sm font-medium">
+                    Edit
+                  </Link>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-8 w-8 text-destructive hover:bg-destructive/10 hover:text-destructive"
+                    onClick={() => handleDelete(driver.id, driver.full_name)}
+                    disabled={deletingId === driver.id}
+                  >
+                    {deletingId === driver.id ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
+                  </Button>
+                </div>
               </TableCell>
             </TableRow>
           ))}

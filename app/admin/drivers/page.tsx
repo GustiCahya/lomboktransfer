@@ -17,7 +17,7 @@ export default function DriversPage() {
   const [statusFilter, setStatusFilter] = useState("");
   const [typeFilter, setTypeFilter] = useState("");
 
-  const { drivers, isLoading } = useDrivers({
+  const { drivers, isLoading, refetch } = useDrivers({
     status: statusFilter || undefined,
     employment_type: typeFilter || undefined,
     search: search || undefined,
@@ -111,7 +111,7 @@ export default function DriversPage() {
 
       {/* Table view */}
       {!isLoading && view === "table" && (
-        <DriverTable drivers={drivers} expiringDriverIds={expiringDriverIds} />
+        <DriverTable drivers={drivers} expiringDriverIds={expiringDriverIds} onRefetch={refetch} />
       )}
 
       {/* Grid view */}

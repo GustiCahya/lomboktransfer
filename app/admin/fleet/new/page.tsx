@@ -104,19 +104,19 @@ export default function NewVehiclePage() {
           <CardContent className="pt-6 space-y-4">
             <h3 className="font-semibold text-base border-b pb-2">Spesifikasi & Kondisi</h3>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <Field id="year" label="Tahun Pembuatan" required error={errors.year?.message}>
+              <Field id="year" label="Tahun Pembuatan" required error={errors.year?.message as string}>
                 <Input id="year" type="number" {...register("year", { valueAsNumber: true })} />
               </Field>
               <Field id="color" label="Warna" error={errors.color?.message}>
                 <Input id="color" {...register("color")} placeholder="Hitam, Putih, dll." />
               </Field>
-              <Field id="capacity" label="Kapasitas Penumpang" required error={errors.capacity?.message}>
+              <Field id="capacity" label="Kapasitas Penumpang" required error={errors.capacity?.message as string}>
                 <Input id="capacity" type="number" {...register("capacity", { valueAsNumber: true })} min={1} />
               </Field>
-              <Field id="current_km" label="Odometer Saat Ini (KM)" required error={errors.current_km?.message}>
+              <Field id="current_km" label="Odometer Saat Ini (KM)" required error={errors.current_km?.message as string}>
                 <Input id="current_km" type="number" {...register("current_km", { valueAsNumber: true })} min={0} />
               </Field>
-              <Field id="next_service_km" label="Target Servis Berikutnya (KM)" error={errors.next_service_km?.message}>
+              <Field id="next_service_km" label="Target Servis Berikutnya (KM)" error={errors.next_service_km?.message as string}>
                 <Input id="next_service_km" type="number" {...register("next_service_km", { valueAsNumber: true })} min={0} />
               </Field>
               <Field id="status" label="Status" required error={errors.status?.message}>

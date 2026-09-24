@@ -3,16 +3,34 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Vehicle } from "@/hooks/useVehicles";
+import { Vehicle, useDeleteVehicle } from "@/hooks/useVehicles";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { VehicleStatusBadge } from "./VehicleCard";
-import { AlertTriangle, Car } from "lucide-react";
+import { AlertTriangle, Car, Trash2, Loader2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 interface VehicleTableProps {
   vehicles: Vehicle[];
+  onRefetch?: () => void;
 }
 
-export default function VehicleTable({ vehicles }: VehicleTableProps) {
+export default function VehicleTable({ vehicles, onRefetch }: VehicleTableProps) {
+  const { deleteVehicle } = useDeleteVehicle();
+  const [deletingId, setDeletingId] = React.useState<string | null>(null);
+
+  const handleDelete = async (id: string, name: string) => {
+    if (!window.confirm(`Yakin ingin menghapus kendaraan ${name}?`)) return;
+    setDeletingId(id);
+    try {
+      await deleteVehicle(id);
+      if (onRefetch) onRefetch();
+    } catch (e) {
+      alert("Gagal menghapus kendaraan");
+    } finally {
+      setDeletingId(null);
+    }
+  };
+
   if (vehicles.length === 0) {
     return (
       <div className="p-12 text-center border rounded-lg bg-card">
@@ -32,6 +50,7 @@ export default function VehicleTable({ vehicles }: VehicleTableProps) {
             <TableHead>Status</TableHead>
             <TableHead className="text-right">Odometer</TableHead>
             <TableHead className="text-center">Alerts</TableHead>
+            <TableHead className="text-right">Aksi</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -44,7 +63,7 @@ export default function VehicleTable({ vehicles }: VehicleTableProps) {
             return (
               <TableRow key={vehicle.id} className="hover:bg-muted/50">
                 <TableCell>
-                  <Link href={`/fleet/${vehicle.id}`} className="flex items-center gap-3 hover:text-primary group">
+                  <Link href={`/admin/fleet/${vehicle.id}`} className="flex items-center gap-3 hover:text-primary group">
                     <div className="w-12 h-10 rounded bg-muted flex items-center justify-center flex-shrink-0 overflow-hidden border group-hover:border-primary/50 transition-colors">
                       {vehicle.photo_url ? (
                         <Image src={vehicle.photo_url} alt={vehicle.brand} width={48} height={40} className="w-full h-full object-cover" />
@@ -80,6 +99,22 @@ export default function VehicleTable({ vehicles }: VehicleTableProps) {
                   ) : (
                     <span className="text-xs text-green-500 font-medium">✓ OK</span>
                   )}
+                </TableCell>
+                <TableCell className="text-right">
+                  <div className="flex items-center justify-end gap-3">
+                    <Link href={`/admin/fleet/${vehicle.id}/edit`} className="text-primary hover:underline text-sm font-medium">
+                      Edit
+                    </Link>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-8 w-8 text-destructive hover:bg-destructive/10 hover:text-destructive"
+                      onClick={() => handleDelete(vehicle.id, vehicle.plate_number)}
+                      disabled={deletingId === vehicle.id}
+                    >
+                      {deletingId === vehicle.id ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
+                    </Button>
+                  </div>
                 </TableCell>
               </TableRow>
             );
