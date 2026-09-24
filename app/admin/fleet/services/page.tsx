@@ -97,7 +97,7 @@ export default function FleetServicesPage() {
                       )}
                     </TableCell>
                     <TableCell className="text-right">
-                      <Link href={`/fleet/${vehicle.id}`}>
+                      <Link href={`/admin/fleet/${vehicle.id}`}>
                         <Button size="sm" variant={isUrgent ? "default" : "outline"} className="gap-2">
                           <Plus className="w-3 h-3" /> Servis
                         </Button>

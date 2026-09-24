@@ -27,7 +27,7 @@ export default function VehicleCard({ vehicle, hasAlert = false }: { vehicle: Ve
   const isServiceDueSoon = serviceProgress > 90;
 
   return (
-    <Link href={`/fleet/${vehicle.id}`}>
+    <Link href={`/admin/fleet/${vehicle.id}`}>
       <Card className="hover:border-primary/50 hover:shadow-md transition-all cursor-pointer group overflow-hidden">
         {/* Photo area */}
         <div className="relative h-40 bg-muted flex items-center justify-center overflow-hidden">

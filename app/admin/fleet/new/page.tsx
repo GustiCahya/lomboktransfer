@@ -34,7 +34,7 @@ export default function NewVehiclePage() {
   const onSubmit = async (data: VehicleFormValues) => {
     try {
       const newVehicle = await createVehicle(data);
-      if (newVehicle) router.push(`/fleet/${newVehicle.id}`);
+      if (newVehicle) router.push(`/admin/fleet/${newVehicle.id}`);
     } catch (err: any) {
       console.error("Detailed create error:", err);
       alert(`Gagal menyimpan data kendaraan. Error: ${err?.message || err?.details || JSON.stringify(err)}`);
