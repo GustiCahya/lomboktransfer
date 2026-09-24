@@ -1,11 +1,11 @@
 "use client";
 
-import React, { useCallback } from "react";
+import React, { useEffect, useCallback } from "react";
+import { useParams, useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { driverSchema, DriverFormValues } from "@/lib/validations/driver";
-import { useCreateDriver } from "@/hooks/useDrivers";
-import { useRouter } from "next/navigation";
+import { useDriver, useUpdateDriver } from "@/hooks/useDrivers";
 import PageHeader from "@/components/shared/PageHeader";
 import AIAssistantFAB from "@/components/shared/AIAssistantFAB";
 import { Input } from "@/components/ui/input";
@@ -14,11 +14,14 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
 
-export default function NewDriverPage() {
+export default function EditDriverPage() {
+  const { id } = useParams();
   const router = useRouter();
-  const { createDriver, isLoading } = useCreateDriver();
+  const driverId = id as string;
+  const { driver, isLoading: driverLoading } = useDriver(driverId);
+  const { updateDriver, isLoading: updating } = useUpdateDriver(driverId);
 
-  const { register, handleSubmit, setValue, formState: { errors } } = useForm<DriverFormValues>({
+  const { register, handleSubmit, setValue, reset, formState: { errors } } = useForm<DriverFormValues>({
     resolver: zodResolver(driverSchema) as any,
     defaultValues: {
       driver_type: "karyawan",
@@ -27,15 +30,35 @@ export default function NewDriverPage() {
     },
   });
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // Load existing driver data into form
+  useEffect(() => {
+    if (!driver) return;
+    reset({
+      full_name: driver.full_name,
+      nik: driver.nik,
+      phone_wa: driver.phone_wa,
+      address: driver.address ?? "",
+      bank_name: driver.bank_name ?? "",
+      bank_account: driver.bank_account ?? "",
+      bank_account_name: driver.bank_account_name ?? "",
+      emergency_contact_name: driver.emergency_contact_name ?? "",
+      emergency_contact_phone: driver.emergency_contact_phone ?? "",
+      driver_type: driver.driver_type,
+      status: driver.status,
+      commission_pct: driver.commission_pct,
+      date_of_birth: driver.date_of_birth ? new Date(driver.date_of_birth) : undefined,
+      join_date: driver.join_date ? new Date(driver.join_date) : undefined,
+    });
+  }, [driver, reset]);
+
   const onSubmit = async (data: DriverFormValues) => {
     try {
-      const newDriver = await createDriver(data);
-      if (newDriver) router.push(`/admin/drivers/${newDriver.id}`);
-    } catch (err: unknown) {
-      console.error("Error creating driver:", err);
-      const errMsg = err instanceof Error ? err.message : "Pastikan semua field terisi dengan benar.";
-      alert(`Gagal menyimpan data supir. Error: ${errMsg}`);
+      await updateDriver(data);
+      router.push(`/admin/drivers/${driverId}`);
+      router.refresh();
+    } catch (err) {
+      console.error(err);
+      alert("Gagal menyimpan perubahan data supir.");
     }
   };
 
@@ -87,9 +110,19 @@ export default function NewDriverPage() {
     </div>
   );
 
+  if (driverLoading) {
+    return <div className="p-12 text-center text-muted-foreground">Memuat profil supir...</div>;
+  }
+  if (!driver) {
+    return <div className="p-12 text-center text-destructive">Supir tidak ditemukan.</div>;
+  }
+
   return (
     <div className="max-w-4xl mx-auto space-y-6 pb-32">
-      <PageHeader title="Tambah Supir Baru" subtitle="Isi data lengkap supir. Pastikan NIK dan nomor WhatsApp valid." />
+      <PageHeader
+        title={`Edit ${driver.full_name}`}
+        subtitle="Perbarui data pribadi, status kerja, dan informasi rekening supir."
+      />
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         {/* Data Pribadi */}
@@ -173,9 +206,9 @@ export default function NewDriverPage() {
 
         <div className="flex justify-end gap-4">
           <Button type="button" variant="outline" onClick={() => router.back()}>Batal</Button>
-          <Button type="submit" disabled={isLoading}>
-            {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            Simpan Supir
+          <Button type="submit" disabled={updating}>
+            {updating && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            Simpan Perubahan
           </Button>
         </div>
       </form>

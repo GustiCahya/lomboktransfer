@@ -39,7 +39,7 @@ export default function VehicleDetailPage() {
         title={`${vehicle.brand} ${vehicle.model} - ${vehicle.unit_code}`}
         subtitle={`Plat: ${vehicle.plate_number} • Tahun: ${vehicle.year} • Kapasitas: ${vehicle.capacity} Pax`}
         actions={
-          <Link href={`/fleet/${vehicleId}/edit`}>
+          <Link href={`/admin/fleet/${vehicleId}/edit`}>
             <Button className="gap-2"><Edit className="w-4 h-4" /> Edit Unit</Button>
           </Link>
         }

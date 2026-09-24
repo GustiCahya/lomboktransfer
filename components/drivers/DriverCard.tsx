@@ -18,7 +18,7 @@ export default function DriverCard({ driver, hasExpiringDocs }: DriverCardProps)
   const statusLabel = driver.status === "cuti" ? "Cuti" : undefined;
 
   return (
-    <Link href={`/drivers/${driver.id}`}>
+    <Link href={`/admin/drivers/${driver.id}`}>
       <Card className="hover:border-primary/50 hover:shadow-md transition-all cursor-pointer group relative">
         {hasExpiringDocs && (
           <div className="absolute top-3 right-3 z-10" title="Ada dokumen yang akan kadaluarsa">
@@ -29,11 +29,7 @@ export default function DriverCard({ driver, hasExpiringDocs }: DriverCardProps)
           <div className="flex items-start gap-4">
             {/* Avatar */}
             <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-lg flex-shrink-0 ring-2 ring-primary/20 group-hover:ring-primary/50 transition-all">
-              {driver.avatar_url ? (
-                <Image src={driver.avatar_url} alt={driver.full_name} width={56} height={56} className="w-full h-full rounded-full object-cover" />
-              ) : (
-                driver.full_name.charAt(0).toUpperCase()
-              )}
+              {driver.full_name.charAt(0).toUpperCase()}
             </div>
 
             <div className="flex-1 min-w-0">
@@ -46,7 +42,7 @@ export default function DriverCard({ driver, hasExpiringDocs }: DriverCardProps)
               <div className="flex items-center gap-2 mt-3">
                 <StatusBadge status={driver.status as StatusType} label={statusLabel} />
                 <span className="text-xs text-muted-foreground capitalize">
-                  {driver.employment_type === "karyawan" ? "Karyawan" : "Mitra Lepas"}
+                  {driver.driver_type === "karyawan" ? "Karyawan" : "Mitra Lepas"}
                 </span>
               </div>
             </div>
@@ -55,7 +51,7 @@ export default function DriverCard({ driver, hasExpiringDocs }: DriverCardProps)
           <div className="grid grid-cols-3 gap-2 mt-4 pt-4 border-t">
             <div className="text-center">
               <p className="text-xs text-muted-foreground">Komisi</p>
-              <p className="font-semibold text-sm">{driver.commission_percentage}%</p>
+              <p className="font-semibold text-sm">{driver.commission_pct}%</p>
             </div>
             <div className="text-center">
               <p className="text-xs text-muted-foreground">Rating</p>
@@ -66,7 +62,7 @@ export default function DriverCard({ driver, hasExpiringDocs }: DriverCardProps)
             <div className="text-center">
               <p className="text-xs text-muted-foreground">Bergabung</p>
               <p className="font-semibold text-sm">
-                {driver.joined_at ? new Date(driver.joined_at).getFullYear() : "-"}
+                {driver.join_date ? new Date(driver.join_date).getFullYear() : "-"}
               </p>
             </div>
           </div>

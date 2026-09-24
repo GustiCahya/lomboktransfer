@@ -37,17 +37,13 @@ export default function DriverProfile({ driver }: DriverProfileProps) {
           <CardContent className="pt-6 flex flex-col items-center text-center gap-4">
             <div className="relative">
               <div className="w-24 h-24 rounded-full bg-primary/10 flex items-center justify-center text-primary text-3xl font-bold ring-4 ring-primary/20">
-                {driver.avatar_url ? (
-                  <Image src={driver.avatar_url} alt={driver.full_name} width={96} height={96} className="w-full h-full rounded-full object-cover" />
-                ) : (
-                  driver.full_name.charAt(0).toUpperCase()
-                )}
+                {driver.full_name.charAt(0).toUpperCase()}
               </div>
             </div>
             <div>
               <h2 className="text-xl font-bold">{driver.full_name}</h2>
               <p className="text-sm text-muted-foreground capitalize">
-                {driver.employment_type === "karyawan" ? "Karyawan Tetap" : "Mitra Lepas"}
+                {driver.driver_type === "karyawan" ? "Karyawan Tetap" : "Mitra Lepas"}
               </p>
               <div className="mt-2">
                 <StatusBadge status={driver.status as StatusType} label={driver.status === "cuti" ? "Sedang Cuti" : undefined} />
@@ -63,11 +59,11 @@ export default function DriverProfile({ driver }: DriverProfileProps) {
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Komisi</span>
-                <span className="font-bold text-primary">{driver.commission_percentage}%</span>
+                <span className="font-bold text-primary">{driver.commission_pct}%</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Bergabung</span>
-                <span className="font-medium">{driver.joined_at ? formatTanggal(driver.joined_at) : "-"}</span>
+                <span className="font-medium">{driver.join_date ? formatTanggal(driver.join_date) : "-"}</span>
               </div>
               {driver.vehicles && (
                 <div className="flex justify-between">
@@ -90,7 +86,6 @@ export default function DriverProfile({ driver }: DriverProfileProps) {
               <InfoRow icon={Calendar} label="Tanggal Lahir" value={driver.date_of_birth ? formatTanggal(driver.date_of_birth) : null} />
               <InfoRow icon={MapPin} label="Alamat" value={driver.address} />
               <InfoRow icon={Phone} label="WhatsApp" value={driver.phone_wa ? formatPhone(driver.phone_wa) : null} />
-              <InfoRow icon={Mail} label="Email" value={driver.email} />
             </div>
           </CardContent>
         </Card>

@@ -43,13 +43,12 @@ export default function AssignDriverModal({ bookingId, bookingDetails, isOpen, o
     try {
       await updateBooking(bookingId, { 
         driver_id: selectedDriverId,
-        vehicle_id: driver?.vehicle_id || null,
         status: "confirmed"
       });
 
       // Automatically create an expense for driver's fee if the booking is already paid
-      if (bookingDetails?.payment_status === "paid" && driver && driver.commission_percentage) {
-        const fee = (bookingDetails.gross_price || 0) * (driver.commission_percentage / 100);
+      if (bookingDetails?.payment_status === "paid" && driver && driver.commission_pct) {
+        const fee = (bookingDetails.gross_price || 0) * (driver.commission_pct / 100);
         if (fee > 0) {
           await createExpense({
             expense_date: new Date().toISOString().split("T")[0], // today

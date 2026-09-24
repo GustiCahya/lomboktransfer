@@ -44,7 +44,7 @@ export default function ScheduleCalendar({ baseDate }: ScheduleCalendarProps) {
             <tr key={driver.id} className="border-b last:border-0 hover:bg-muted/50 transition-colors">
               <td className="px-4 py-3 border-r">
                 <div className="font-medium truncate">{driver.full_name}</div>
-                <div className="text-xs text-muted-foreground capitalize">{driver.employment_type === "karyawan" ? "Karyawan Tetap" : "Mitra Lepas"}</div>
+                <div className="text-xs text-muted-foreground capitalize">{driver.driver_type === "karyawan" ? "Karyawan Tetap" : "Mitra Lepas"}</div>
               </td>
               {weekDays.map((day) => {
                 const dateKey = format(day, "yyyy-MM-dd");

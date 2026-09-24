@@ -35,9 +35,9 @@ export default function DriverDetailPage() {
     <div className="space-y-6">
       <PageHeader
         title={driver.full_name}
-        subtitle={`ID: ${driver.id.slice(0, 8).toUpperCase()} • ${driver.employment_type === "karyawan" ? "Karyawan Tetap" : "Mitra Lepas"}`}
+        subtitle={`ID: ${driver.id.slice(0, 8).toUpperCase()} • ${driver.driver_type === "karyawan" ? "Karyawan Tetap" : "Mitra Lepas"}`}
         actions={
-          <Link href={`/drivers/${driverId}/edit`}>
+          <Link href={`/admin/drivers/${driverId}/edit`}>
             <Button className="gap-2"><Edit className="w-4 h-4" /> Edit</Button>
           </Link>
         }

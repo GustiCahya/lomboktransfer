@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import PageHeader from "@/components/shared/PageHeader";
 import BookingForm from "@/components/bookings/BookingForm";
+import AIAssistantFAB from "@/components/shared/AIAssistantFAB";
 import { BookingFormValues } from "@/lib/validations/booking";
 import { useBookings } from "@/hooks/useBookings";
 import { useParams, useRouter } from "next/navigation";
@@ -15,6 +16,7 @@ export default function EditBookingPage() {
 
   const [isLoading, setIsLoading] = useState(true);
   const [initialData, setInitialData] = useState<Partial<BookingFormValues> | null>(null);
+  const [aiPrefill, setAiPrefill] = useState<Record<string, unknown> | undefined>(undefined);
 
   useEffect(() => {
     async function loadBooking() {
@@ -148,7 +150,13 @@ export default function EditBookingPage() {
         title="Edit Booking" 
         subtitle={`Perbarui data untuk booking ID: ${id}`}
       />
-      <BookingForm onSubmit={handleSubmit} initialData={initialData} />
+      <BookingForm onSubmit={handleSubmit} initialData={initialData} aiPrefill={aiPrefill} />
+
+      {/* AI Assistant FAB */}
+      <AIAssistantFAB
+        formType="booking"
+        onFill={(data) => setAiPrefill({ ...data, _ts: Date.now() })}
+      />
     </div>
   );
 }

@@ -90,3 +90,31 @@ export function useCreateVehicle() {
 
   return { createVehicle, isLoading };
 }
+
+export function useUpdateVehicle(id: string) {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<Error | null>(null);
+  const supabase = createClient();
+
+  const updateVehicle = useCallback(async (values: Partial<VehicleFormValues>) => {
+    setIsLoading(true);
+    try {
+      const { data, error: err } = await supabase
+        .from("vehicles")
+        .update(values)
+        .eq("id", id)
+        .select()
+        .single();
+      if (err) throw err;
+      return data;
+    } catch (err: unknown) {
+      const e = err instanceof Error ? err : new Error("Unknown error");
+      setError(e);
+      throw e;
+    } finally {
+      setIsLoading(false);
+    }
+  }, [id, supabase]);
+
+  return { updateVehicle, isLoading, error };
+}

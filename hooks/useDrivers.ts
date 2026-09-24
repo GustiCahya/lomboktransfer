@@ -7,11 +7,10 @@ export interface Driver {
   full_name: string;
   nik: string;
   phone_wa: string;
-  email: string | null;
   status: "active" | "inactive" | "cuti";
-  employment_type: "karyawan" | "mitra_lepas";
-  commission_percentage: number;
-  joined_at: string | null;
+  driver_type: "karyawan" | "mitra_lepas";
+  commission_pct: number;
+  join_date: string | null;
   date_of_birth: string | null;
   address: string | null;
   bank_name: string | null;
@@ -19,9 +18,7 @@ export interface Driver {
   bank_account_name: string | null;
   emergency_contact_name: string | null;
   emergency_contact_phone: string | null;
-  avatar_url: string | null;
-  notes: string | null;
-  vehicle_id: string | null;
+  user_id: string | null;
 }
 
 export function useDrivers(filters?: { status?: string; employment_type?: string; search?: string }) {
@@ -36,7 +33,7 @@ export function useDrivers(filters?: { status?: string; employment_type?: string
       let query = supabase.from("drivers").select("*").order("full_name");
 
       if (filters?.status) query = query.eq("status", filters.status);
-      if (filters?.employment_type) query = query.eq("employment_type", filters.employment_type);
+      if (filters?.employment_type) query = query.eq("driver_type", filters.employment_type);
       if (filters?.search) query = query.ilike("full_name", `%${filters.search}%`);
 
       const { data, error: err } = await query;
@@ -86,14 +83,12 @@ export function useCreateDriver() {
   const createDriver = useCallback(async (values: DriverFormValues) => {
     setIsLoading(true);
     try {
-      // Sanitize empty strings to null for unique constraints
       const payload = {
         ...values,
-        email: values.email === "" ? null : values.email,
         date_of_birth: values.date_of_birth?.toISOString(),
-        joined_at: values.joined_at?.toISOString() ?? new Date().toISOString(),
+        join_date: values.join_date?.toISOString() ?? new Date().toISOString(),
       };
-      
+
       const { data, error: err } = await supabase
         .from("drivers")
         .insert(payload)
@@ -126,6 +121,7 @@ export function useUpdateDriver(id: string) {
         .update({
           ...values,
           date_of_birth: values.date_of_birth?.toISOString(),
+          join_date: values.join_date?.toISOString(),
         })
         .eq("id", id)
         .select()
@@ -206,7 +202,7 @@ export function useDriverPerformance(driverId: string | null) {
           total_trips: total,
           completed_trips: completed,
           completion_rate: total > 0 ? Math.round((completed / total) * 100) : 0,
-          on_time_rate: 96, // placeholder until on_time field is tracked
+          on_time_rate: 96,
           total_complaints: 0,
         });
         setIsLoading(false);
