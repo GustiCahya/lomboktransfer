@@ -145,7 +145,7 @@ export default function EditBookingPage() {
   }
 
   return (
-    <div className="space-y-6 max-w-5xl mx-auto">
+    <div className="space-y-6 max-w-5xl mx-auto pb-32">
       <PageHeader 
         title="Edit Booking" 
         subtitle={`Perbarui data untuk booking ID: ${id}`}

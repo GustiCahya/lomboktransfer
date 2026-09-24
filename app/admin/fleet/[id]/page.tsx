@@ -66,6 +66,15 @@ export default function VehicleDetailPage() {
 
       {/* Tab content */}
       <div>
+        {["documents", "services", "usage", "incidents", "costs"].includes(activeTab) && (
+          <div className="mb-6 rounded-xl border border-amber-500/30 bg-amber-500/10 p-4 text-amber-800 dark:text-amber-200 flex items-center gap-3">
+            <Wrench className="h-5 w-5 text-amber-500 shrink-0" />
+            <div>
+              <h4 className="font-semibold text-sm">Modul Dalam Pemeliharaan (Under Maintenance)</h4>
+              <p className="text-xs opacity-90">Fitur ini sedang dalam tahap pengujian & sinkronisasi data. Seluruh tampilan di bawah dapat diakses sebagai pratinjau.</p>
+            </div>
+          </div>
+        )}
         {activeTab === "identity" && <VehicleIdentity vehicle={vehicle} />}
         {activeTab === "documents" && <VehicleDocuments vehicleId={vehicleId} />}
         {activeTab === "services" && <ServiceHistory vehicle={vehicle} />}

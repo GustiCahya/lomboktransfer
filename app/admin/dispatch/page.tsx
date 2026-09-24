@@ -2,6 +2,7 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from "react";
+import Link from "next/link";
 import PageHeader from "@/components/shared/PageHeader";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -67,36 +68,43 @@ const STATUS_LABELS: Record<string, string> = {
 function EventCard({ ev }: { ev: any }) {
   const c = getColor(ev.status);
   const guestName = ev.guests?.full_name ?? "Tamu Tidak Diketahui";
-  const routeName = ev.routes?.name ?? "Custom Route";
+  const routeName = ev.routes?.name ?? ev.service_name ?? "Custom Route";
   const driverName = ev.drivers?.full_name ?? "Belum Ditugaskan";
   const vehicleInfo = ev.vehicles
     ? `${ev.vehicles.brand} (${ev.vehicles.plate_number})`
     : "-";
   const date = new Date(ev.pickup_datetime);
+  const bookingId = ev.booking_id || ev.id;
+  const tripLabel = ev.trip_order ? `Trip #${ev.trip_order}` : null;
 
   return (
-    <div
-      className={`bg-card border-l-4 rounded-md shadow-sm border p-3 flex flex-col gap-2 hover:shadow-md transition-all cursor-pointer ring-1 ${c.border} ${c.ring}`}
-    >
-      <div className="flex justify-between items-start gap-2">
-        <div className="font-semibold text-sm flex items-center gap-2 min-w-0">
-          <span className={`w-2 h-2 shrink-0 rounded-full ${c.dot}`} title={STATUS_LABELS[ev.status]} />
-          <span className="truncate">{guestName} {ev.pax_count > 1 ? `(+${ev.pax_count - 1})` : ""}</span>
+    <Link href={`/admin/bookings/${bookingId}`} className="block">
+      <div
+        className={`bg-card border-l-4 rounded-md shadow-sm border p-3 flex flex-col gap-2 hover:shadow-md transition-all cursor-pointer ring-1 ${c.border} ${c.ring}`}
+      >
+        <div className="flex justify-between items-start gap-2">
+          <div className="font-semibold text-sm flex items-center gap-2 min-w-0">
+            <span className={`w-2 h-2 shrink-0 rounded-full ${c.dot}`} title={STATUS_LABELS[ev.status]} />
+            <span className="truncate">{guestName} {ev.pax_count > 1 ? `(+${ev.pax_count - 1})` : ""}</span>
+          </div>
+          <div className="flex items-center gap-1 shrink-0">
+            {tripLabel && <Badge variant="secondary" className="text-[10px] py-0 px-1 shrink-0">{tripLabel}</Badge>}
+            <Badge variant="outline" className="text-[10px] uppercase shrink-0">{ev.booking_code}</Badge>
+          </div>
         </div>
-        <Badge variant="outline" className="text-[10px] uppercase shrink-0">{ev.booking_code}</Badge>
+        <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-xs text-muted-foreground">
+          <div className="flex items-center gap-1.5 font-medium text-foreground">
+            <Clock className="w-3 h-3 shrink-0" />
+            {format(date, "HH:mm")}
+          </div>
+          <div className="flex items-center gap-1.5 truncate"><MapPin className="w-3 h-3 shrink-0" /> <span className="truncate">{routeName}</span></div>
+          <div className={`flex items-center gap-1.5 ${!ev.drivers ? "text-amber-600 font-medium" : ""}`}>
+            <User className="w-3 h-3 shrink-0" /> <span className="truncate">{driverName}</span>
+          </div>
+          <div className="flex items-center gap-1.5 truncate"><Car className="w-3 h-3 shrink-0" /> <span className="truncate">{vehicleInfo}</span></div>
+        </div>
       </div>
-      <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-xs text-muted-foreground">
-        <div className="flex items-center gap-1.5 font-medium text-foreground">
-          <Clock className="w-3 h-3 shrink-0" />
-          {format(date, "HH:mm")}
-        </div>
-        <div className="flex items-center gap-1.5 truncate"><MapPin className="w-3 h-3 shrink-0" /> <span className="truncate">{routeName}</span></div>
-        <div className={`flex items-center gap-1.5 ${!ev.drivers ? "text-amber-600 font-medium" : ""}`}>
-          <User className="w-3 h-3 shrink-0" /> <span className="truncate">{driverName}</span>
-        </div>
-        <div className="flex items-center gap-1.5 truncate"><Car className="w-3 h-3 shrink-0" /> <span className="truncate">{vehicleInfo}</span></div>
-      </div>
-    </div>
+    </Link>
   );
 }
 
@@ -105,14 +113,21 @@ function EventChip({ ev }: { ev: any }) {
   const c = getColor(ev.status);
   const guestName = ev.guests?.full_name ?? "Tamu";
   const date = new Date(ev.pickup_datetime);
+  const bookingId = ev.booking_id || ev.id;
+  const routeName = ev.routes?.name ?? ev.service_name ?? "";
+  const tripBadge = ev.trip_order ? `T#${ev.trip_order}` : "";
+
   return (
-    <div
-      className={`flex items-center gap-1 rounded px-1.5 py-0.5 text-[11px] font-medium cursor-pointer truncate ${c.badge} border-l-2 ${c.border}`}
-      title={`${guestName} - ${STATUS_LABELS[ev.status]}`}
-    >
-      <span className="shrink-0 tabular-nums">{format(date, "HH:mm")}</span>
-      <span className="truncate">{guestName}</span>
-    </div>
+    <Link href={`/admin/bookings/${bookingId}`} className="block truncate">
+      <div
+        className={`flex items-center gap-1 rounded px-1.5 py-0.5 text-[11px] font-medium cursor-pointer truncate ${c.badge} border-l-2 ${c.border}`}
+        title={`${guestName} (${ev.booking_code} ${tripBadge}) - ${routeName} - ${STATUS_LABELS[ev.status]}`}
+      >
+        <span className="shrink-0 tabular-nums">{format(date, "HH:mm")}</span>
+        {tripBadge && <span className="shrink-0 font-bold opacity-80 text-[10px] bg-background/50 px-1 rounded">{tripBadge}</span>}
+        <span className="truncate">{guestName}</span>
+      </div>
+    </Link>
   );
 }
 

@@ -12,7 +12,7 @@ import DocumentsTab from "@/components/drivers/DocumentsTab";
 import TripHistoryTab from "@/components/drivers/TripHistoryTab";
 import PerformanceTab from "@/components/drivers/PerformanceTab";
 import PayrollTab from "@/components/drivers/PayrollTab";
-import { User, FileText, Car, BarChart2, Banknote, Edit } from "lucide-react";
+import { User, FileText, Car, BarChart2, Banknote, Edit, Wrench } from "lucide-react";
 
 const TABS = [
   { id: "info", label: "Informasi Pribadi", icon: User },
@@ -64,6 +64,15 @@ export default function DriverDetailPage() {
 
       {/* Tab content */}
       <div>
+        {["documents", "performance", "payroll"].includes(activeTab) && (
+          <div className="mb-6 rounded-xl border border-amber-500/30 bg-amber-500/10 p-4 text-amber-800 dark:text-amber-200 flex items-center gap-3">
+            <Wrench className="h-5 w-5 text-amber-500 shrink-0" />
+            <div>
+              <h4 className="font-semibold text-sm">Modul Dalam Pemeliharaan (Under Maintenance)</h4>
+              <p className="text-xs opacity-90">Fitur ini sedang dalam tahap pengujian & sinkronisasi data. Seluruh tampilan di bawah dapat diakses sebagai pratinjau.</p>
+            </div>
+          </div>
+        )}
         {activeTab === "info" && <DriverProfile driver={driver as Driver & { vehicles?: { brand: string; model: string; plate_number: string } }} />}
         {activeTab === "documents" && <DocumentsTab driverId={driverId} />}
         {activeTab === "trips" && <TripHistoryTab driverId={driverId} />}

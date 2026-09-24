@@ -105,7 +105,7 @@ export default function EditVehiclePage() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
+    <div className="max-w-4xl mx-auto space-y-6 pb-32">
       <PageHeader
         title={`Edit ${vehicle.brand} ${vehicle.model} - ${vehicle.unit_code}`}
         subtitle="Perbarui data identitas dan spesifikasi kendaraan."

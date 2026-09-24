@@ -75,7 +75,7 @@ export default function NewBookingPage() {
   };
 
   return (
-    <div className="space-y-6 max-w-5xl mx-auto">
+    <div className="space-y-6 max-w-5xl mx-auto pb-32">
       <PageHeader 
         title="Buat Booking Baru" 
         subtitle="Masukkan detail pesanan manual dari tamu atau partner (Klook, Traveloka, WhatsApp, dll)."

@@ -74,7 +74,7 @@ export default function NewVehiclePage() {
   );
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
+    <div className="max-w-4xl mx-auto space-y-6 pb-32">
       <PageHeader title="Tambah Kendaraan Baru" subtitle="Input data identitas dan spesifikasi kendaraan ke dalam inventaris." />
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
